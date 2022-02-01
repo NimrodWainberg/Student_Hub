@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/pink"
-
+    android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -60,9 +59,6 @@
                 android:src="@drawable/ic_comment"
                 android:layout_toEndOf="@id/like"
                 android:layout_marginStart="10dp"/>
-
-
-
         </RelativeLayout>
 
         <TextView
@@ -91,10 +87,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View All 20 Comments"
+            android:text="View All Comments"
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
-            android:textColor="@color/lightpink"
+            android:textColor="@color/lightPink"
             android:id="@+id/comments"
             android:layout_marginBottom="10dp"/>
 

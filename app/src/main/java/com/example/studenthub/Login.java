@@ -1,0 +1,157 @@
+package com.example.studenthub;
+
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
+
+public class Login extends AppCompatActivity {
+    TextInputEditText mEmail,mPassword;
+    MaterialButton mLoginBtn;
+    ProgressBar progressBar;
+    FirebaseAuth fAuth;
+    Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBar actionBar;
+    CreateAccountFragment createAccountFragment;
+    ForgotPasswordFragment forgotPasswordFragment;
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        mEmail = findViewById(R.id.text_input_email);
+        mPassword = findViewById(R.id.text_input_password);
+       // progressBar = findViewById(R.id.loginProgressBar);
+        fAuth = FirebaseAuth.getInstance();
+        mLoginBtn = findViewById(R.id.login_button);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final ProgressDialog pd = new ProgressDialog(Login.this);
+                pd.setMessage("Please wait...");
+                pd.show();
+
+                String email = Objects.requireNonNull(mEmail.getText()).toString().trim();
+                String password = Objects.requireNonNull(mPassword.getText()).toString().trim();
+
+                // Validate input
+                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                    Toast.makeText(Login.this, "All fields are required!", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    // Authenticate details against DB
+                    fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, task -> {
+                        if (task.isSuccessful()) {
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
+                                    .child(fAuth.getCurrentUser().getUid());
+
+                            reference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    pd.dismiss();
+                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    pd.dismiss();
+                                }
+                            });
+                        } else {
+                            pd.dismiss();
+                            Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            item.setChecked(true);
+            drawerLayout.closeDrawers();
+
+            if (item.getItemId() == R.id.drawer_create_account) {
+                createAccountFragment = new CreateAccountFragment();
+
+                // if there isn't any other instance of this fragment in stack
+                if (getSupportFragmentManager().findFragmentByTag("CreateAccount") == null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                            .add(android.R.id.content, createAccountFragment, "CreateAccount")
+                            .addToBackStack("CreateAccount").commit();
+                }
+            } else { // Forgot your password?
+                forgotPasswordFragment = new ForgotPasswordFragment();
+
+                // if there isn't any other instance of this fragment in stack
+                if (getSupportFragmentManager().findFragmentByTag("ForgotPassword") == null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                            .add(android.R.id.content, forgotPasswordFragment, "ForgotPassword")
+                            .addToBackStack("ForgotPassword").commit();
+                }
+            }
+
+            return true;
+        });
+    }
+}

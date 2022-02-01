@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_home"
+            android:icon="@drawable/ic_university_icon"
+            android:title="Home"/>
+
+        <item android:id="@+id/drawer_favorites"
+            android:icon="@drawable/ic_university_icon"
+            android:title="Favorites" />
+
+    </group>
+
+</menu>

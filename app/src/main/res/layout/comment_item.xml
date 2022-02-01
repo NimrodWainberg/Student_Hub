@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textColor="@color/lightpink"
+            android:textColor="@color/lightPink"
             android:id="@+id/username"/>
 
         <TextView
