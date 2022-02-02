@@ -13,6 +13,13 @@
         android:roundIcon="@drawable/ic_university_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".WelcomeAnimation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".CommentsActivity" />
         <activity android:name=".PostActivity" />
         <activity android:name=".EditProfile" />
