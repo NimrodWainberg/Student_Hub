@@ -40,7 +40,6 @@ import java.util.Objects;
 public class Login extends AppCompatActivity {
     TextInputEditText mEmail,mPassword;
     MaterialButton mLoginBtn;
-    ProgressBar progressBar;
     FirebaseAuth fAuth;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -66,7 +65,6 @@ public class Login extends AppCompatActivity {
 
         mEmail = findViewById(R.id.text_input_email);
         mPassword = findViewById(R.id.text_input_password);
-       // progressBar = findViewById(R.id.loginProgressBar);
         fAuth = FirebaseAuth.getInstance();
         mLoginBtn = findViewById(R.id.login_button);
 
@@ -91,15 +89,14 @@ public class Login extends AppCompatActivity {
 
                 // Validate input
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                    pd.dismiss();
                     Toast.makeText(Login.this, "All fields are required!", Toast.LENGTH_SHORT).show();
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    // Authenticate details against DB
+                    // Authenticate details in DB
                     fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, task -> {
                         if (task.isSuccessful()) {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
-                                    .child(fAuth.getCurrentUser().getUid());
+                                    .child(Objects.requireNonNull(fAuth.getCurrentUser()).getUid());
 
                             reference.addValueEventListener(new ValueEventListener() {
                                 @Override

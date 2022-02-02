@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">StudentHub</string>
-    <string name="studenthub_sentence">The right place for students</string>
+    <string name="studenthub_sentence">המקום הנכון לסטודנטים</string>
     <string name="e_mail_address">E-mail address</string>
     <string name="password">Password</string>
     <string name="login_btn">Login</string>

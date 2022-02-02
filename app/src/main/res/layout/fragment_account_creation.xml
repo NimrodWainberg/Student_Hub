@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:id="@+id/chat"
     android:layout_height="match_parent">
+
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +23,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/bitter"
-        android:text="Account creation"
+        android:text="@string/account_creation"
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -47,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_badge_black_24dp"
-            android:hint="Full name"
+            android:hint="@string/full_name"
             android:inputType="text"
             android:maxLength="15" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -70,7 +71,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_baseline_mail_24"
             android:drawableTint="@color/black"
-            android:hint="E-mail address"
+            android:hint="@string/e_mail_address"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +91,7 @@
             android:id="@+id/password_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLength="15"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -104,18 +105,10 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:backgroundTint="#153C4C"
-        android:text="Create account"
+        android:text="@string/create_account"
         android:textSize="13sp"
         app:cornerRadius="40dp">
     </com.google.android.material.button.MaterialButton>
 
-    <ProgressBar
-        android:id="@+id/createAccountProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_below="@+id/create_account_btn">
-    </ProgressBar>
 </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

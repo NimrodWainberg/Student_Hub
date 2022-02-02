@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/pink">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar"
@@ -24,24 +24,24 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_close"
-                    android:id="@+id/close"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_close" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit Profile"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:layout_toEndOf="@id/close"
+                    android:text="@string/edit_profile"
                     android:textColor="@color/black"
-                    android:layout_toEndOf="@id/close"/>
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/save"
@@ -64,96 +64,70 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_baseline_pets_24"
             android:layout_gravity="center"
-            android:id="@+id/image_profile"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_university_icon"/>
 
         <TextView
+            android:id="@+id/tv_change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Photo"
             android:layout_gravity="center"
-            android:id="@+id/tv_change"
+            android:text="Change Photo"
             android:textColor="@color/lightPink"
             android:textSize="16sp"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="100dp"
-            app:errorEnabled="true"
+            android:gravity="start"
             android:paddingEnd="30dp"
             app:boxStrokeColor="@color/black"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginStart="20dp">
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Full_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:drawableTint="@color/black"
                 android:hint="Full Name"
-                android:drawableTint="@color/black"
-                android:maxLength="15"
-                android:layout_marginEnd="10dp"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/Full_Name"/>
+                android:maxLength="15"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            app:errorEnabled="true"
+            android:gravity="start"
             android:paddingEnd="30dp"
             app:boxStrokeColor="@color/black"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginStart="20dp">
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Username"
-                android:drawableTint="@color/black"
-                android:maxLength="15"
-                android:layout_marginEnd="10dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/Username"/>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:layout_marginTop="20dp"
-            app:errorEnabled="true"
-            android:paddingEnd="30dp"
-            app:boxStrokeColor="@color/black"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginStart="20dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:drawableTint="@color/black"
                 android:hint="Bio"
-                android:drawableTint="@color/black"
-                android:maxLength="15"
-                android:layout_marginEnd="10dp"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/Bio"/>
-
-
+                android:maxLength="20"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

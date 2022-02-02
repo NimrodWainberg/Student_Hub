@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/bitter"
-            android:text="StudentHub"
+            android:text="@string/app_name"
             android:textColor="#000000"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/bitter"
-            android:text="The right place for students"
+            android:text="@string/studenthub_sentence"
             android:textColor="#FFFFFF"
             android:textSize="19sp" />
 
@@ -64,7 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_baseline_mail_24"
-                android:hint="E-mail address"
+                android:hint="@string/e_mail_address"
+                android:maxLength="22"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,6 +78,10 @@
             android:gravity="center"
             android:paddingStart="25dp"
             android:paddingEnd="25dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="12"
+            app:counterOverflowTextAppearance="@style/CounterOverFlow"
+            app:counterTextAppearance="@style/CounterText"
             app:boxStrokeColor="@color/black"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true">
@@ -86,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableTint="@color/black"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:maxLength="12"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -99,10 +104,11 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:backgroundTint="#1F5165"
-            android:text="Login"
+            android:text="@string/login_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="13sp"
-            app:cornerRadius="40dp"></com.google.android.material.button.MaterialButton>
+            app:cornerRadius="40dp">
+        </com.google.android.material.button.MaterialButton>
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -122,7 +128,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_button"
             app:lottie_autoPlay="true"
-
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/login" />
 

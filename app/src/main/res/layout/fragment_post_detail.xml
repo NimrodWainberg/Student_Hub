@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink"
+    android:background="@color/colorPrimary"
     tools:context=".Fragment.PostDetailFragment">
 
    <com.google.android.material.appbar.AppBarLayout
@@ -27,12 +27,10 @@
                    android:layout_height="wrap_content"
                    android:textSize="18sp"
                    android:textStyle="bold"
-                   android:text="photo"
+                   android:text="@string/photo"
                    android:textColor="@color/black"/>
-
            </RelativeLayout>
        </androidx.appcompat.widget.Toolbar>
-
    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -40,6 +38,4 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bar"
         android:id="@+id/recycler_view"/>
-
-
 </RelativeLayout>

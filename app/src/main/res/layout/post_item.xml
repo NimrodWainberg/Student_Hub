@@ -32,14 +32,12 @@
 
         </LinearLayout>
 
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_gravity="center"
                 android:id="@+id/post_image"
                 app:layout_constraintDimensionRatio="1:1"/>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -87,7 +85,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View All Comments"
+            android:text="@string/view_all_comments"
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
             android:textColor="@color/lightPink"

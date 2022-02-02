@@ -60,7 +60,6 @@ public class EditProfile extends AppCompatActivity {
         save = findViewById(R.id.save);
         tv_change = findViewById(R.id.tv_change);
         fullname = findViewById(R.id.Full_Name);
-        username = findViewById(R.id.Username);
         bio = findViewById(R.id.Bio);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -72,8 +71,7 @@ public class EditProfile extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Getting the details of specific user
                 User user = snapshot.getValue(User.class);
-                fullname.setText(user.getFullName());
-                username.setText(user.getUsername());
+                fullname.setText(Objects.requireNonNull(user).getFullName());
                 bio.setText(user.getBio());
                 Glide.with(getApplicationContext()).load(user.getImageurl()).into(image_profile);
             }
@@ -93,7 +91,6 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updateProfile(Objects.requireNonNull(fullname.getText()).toString(),
-                        Objects.requireNonNull(username.getText()).toString(),
                         Objects.requireNonNull(bio.getText()).toString());
             }
         });
@@ -119,18 +116,15 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    private void updateProfile(String fullName, String username, String bio) {
-
+    private void updateProfile(String fullName, String bio) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("fullname", fullName);
-        map.put("username", username);
         map.put("bio", bio);
 
         reference.updateChildren(map);
-
-        Toast.makeText(EditProfile.this, "Details saved!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(EditProfile.this, "Changes saved!", Toast.LENGTH_SHORT).show();
     }
 
     private String getFileExtension(Uri uri) {
@@ -171,17 +165,20 @@ public class EditProfile extends AppCompatActivity {
                         pd.dismiss();
 
                     } else {
+                        pd.dismiss();
                         Toast.makeText(EditProfile.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    pd.dismiss();
                     Toast.makeText(EditProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
         } else {
+            pd.dismiss();
             Toast.makeText(EditProfile.this, "No image selected", Toast.LENGTH_SHORT).show();
         }
     }
