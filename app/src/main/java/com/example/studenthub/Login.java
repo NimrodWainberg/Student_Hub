@@ -42,6 +42,7 @@ import java.util.Objects;
 public class Login extends AppCompatActivity {
     TextInputEditText mEmail,mPassword;
     MaterialButton mLoginBtn;
+    MaterialButton mLoginAnonymousBtn;
     FirebaseAuth fAuth;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -69,6 +70,7 @@ public class Login extends AppCompatActivity {
         mPassword = findViewById(R.id.text_input_password);
         fAuth = FirebaseAuth.getInstance();
         mLoginBtn = findViewById(R.id.login_button);
+        mLoginAnonymousBtn = findViewById(R.id.login_anonymous_button);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
@@ -79,6 +81,7 @@ public class Login extends AppCompatActivity {
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        // Login Button
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -110,6 +113,14 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        // Anonymous login
+        mLoginAnonymousBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anonymousAuth();
+            }
+        });
+
         navigationView.setNavigationItemSelectedListener(item -> {
             item.setChecked(true);
             drawerLayout.closeDrawers();
@@ -138,5 +149,14 @@ public class Login extends AppCompatActivity {
 
             return true;
         });
+    }
+
+    // Anonymous login
+    private void anonymousAuth() {
+        fAuth.signInAnonymously()
+                .addOnSuccessListener(
+                        startActivity();
+                )
+                .addOnFailureListener();
     }
 }

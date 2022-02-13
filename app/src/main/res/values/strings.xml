@@ -4,7 +4,9 @@
     <string name="e_mail_address">E-mail address</string>
     <string name="password">Password</string>
     <string name="login_btn">Login</string>
-    <string name="post">Post</string>
+    <string name="login_anonymous_btn">Guest</string>
+    <string name="post">POST</string>
+    <string name="description">Description</string>
     <string name="view_all_comments">View All Comments</string>
     <string name="search">Search</string>
     <string name="posts">Posts</string>
@@ -14,6 +16,7 @@
     <string name="photo">Photo</string>
     <string name="notifications">Notifications</string>
     <string name="forgot_password_text">Please enter your email address in order to get a reset link:</string>
+    <string name="restore_password">RESTORE PASSWORD</string>
     <string name="account_creation">Account creation</string>
     <string name="full_name">Full name</string>
     <string name="create_account">Create account</string>

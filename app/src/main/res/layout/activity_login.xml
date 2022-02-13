@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -107,8 +108,23 @@
             android:text="@string/login_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="13sp"
-            app:cornerRadius="40dp">
-        </com.google.android.material.button.MaterialButton>
+            app:cornerRadius="40dp"></com.google.android.material.button.MaterialButton>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_anonymous_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password_layout"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="50dp"
+            android:backgroundTint="#1F5165"
+            android:text="@string/login_anonymous_btn"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            android:textSize="13sp"
+            app:cornerRadius="40dp"></com.google.android.material.button.MaterialButton>
+
+
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/record_animation"
