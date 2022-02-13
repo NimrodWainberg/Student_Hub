@@ -1,6 +1,8 @@
 package com.example.studenthub;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,45 +10,59 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.studenthub.Model.User;
+
 import java.util.HashMap;
 import java.util.Objects;
 
-public class CreateAccountFragment extends Fragment {
-    TextInputEditText fullName, email, password;
-    MaterialButton registerBtn;
-    ProgressDialog pd;
 
-    // String representation of details
+public class CreateAccountFragment extends Fragment {
+
+    TextInputEditText username, fullName, email, password;
+    MaterialButton registerBtn;
+    ProgressBar progressBar;
+
+    // Username
     String emailString;
     String passString;
     String fullNameString;
-    String userID;
 
     // Firebase
-    FirebaseAuth mAuth;
-    DatabaseReference reference;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    // Listener- listen when users logged in/ out
+    FirebaseAuth.AuthStateListener mAuthListener;
+
 
     // When the app is visible to the user
     @Override
     public void onStart() {
         super.onStart();
+        // Add the listener
+        mAuth.addAuthStateListener(mAuthListener);
     }
+
 
     // When the app is no more visible to the user
     @Override
     public void onStop() {
         super.onStop();
+
+        // Remove the listener
+        mAuth.removeAuthStateListener(mAuthListener);
     }
 
 
@@ -57,6 +73,39 @@ public class CreateAccountFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (supportActionBar != null)
+            supportActionBar.hide();*/
+
+        // Firebase
+        // Initialize listener
+        // Use this function each time user signing in/ out/ up
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                // getCurrentUser - function we can get the currently registered user as an instance of FirebaseUser class
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // TODO if want to show the user is name from login:
+                    // userTv.setText(user.getDisplayName() + " is logged in!");
+                    user.updateProfile(new UserProfileChangeRequest.Builder()
+                            .setDisplayName(fullNameString).build()).addOnCompleteListener
+                            (new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        //profile update successful
+                                    }
+
+                                }
+                            });
+                } else {
+
+                }
+            }
+
+        };
     }
 
     @Override
@@ -66,103 +115,76 @@ public class CreateAccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account_creation, container, false);
         initViews(view);
 
+        // On registration key clicked
         // Save user in firebase
-        registerBtn.setOnClickListener(v -> {
-            pd = new ProgressDialog(getContext());
-            pd.setMessage("Please wait...");
-            pd.show();
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailString = email.getText().toString().trim();
+                passString = password.getText().toString().trim();
+                fullNameString = fullName.getText().toString().trim();
 
-            emailString = Objects.requireNonNull(email.getText()).toString().trim();
-            passString = Objects.requireNonNull(password.getText()).toString().trim();
-            fullNameString = Objects.requireNonNull(fullName.getText()).toString().trim();
+                boolean answer = validate(emailString, passString,fullNameString);
 
-            boolean answer = validate(emailString, passString,fullNameString);
+                if (answer) {
+                    System.out.println(emailString + "   " + passString);
+                    mAuth.createUserWithEmailAndPassword(emailString, passString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-            if (answer) {
-                createAccount(fullNameString, emailString, passString);
+                            // Complete adding new user successfully
+                            if (task.isSuccessful()) {
+                                User newUser = new User(emailString,fullNameString,null,null);
+                                if(FirebaseAuth.getInstance().getUid()!=null)
+                                    FirebaseFirestore.getInstance()
+                                            .collection("users")
+                                            .document(FirebaseAuth.getInstance().getUid())
+                                            .set(newUser);
+                                Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
+                                getFragmentManager().popBackStack();
+                            } else {
+                                Snackbar.make(view, "Sign up failed", Snackbar.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }else {
+                    Snackbar.make(view,"Please make sure all credentials are correct",Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
+
 
         return view;
     }
 
-    /**
-     * A function that registers a user into the FireBase's DB.
-     * @param fullName Full name of user
-     * @param email user's Email
-     * @param password User's password
-     */
-    public void createAccount(String fullName, String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            pd.dismiss();
-            if (task.isSuccessful()) {
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                userID = Objects.requireNonNull(firebaseUser).getUid();
-                reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
-                HashMap<String, Object> map = new HashMap<>();
-
-                // Setting the new user's details + default profile picture and bio
-                map.put("id", userID);
-                map.put("fullName", fullName);
-                map.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/instagramtest-fcbef.appspot.com/o/placeholder.png?alt=media&token=b09b809d-a5f8-499b-9563-5252262e9a49");
-                map.put("bio", "");
-
-                // Adding the user and switching into Login Screen
-                reference.setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
-                            if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
-                                requireActivity().getSupportFragmentManager().popBackStack();
-                        }
-                    }
-                });
-            } else { // In case Registration wasn't successful.
-                Toast.makeText(getContext(), "Problem creating an account.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    /**
-     * A function that initializes all views by specific IDs.
-     * @param view View shown on the screen
-     */
     private void initViews(View view) {
         fullName = view.findViewById(R.id.full_name_et);
         email = view.findViewById(R.id.email_et);
         password = view.findViewById(R.id.password_et);
         registerBtn = view.findViewById(R.id.create_account_btn);
-        mAuth = FirebaseAuth.getInstance();
+        progressBar = view.findViewById(R.id.bio);
     }
 
-    /**
-     * A function that checks if the input from the user was OK.
-     * @param email User's inputted email address
-     * @param pass User's inputted password
-     * @param fullName User's inputted full name
-     * @return If the input was valid or not.
-     */
     public boolean validate(String email, String pass, String fullName) {
         boolean isValid = true;
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(fullName)) {
             isValid = false;
-            pd.dismiss();
             Toast.makeText(getContext(), "Some fields are missing!", Toast.LENGTH_SHORT).show();
         }
 
-        if (pass.length() < 6) {
+        if (pass.length() < 5) {
             isValid = false;
-            pd.dismiss();
-            Toast.makeText(getContext(), "Password must be longer than 6 characters!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Password must be longer than 5 characters!", Toast.LENGTH_SHORT).show();
         }
 
         if (fullName.length() < 4) {
             isValid = false;
-            pd.dismiss();
             Toast.makeText(getContext(), "Please enter your full name!", Toast.LENGTH_SHORT).show();
         }
 
         return isValid;
     }
 }
+
+//getParentFragmentManager
+//popBackStack

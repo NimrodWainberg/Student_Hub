@@ -34,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.studenthub.Model.User;
 
 import java.util.Objects;
 
@@ -95,24 +97,10 @@ public class Login extends AppCompatActivity {
                     // Authenticate details in DB
                     fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, task -> {
                         if (task.isSuccessful()) {
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
-                                    .child(Objects.requireNonNull(fAuth.getCurrentUser()).getUid());
-
-                            reference.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    pd.dismiss();
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    pd.dismiss();
-                                }
-                            });
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
                         } else {
                             pd.dismiss();
                             Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();

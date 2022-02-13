@@ -154,8 +154,8 @@ public class ProfileFragment extends Fragment {
                 }
 
                 User user = snapshot.getValue(User.class);
-                Glide.with(getContext()).load(user.getImageurl()).into(image_profile);
-                username.setText(user.getUsername());
+                Glide.with(getContext()).load(user.getImageUrl()).into(image_profile);
+//                username.setText(user.getUsername());
                 fullname.setText(user.getFullName());
                 bio.setText(user.getBio());
             }

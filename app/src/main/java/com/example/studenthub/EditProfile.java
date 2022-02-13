@@ -73,7 +73,7 @@ public class EditProfile extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 fullname.setText(Objects.requireNonNull(user).getFullName());
                 bio.setText(user.getBio());
-                Glide.with(getApplicationContext()).load(user.getImageurl()).into(image_profile);
+                Glide.with(getApplicationContext()).load(user.getImageUrl()).into(image_profile);
             }
 
             @Override

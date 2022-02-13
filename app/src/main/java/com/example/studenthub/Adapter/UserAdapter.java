@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
+import com.example.studenthub.Fragment.HubDatabase;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,9 +61,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         holder.btn_follow.setVisibility(View.VISIBLE);
         isFollowing(User.getId(), holder.btn_follow);
 
-        holder.username.setText(User.getUsername());
+//        holder.username.setText(User.getUsername());
         holder.fullname.setText(User.getFullName());
-        Glide.with(mcontext).load(User.getImageurl()).into(holder.image_profile);
+        Glide.with(mcontext).load(User.getImageUrl()).into(holder.image_profile);
 
         if (User.getId().equals(firebaseUser.getUid())){
             holder.btn_follow.setVisibility(View.GONE);
