@@ -19,21 +19,16 @@ public class User {
     }
 
     public User() {
+        // Default empty constructor
     }
 
     public User(Map<String,Object> data) {
-        String imageUrl = (String) data.get("imageUrl");
-        String bio = (String) data.get("bio");
-        String fullName = (String) data.get("fullName");
-        String email = (String) data.get("email");
-        String id = (String) data.get("id");
-        this.imageUrl = imageUrl;
-        this.bio = bio;
-        this.fullName = fullName;
-        this.email = email;
-        this.id = id;
+        this.imageUrl = (String) data.get("imageUrl");
+        this.bio = (String) data.get("bio");
+        this.fullName = (String) data.get("fullName");
+        this.email = (String) data.get("email");
+        this.id = (String) data.get("id");
     }
-
 
     public String getEmail() {
         return email;
@@ -70,8 +65,6 @@ public class User {
     public String getId() {
         return id;
     }
-
-
 
     @Override
     public String toString() {

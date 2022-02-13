@@ -11,7 +11,7 @@ import com.airbnb.lottie.LottieAnimationView;
 
 public class WelcomeAnimation extends AppCompatActivity {
 
-    TextView appname;
+    TextView appName;
     LottieAnimationView lottie;
 
     @Override
@@ -20,24 +20,22 @@ public class WelcomeAnimation extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_animation);
 
 
-        appname = findViewById(R.id.app_name);
+        appName = findViewById(R.id.app_name);
         lottie = findViewById(R.id.lottie);
 
         // animation
-        appname.animate().translationY(-1400).setDuration(2700).setStartDelay(0);
+        appName.animate().translationY(-1400).setDuration(2700).setStartDelay(0);
         lottie.animate().translationX(2000).setDuration(2000).setStartDelay(2900);
 
         // Run the animation async using runnable (run without any param on a different thread)
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // After the Animation move to sign in activity activity
-                Intent intent = new Intent(getApplicationContext(), Login.class);//WelcomeActivity.class);
-                startActivity(intent);
-                // finish with the intent
-                finish();
-            }
-            //5 sec
-        }, 5000);
+        // 3 sec
+        new Handler().postDelayed(() -> {
+            // After the Animation move to sign in activity activity
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+
+            // kill the intent
+            finish();
+        }, 3000);
     }
 }

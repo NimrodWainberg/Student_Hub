@@ -24,7 +24,7 @@
 
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/ic_baseline_pets_24"
+        android:icon="@drawable/ic_university_icon"
         android:title=""/>
 
 </menu>

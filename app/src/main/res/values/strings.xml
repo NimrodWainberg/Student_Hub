@@ -4,8 +4,7 @@
     <string name="e_mail_address">E-mail address</string>
     <string name="password">Password</string>
     <string name="login_btn">Login</string>
-    <string name="post">POST</string>
-    <string name="description">Description</string>
+    <string name="post">Post</string>
     <string name="view_all_comments">View All Comments</string>
     <string name="search">Search</string>
     <string name="posts">Posts</string>
@@ -15,8 +14,22 @@
     <string name="photo">Photo</string>
     <string name="notifications">Notifications</string>
     <string name="forgot_password_text">Please enter your email address in order to get a reset link:</string>
-    <string name="restore_password">RESTORE PASSWORD</string>
     <string name="account_creation">Account creation</string>
     <string name="full_name">Full name</string>
     <string name="create_account">Create account</string>
+    <string name="startedfollowing">started following you</string>
+    <string name="post_text">What\'s on your mind?</string>
+    <string name="error_message">Something gone wrong!</string>
+    <string name="full_name_txt">Full Name</string>
+    <string name="more_options_text">More options</string>
+    <string name="save_text">Save</string>
+    <string name="change_photo_text">Change Photo</string>
+    <string name="bio_hint">Bio</string>
+    <string name="add_a_comment">Add a comment...</string>
+    <string name="delete_comment_text">Do you want to delete your comment?</string>
+    <string name="comment_deleted">Comment Deleted!</string>
+    <string name="liked_your_post_quote">" liked your post"</string>
+    <string name="view_all">"View All "</string>
+    <string name="comments_quote">" Comments"</string>
+    <string name="restore_password">Restore Password</string>
 </resources>

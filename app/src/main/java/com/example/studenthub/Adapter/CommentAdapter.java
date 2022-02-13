@@ -37,14 +37,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
 
     private Context mContext;
     private List<Comment> mComment;
-    private String postid;
-
+    private String postId;
     private FirebaseUser firebaseUser;
 
-    public CommentAdapter(Context context, List<Comment> comments, String postid){
-        mContext = context;
-        mComment = comments;
-        this.postid = postid;
+    public CommentAdapter(Context context, List<Comment> comments, String postId) {
+        this.mContext = context;
+        this.mComment = comments;
+        this.postId = postId;
     }
 
     @NonNull
@@ -56,67 +55,44 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
 
     @Override
     public void onBindViewHolder(@NonNull final CommentAdapter.ImageViewHolder holder, final int position) {
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final Comment comment = mComment.get(position);
-
         holder.comment.setText(comment.getComment());
-        getUserInfo(holder.image_profile, holder.username, comment.getPublisher());
+        getUserInfo(holder.image_profile, comment.getPublisher());
 
-        holder.username.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("publisherid", comment.getPublisher());
-                mContext.startActivity(intent);
-            }
+        holder.username.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, MainActivity.class);
+            intent.putExtra("publisherid", comment.getPublisher());
+            mContext.startActivity(intent);
         });
 
-        holder.image_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("publisherid", comment.getPublisher());
-                mContext.startActivity(intent);
-            }
+        holder.image_profile.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, MainActivity.class);
+            intent.putExtra("publisherid", comment.getPublisher());
+            mContext.startActivity(intent);
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (comment.getPublisher().equals(firebaseUser.getUid())) {
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-                    alertDialog.setTitle("Do you want to delete?");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    FirebaseDatabase.getInstance().getReference("Comments")
-                                            .child(postid).child(comment.getCommentId())
-                                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()){
-                                                Toast.makeText(mContext, "Deleted!", Toast.LENGTH_SHORT).show();
-                                            }
+        holder.itemView.setOnLongClickListener(view -> {
+            if (comment.getPublisher().equals(firebaseUser.getUid())) {
+                AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                alertDialog.setTitle(mContext.getString(R.string.delete_comment_text));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No",
+                        (dialog, which) -> dialog.dismiss());
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                        (dialog, which) -> {
+                            FirebaseDatabase.getInstance().getReference("Comments")
+                                    .child(postId).child(comment.getCommentId())
+                                    .removeValue().addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(mContext, R.string.comment_deleted, Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                }
-                return true;
+                            dialog.dismiss();
+                        });
+                alertDialog.show();
             }
+            return true;
         });
-
     }
 
     @Override
@@ -138,7 +114,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
         }
     }
 
-    private void getUserInfo(final ImageView imageView, final TextView username, String publisherid){
+    /**
+     * A function that gets user information from DB.
+     * @param imageView ImageView to be changed
+     * @param publisherid ID to get details from
+     */
+    private void getUserInfo(final ImageView imageView, String publisherid) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(publisherid);
 
@@ -147,7 +128,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
             public void onDataChange(@NonNull DataSnapshot Snapshot) {
                 User user = Snapshot.getValue(User.class);
                 Glide.with(mContext).load(Objects.requireNonNull(user).getImageUrl()).into(imageView);
-//                username.setText(user.getUsername());
             }
 
             @Override

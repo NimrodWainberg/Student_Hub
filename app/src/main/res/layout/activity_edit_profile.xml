@@ -30,7 +30,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_close" />
+                    android:src="@drawable/ic_close"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,13 +51,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:text="SAVE"
+                    android:text="@string/save_text"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
-
+                    android:textSize="15sp" />
             </RelativeLayout>
-
-
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -80,8 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Change Photo"
-            android:textColor="@color/lightPink"
+            android:text="@string/change_photo_text"
+            android:textColor="@color/colorAccent"
             android:textSize="16sp"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -102,10 +99,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginEnd="10dp"
                 android:drawableTint="@color/black"
-                android:hint="Full Name"
+                android:hint="@string/full_name"
                 android:maxLength="15"/>
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -126,10 +121,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginEnd="10dp"
                 android:drawableTint="@color/black"
-                android:hint="Bio"
+                android:hint="@string/bio_hint"
                 android:maxLength="20"/>
         </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
-
 </LinearLayout>

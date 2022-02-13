@@ -16,7 +16,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/toolbar"
-           android:background="@color/lightPink">
+           android:background="#F3D7D7">
 
            <RelativeLayout
                android:layout_width="wrap_content"

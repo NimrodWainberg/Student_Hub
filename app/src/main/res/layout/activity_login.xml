@@ -110,7 +110,6 @@
             app:cornerRadius="40dp">
         </com.google.android.material.button.MaterialButton>
 
-
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/record_animation"
             android:layout_width="100dp"
@@ -129,8 +128,7 @@
             app:layout_constraintTop_toBottomOf="@+id/login_button"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/login" />
-
+            app:lottie_rawRes="@raw/login"/>
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

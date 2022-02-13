@@ -14,6 +14,7 @@ public class Notification {
     }
 
     public Notification() {
+        // Default empty constructor
     }
 
     public String getUserId() {

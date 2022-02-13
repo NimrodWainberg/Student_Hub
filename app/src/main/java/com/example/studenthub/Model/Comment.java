@@ -12,7 +12,9 @@ public class Comment {
         this.commentId = commentId;
     }
 
-    public Comment() { }
+    public Comment() {
+        // Empty default constructor
+    }
 
     public String getComment() {
         return comment;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink"
+    android:background="@color/colorPrimary"
     tools:context=".CommentsActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom"
-        android:layout_below="@id/toolbar" />
+        android:layout_below="@id/toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/image_profile"
-            android:hint="Add a comment..."
+            android:hint="@string/add_a_comment"
             android:id="@+id/add_comment"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
@@ -49,11 +49,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/post"
-            android:text="POST"
+            android:text="@string/post"
             android:layout_marginEnd="5dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:textColor="@color/black"/>
-        
     </RelativeLayout>
 </RelativeLayout>
