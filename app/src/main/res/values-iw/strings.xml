@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">StudentHub</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="studenthub_sentence">המקום הנכון לסטודנטים</string>
     <string name="e_mail_address">כתובת אימייל</string>
     <string name="password">סיסמה</string>
@@ -21,12 +20,11 @@
     <string name="startedfollowing">התחיל לעקוב אחרייך</string>
     <string name="post_text">מה ברצונך לפרסם?</string>
     <string name="error_message">משהו השתבש!</string>
-    <string name="full_name_txt">Full Name</string>
     <string name="more_options_text">אפשרויות נוספות</string>
     <string name="save_text">שמור</string>
     <string name="change_photo_text">שנה תמונה</string>
     <string name="bio_hint">ביו</string>
-    <string name="add_a_comment">הוסף תגובה...</string>
+    <string name="add_a_comment" tools:ignore="TypographyEllipsis">הוסף תגובה...</string>
     <string name="delete_comment_text">האם ברצונך למחוק את התגובה?</string>
     <string name="comment_deleted">תגובה נמחקה!</string>
     <string name="liked_your_post_quote">" אהב את הפוסט שלך"</string>
@@ -34,4 +32,5 @@
     <string name="comments_quote">" תגובות"</string>
     <string name="forgot_password_text">הזן את כתובת המייל בכדי לקבל לינק לאיפוס:</string>
     <string name="edit_profile">ערוך פרופיל</string>
+    <string name="description">תיאור</string>
 </resources>

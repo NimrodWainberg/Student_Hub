@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -21,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimaryDark"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:layout_scrollFlags="scroll|enterAlways" />
 
         <TextView
             android:id="@+id/studenthub_logo"
@@ -54,11 +53,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/studenthub_sentence"
-            android:layout_marginTop="120dp"
-            android:paddingStart="25dp"
-            android:paddingEnd="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="110dp"
+            android:gravity="start"
+            android:paddingEnd="30dp"
             app:boxStrokeColor="@color/black"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            tools:ignore="RtlSymmetry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_input_email"
@@ -66,8 +67,8 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_baseline_mail_24"
                 android:hint="@string/e_mail_address"
-                android:maxLength="30"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:maxLength="25"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,16 +77,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/email_layout"
-            android:gravity="center"
-            android:paddingStart="25dp"
-            android:paddingEnd="25dp"
+            android:layout_marginStart="20dp"
+            android:gravity="start"
+            android:paddingEnd="30dp"
+            app:boxStrokeColor="@color/black"
             app:counterEnabled="true"
-            app:counterMaxLength="20"
+            app:counterMaxLength="12"
             app:counterOverflowTextAppearance="@style/CounterOverFlow"
             app:counterTextAppearance="@style/CounterText"
-            app:boxStrokeColor="@color/black"
             app:errorEnabled="true"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            tools:ignore="RtlSymmetry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_input_password"
@@ -94,7 +96,7 @@
                 android:drawableTint="@color/black"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:maxLength="12"/>
+                android:maxLength="12" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -105,10 +107,12 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:backgroundTint="#1F5165"
+            android:drawableEnd="@drawable/ic_university_icon"
             android:text="@string/login_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="13sp"
-            app:cornerRadius="40dp"></com.google.android.material.button.MaterialButton>
+            app:cornerRadius="40dp">
+        </com.google.android.material.button.MaterialButton>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_anonymous_button"
@@ -122,8 +126,8 @@
             android:text="@string/login_anonymous_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="13sp"
-            app:cornerRadius="40dp"></com.google.android.material.button.MaterialButton>
-
+            app:cornerRadius="40dp">
+        </com.google.android.material.button.MaterialButton>
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -144,7 +148,7 @@
             app:layout_constraintTop_toBottomOf="@+id/login_button"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/login"/>
+            app:lottie_rawRes="@raw/login" />
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

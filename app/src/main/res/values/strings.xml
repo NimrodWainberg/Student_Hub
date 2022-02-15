@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">StudentHub</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">StudentHub</string>
     <string name="studenthub_sentence">The right place for students</string>
     <string name="e_mail_address">E-mail address</string>
     <string name="password">Password</string>
@@ -22,12 +22,11 @@
     <string name="startedfollowing">started following you</string>
     <string name="post_text">What\'s on your mind?</string>
     <string name="error_message">Something gone wrong!</string>
-    <string name="full_name_txt">Full Name</string>
     <string name="more_options_text">More options</string>
     <string name="save_text">Save</string>
     <string name="change_photo_text">Change Photo</string>
     <string name="bio_hint">Bio</string>
-    <string name="add_a_comment">Add a comment...</string>
+    <string name="add_a_comment" tools:ignore="TypographyEllipsis">Add a comment...</string>
     <string name="delete_comment_text">Do you want to delete your comment?</string>
     <string name="comment_deleted">Comment Deleted!</string>
     <string name="liked_your_post_quote">" liked your post"</string>
