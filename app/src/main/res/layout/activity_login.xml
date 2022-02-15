@@ -129,15 +129,14 @@
             app:cornerRadius="40dp">
         </com.google.android.material.button.MaterialButton>
 
-
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/record_animation"
+            android:id="@+id/login_animation"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_below="@+id/login_button"
+            android:layout_below="@+id/login_anonymous_button"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="155dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="156dp"
             android:layout_marginBottom="10dp"
             android:scaleX="3"

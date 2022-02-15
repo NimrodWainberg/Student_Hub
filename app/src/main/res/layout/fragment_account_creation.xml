@@ -110,5 +110,25 @@
         app:cornerRadius="40dp">
     </com.google.android.material.button.MaterialButton>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/password_animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/create_account_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="171dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="71dp"
+        android:scaleX="3"
+        android:scaleY="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loadinghand" />
+
 </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
