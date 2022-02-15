@@ -5,7 +5,7 @@
     <string name="e_mail_address">כתובת אימייל</string>
     <string name="password">סיסמה</string>
     <string name="login_btn">התחברות</string>
-    <string name="login_anonymous_btn">אורח</string>
+    <string name="login_anonymous_btn">מצב אורח</string>
     <string name="post">פרסם</string>
     <string name="view_all_comments">צפה בכל התגובות</string>
     <string name="search">חיפוש</string>

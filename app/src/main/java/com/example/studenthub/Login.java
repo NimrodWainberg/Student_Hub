@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -116,8 +117,30 @@ public class Login extends AppCompatActivity {
         // Anonymous login
         mLoginAnonymousBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                anonymousAuth();
+            public void onClick(final View v) {
+                final ProgressDialog pd = new ProgressDialog(Login.this);
+                pd.setMessage("Please wait...");
+                pd.show();
+                //anonymousAuth();
+//                fAuth.signInAnonymously()
+//                        .addOnSuccessListener(){
+//                    Intent intent = new Intent(Login.this, MainActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent);
+//                    finish();
+//                }
+                fAuth.signInAnonymously()
+                        .addOnCompleteListener(Login.this, task -> {
+                            if (task.isSuccessful()) {
+                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                pd.dismiss();
+                                Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
 
@@ -152,11 +175,11 @@ public class Login extends AppCompatActivity {
     }
 
     // Anonymous login
-    private void anonymousAuth() {
-        fAuth.signInAnonymously()
-                .addOnSuccessListener(
-                        startActivity();
-                )
-                .addOnFailureListener();
-    }
+//    private void anonymousAuth() {
+//        fAuth.signInAnonymously()
+//                .addOnSuccessListener(
+//                        startActivity();
+//                )
+//                //.addOnFailureListener();
+//    }
 }
