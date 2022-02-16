@@ -111,7 +111,7 @@
     </com.google.android.material.button.MaterialButton>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/password_animation"
+        android:id="@+id/user_animation"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_below="@+id/create_account_btn"

@@ -84,6 +84,14 @@ public class ProfileFragment extends Fragment {
         getNrPosts();
         myphotos();
 
+        // Image animation
+        image_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         if(profileid.equals(firebaseUser.getUid())){
             edit_profile.setText("Edit profile");
         } else {

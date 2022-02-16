@@ -1,5 +1,6 @@
 package com.example.studenthub;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.studenthub.Fragment.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -45,6 +48,10 @@ public class CreateAccountFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     // Listener- listen when users logged in/ out
     FirebaseAuth.AuthStateListener mAuthListener;
+
+    // Lottie
+    LottieAnimationView lottieCreate;
+
 
 
     // When the app is visible to the user
@@ -115,11 +122,20 @@ public class CreateAccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account_creation, container, false);
         initViews(view);
 
+        // animation
+       // lottieCreate = view.findViewById(R.id.user_animation);
+
         // On registration key clicked
         // Save user in firebase
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Dialog
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.create_account_dialog);
+                dialog.show();
+//                lottieCreate.pauseAnimation();
+
                 emailString = email.getText().toString().trim();
                 passString = password.getText().toString().trim();
                 fullNameString = fullName.getText().toString().trim();
@@ -143,11 +159,13 @@ public class CreateAccountFragment extends Fragment {
                                 Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
                                 getFragmentManager().popBackStack();
                             } else {
+                                dialog.dismiss();
                                 Snackbar.make(view, "Sign up failed", Snackbar.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }else {
+                    dialog.dismiss();
                     Snackbar.make(view,"Please make sure all credentials are correct",Snackbar.LENGTH_SHORT).show();
                 }
             }
