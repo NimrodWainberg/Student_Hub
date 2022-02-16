@@ -35,7 +35,7 @@ import java.util.Objects;
 
 public class CreateAccountFragment extends Fragment {
 
-    TextInputEditText username, fullName, email, password;
+    TextInputEditText fullName, email, password;
     MaterialButton registerBtn;
     ProgressBar progressBar;
 
@@ -51,8 +51,6 @@ public class CreateAccountFragment extends Fragment {
 
     // Lottie
     LottieAnimationView lottieCreate;
-
-
 
     // When the app is visible to the user
     @Override
@@ -81,37 +79,15 @@ public class CreateAccountFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-        if (supportActionBar != null)
-            supportActionBar.hide();*/
+        mAuthListener = firebaseAuth -> {
+            // getCurrentUser - function we can get the currently registered user as an
+            // instance of FirebaseUser class
 
-        // Firebase
-        // Initialize listener
-        // Use this function each time user signing in/ out/ up
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                // getCurrentUser - function we can get the currently registered user as an instance of FirebaseUser class
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // TODO if want to show the user is name from login:
-                    // userTv.setText(user.getDisplayName() + " is logged in!");
-                    user.updateProfile(new UserProfileChangeRequest.Builder()
-                            .setDisplayName(fullNameString).build()).addOnCompleteListener
-                            (new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        //profile update successful
-                                    }
-
-                                }
-                            });
-                } else {
-
-                }
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                user.updateProfile(new UserProfileChangeRequest.Builder()
+                        .setDisplayName(fullNameString).build());
             }
-
         };
     }
 
@@ -122,55 +98,47 @@ public class CreateAccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account_creation, container, false);
         initViews(view);
 
-        // animation
-       // lottieCreate = view.findViewById(R.id.user_animation);
+        // On registration key clicked, save user in FireBase
+        registerBtn.setOnClickListener(v -> {
 
-        // On registration key clicked
-        // Save user in firebase
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Dialog
-                Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.create_account_dialog);
-                dialog.show();
-//                lottieCreate.pauseAnimation();
+            // Dialog Animation
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.create_account_dialog);
+            dialog.show();
 
-                emailString = email.getText().toString().trim();
-                passString = password.getText().toString().trim();
-                fullNameString = fullName.getText().toString().trim();
+            emailString = Objects.requireNonNull(email.getText()).toString().trim();
+            passString = Objects.requireNonNull(password.getText()).toString().trim();
+            fullNameString = Objects.requireNonNull(fullName.getText()).toString().trim();
 
-                boolean answer = validate(emailString, passString,fullNameString);
+            boolean answer = validate(emailString, passString,fullNameString);
 
-                if (answer) {
-                    System.out.println(emailString + "   " + passString);
-                    mAuth.createUserWithEmailAndPassword(emailString, passString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            // Complete adding new user successfully
-                            if (task.isSuccessful()) {
-                                User newUser = new User(emailString,fullNameString,null,null);
-                                if(FirebaseAuth.getInstance().getUid()!=null)
-                                    FirebaseFirestore.getInstance()
-                                            .collection("users")
-                                            .document(FirebaseAuth.getInstance().getUid())
-                                            .set(newUser);
-                                Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
-                                getFragmentManager().popBackStack();
-                            } else {
-                                dialog.dismiss();
-                                Snackbar.make(view, "Sign up failed", Snackbar.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }else {
-                    dialog.dismiss();
-                    Snackbar.make(view,"Please make sure all credentials are correct",Snackbar.LENGTH_SHORT).show();
-                }
+            if (answer) {
+                mAuth.createUserWithEmailAndPassword(emailString, passString)
+                        .addOnCompleteListener(task -> {
+                    // Added a new user successfully
+                    if (task.isSuccessful()) {
+                        User newUser = new User(emailString, fullNameString,
+                                null,null);
+                        if(FirebaseAuth.getInstance().getUid()!=null)
+                            FirebaseFirestore.getInstance()
+                                    .collection("users")
+                                    .document(FirebaseAuth.getInstance().getUid())
+                                    .set(newUser);
+                        Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
+                            requireActivity().getSupportFragmentManager().popBackStack();
+                    } else {
+                        dialog.dismiss();
+                        Snackbar.make(view, "Sign up failed", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }else {
+                dialog.dismiss();
+                Snackbar.make(view,"Please make sure all credentials are correct",
+                        Snackbar.LENGTH_SHORT).show();
             }
         });
-
 
         return view;
     }
@@ -203,6 +171,3 @@ public class CreateAccountFragment extends Fragment {
         return isValid;
     }
 }
-
-//getParentFragmentManager
-//popBackStack
