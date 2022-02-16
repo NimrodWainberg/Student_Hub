@@ -24,7 +24,7 @@ public class WelcomeAnimation extends AppCompatActivity {
         lottie = findViewById(R.id.lottie);
 
         // animation
-        appName.animate().translationY(-1800).setDuration(2700).setStartDelay(0);
+        appName.animate().translationY(-1600).setDuration(2700).setStartDelay(0);
         lottie.animate().translationX(2000).setDuration(2000).setStartDelay(2900);
 
         // Run the animation async using runnable (run without any param on a different thread)
