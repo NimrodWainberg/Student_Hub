@@ -29,9 +29,9 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
-    private List <User> mUsers;
+    RecyclerView recyclerView;
+    UserAdapter userAdapter;
+    List <User> mUsers;
     EditText search_bar;
     FirebaseUser firebaseUser;
 
@@ -49,6 +49,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(userAdapter);
 
         readUsers();
+
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -65,30 +66,10 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    private void searchUsers(String s){
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username")
-                .startAt(s)
-                .endAt(s+"\uf8ff");
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUsers.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    User user = snapshot.getValue(User.class);
-                    mUsers.add(user);
-                }
-
-                userAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-    }
-
+    /**
+     * A function that gets all of the users in DB
+     */
     private void readUsers() {
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -98,10 +79,9 @@ public class SearchFragment extends Fragment {
                 if (search_bar.getText().toString().equals("")) {
                     mUsers.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                       User user = snapshot.getValue(User.class);
-                       mUsers.add(user);
+                        User user = snapshot.getValue(User.class);
+                        mUsers.add(user);
                     }
-
                     userAdapter.notifyDataSetChanged();
                 }
             }
@@ -111,4 +91,27 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    /**
+     * A function that finds a specific user in the DB.
+     * @param s User to be found
+     */
+    private void searchUsers(String s){
+        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username")
+                .startAt(s).endAt(s+"\uf8ff");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUsers.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+                    mUsers.add(user);
+                }
+                userAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }
 }

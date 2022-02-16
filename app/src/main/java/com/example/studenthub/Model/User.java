@@ -4,6 +4,7 @@ import com.example.studenthub.Fragment.HubDatabase;
 import java.util.Map;
 
 public class User {
+    private String username;
     private String email;
     private String fullName;
     private String imageUrl;
@@ -11,7 +12,8 @@ public class User {
     private String id;
 
 
-    public User(String email, String fullName, String imageUrl, String bio) {
+    public User(String username, String email, String fullName, String imageUrl, String bio) {
+        this.username = username;
         this.email = email;
         this.fullName = fullName;
         this.imageUrl = imageUrl;
@@ -23,11 +25,11 @@ public class User {
     }
 
     public User(Map<String,Object> data) {
+        this.username = (String) data.get("username");
         this.imageUrl = (String) data.get("imageUrl");
         this.bio = (String) data.get("bio");
         this.fullName = (String) data.get("fullName");
         this.email = (String) data.get("email");
-        this.id = (String) data.get("id");
     }
 
     public String getEmail() {
@@ -66,13 +68,15 @@ public class User {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", bio='" + bio + '\'' +
-                '}';
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

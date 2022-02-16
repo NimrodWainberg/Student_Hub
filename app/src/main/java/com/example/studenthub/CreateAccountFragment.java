@@ -1,9 +1,6 @@
 package com.example.studenthub;
 
 import android.app.Dialog;
-import android.app.FragmentManager;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,42 +12,39 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.example.studenthub.Fragment.HomeFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.example.studenthub.Model.User;
-
-import java.util.HashMap;
 import java.util.Objects;
-
 
 public class CreateAccountFragment extends Fragment {
 
-    TextInputEditText fullName, email, password;
+    TextInputEditText username, fullName, email, password;
     MaterialButton registerBtn;
     ProgressBar progressBar;
-
-    // Username
+    FirebaseUser firebaseUser;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference reference;
+    String usernameString;
     String emailString;
     String passString;
     String fullNameString;
+    String userID;
 
     // Firebase
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    // Listener- listen when users logged in/ out
+    // Listener- listen when users logged in / out
     FirebaseAuth.AuthStateListener mAuthListener;
 
-    // Lottie
-    LottieAnimationView lottieCreate;
+    public CreateAccountFragment() {
+        // Required empty public constructor
+    }
 
     // When the app is visible to the user
     @Override
@@ -59,7 +53,6 @@ public class CreateAccountFragment extends Fragment {
         // Add the listener
         mAuth.addAuthStateListener(mAuthListener);
     }
-
 
     // When the app is no more visible to the user
     @Override
@@ -70,11 +63,6 @@ public class CreateAccountFragment extends Fragment {
         mAuth.removeAuthStateListener(mAuthListener);
     }
 
-
-    public CreateAccountFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +70,6 @@ public class CreateAccountFragment extends Fragment {
         mAuthListener = firebaseAuth -> {
             // getCurrentUser - function we can get the currently registered user as an
             // instance of FirebaseUser class
-
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 user.updateProfile(new UserProfileChangeRequest.Builder()
@@ -103,37 +90,45 @@ public class CreateAccountFragment extends Fragment {
 
             // Dialog Animation
             Dialog dialog = new Dialog(getContext());
-            dialog.setContentView(R.layout.create_account_dialog);
+            dialog.setContentView(R.layout.create_account_animation);
             dialog.show();
 
+            usernameString = Objects.requireNonNull(username.getText().toString().trim());
             emailString = Objects.requireNonNull(email.getText()).toString().trim();
             passString = Objects.requireNonNull(password.getText()).toString().trim();
             fullNameString = Objects.requireNonNull(fullName.getText()).toString().trim();
 
-            boolean answer = validate(emailString, passString,fullNameString);
+            boolean answer = validate(usernameString, emailString, passString,fullNameString);
 
             if (answer) {
                 mAuth.createUserWithEmailAndPassword(emailString, passString)
                         .addOnCompleteListener(task -> {
                     // Added a new user successfully
                     if (task.isSuccessful()) {
-                        User newUser = new User(emailString, fullNameString,
-                                null,null);
-                        if(FirebaseAuth.getInstance().getUid()!=null)
-                            FirebaseFirestore.getInstance()
-                                    .collection("users")
-                                    .document(FirebaseAuth.getInstance().getUid())
-                                    .set(newUser);
-                        Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
-                            requireActivity().getSupportFragmentManager().popBackStack();
+                        firebaseUser = mAuth.getCurrentUser();
+                        userID = Objects.requireNonNull(firebaseUser).getUid();
+
+                        User newUser = new User(usernameString, emailString, fullNameString,
+                                getString(R.string.image_url_link),"Bio");
+
+                        firebaseDatabase = FirebaseDatabase.getInstance();
+                        reference = firebaseDatabase.getReference().child("users");
+
+                        reference.child(usernameString).setValue(newUser).addOnCompleteListener(addUserTask -> {
+                            if(addUserTask.isSuccessful()){
+                                Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
+                                    requireActivity().getSupportFragmentManager().popBackStack();
+                            }
+                        });
                     } else {
                         dialog.dismiss();
                         Snackbar.make(view, "Sign up failed", Snackbar.LENGTH_SHORT).show();
                     }
                 });
-            }else {
+            }
+            else { // Registration wasn't successful
                 dialog.dismiss();
                 Snackbar.make(view,"Please make sure all credentials are correct",
                         Snackbar.LENGTH_SHORT).show();
@@ -144,6 +139,7 @@ public class CreateAccountFragment extends Fragment {
     }
 
     private void initViews(View view) {
+        username = view.findViewById(R.id.username);
         fullName = view.findViewById(R.id.full_name_et);
         email = view.findViewById(R.id.email_et);
         password = view.findViewById(R.id.password_et);
@@ -151,16 +147,25 @@ public class CreateAccountFragment extends Fragment {
         progressBar = view.findViewById(R.id.bio);
     }
 
-    public boolean validate(String email, String pass, String fullName) {
+    public boolean validate(String username, String email, String pass, String fullName) {
         boolean isValid = true;
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(fullName)) {
+
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) ||
+                TextUtils.isEmpty(fullName)) {
             isValid = false;
             Toast.makeText(getContext(), "Some fields are missing!", Toast.LENGTH_SHORT).show();
         }
 
+        if (username.length() < 5) {
+            isValid = false;
+            Toast.makeText(getContext(), "username must be longer than 5 characters!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
         if (pass.length() < 5) {
             isValid = false;
-            Toast.makeText(getContext(), "Password must be longer than 5 characters!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Password must be longer than 5 characters!",
+                    Toast.LENGTH_SHORT).show();
         }
 
         if (fullName.length() < 4) {

@@ -5,7 +5,7 @@
     <string name="password">Password</string>
     <string name="login_btn">Login</string>
     <string name="login_anonymous_btn">Guest mode</string>
-    <string name="post">POST</string>
+    <string name="post">Post</string>
     <string name="description">Description</string>
     <string name="view_all_comments">View All Comments</string>
     <string name="search">Search</string>
@@ -33,4 +33,6 @@
     <string name="view_all">"View All "</string>
     <string name="comments_quote">" Comments"</string>
     <string name="restore_password">Restore Password</string>
+    <string name="username">Username</string>
+    <string name="image_url_link" translatable="false"><![CDATA[https://firebasestorage.googleapis.com/v0/b/instagramtest-fcbef.appspot.com/o/placeholder.png?alt=media&token=b09b809d-a5f8-499b-9563-5252262e9a49]]></string>
 </resources>

@@ -34,12 +34,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment {
 
     ImageView image_profile, exitApp;
-    TextView posts,followers,following,fullname,bio,username;
+    TextView posts, followers, following, fullname, bio, username;
     Button edit_profile;
 
      RecyclerView recyclerView;
@@ -84,13 +86,12 @@ public class ProfileFragment extends Fragment {
         getNrPosts();
         myphotos();
 
-        // Image animation
-        image_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        // Image animation
+//        image_profile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            }
+//        });
 
         if(profileid.equals(firebaseUser.getUid())){
             edit_profile.setText("Edit profile");
@@ -103,23 +104,25 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 String btn = edit_profile.getText().toString();
 
-                if(btn.equals("Edit profile")){
-                    startActivity(new Intent(getContext(), EditProfile.class));
-                } else if(btn.equals("follow")){
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(profileid).setValue(true);
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
-                            .child("followers").child(firebaseUser.getUid()).setValue(true);
+                switch (btn) {
+                    case "Edit profile":
+                        startActivity(new Intent(getContext(), EditProfile.class));
+                        break;
+                    case "follow":
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                                .child("following").child(profileid).setValue(true);
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
+                                .child("followers").child(firebaseUser.getUid()).setValue(true);
 
-                    addNotifications();
+                        addNotifications();
+                        break;
 
-                } else if(btn.equals("following")){
-
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(profileid).removeValue();
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
-                            .child("followers").child(firebaseUser.getUid()).removeValue();
-
+                    case "following":
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                                .child("following").child(profileid).removeValue();
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
+                                .child("followers").child(firebaseUser.getUid()).removeValue();
+                        break;
                 }
             }
         });
@@ -136,7 +139,7 @@ public class ProfileFragment extends Fragment {
     }
 
     public void logout() {
-        FirebaseAuth.getInstance().signOut();//logout
+        FirebaseAuth.getInstance().signOut(); // logout
         startActivity(new Intent(getContext(), Login.class));
     }
 
@@ -162,8 +165,8 @@ public class ProfileFragment extends Fragment {
                 }
 
                 User user = snapshot.getValue(User.class);
-                Glide.with(getContext()).load(user.getImageUrl()).into(image_profile);
-//                username.setText(user.getUsername());
+                Glide.with(getContext()).load(Objects.requireNonNull(user).getImageUrl()).into(image_profile);
+                username.setText(user.getUsername());
                 fullname.setText(user.getFullName());
                 bio.setText(user.getBio());
             }

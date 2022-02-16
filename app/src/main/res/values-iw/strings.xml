@@ -33,4 +33,5 @@
     <string name="forgot_password_text">הזן את כתובת המייל בכדי לקבל לינק לאיפוס:</string>
     <string name="edit_profile">ערוך פרופיל</string>
     <string name="description">תיאור</string>
+    <string name="username">שם משתמש</string>
 </resources>

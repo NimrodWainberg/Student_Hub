@@ -49,10 +49,9 @@ public class HomeFragment extends Fragment {
         postAdapter = new PostAdapter(getContext(), postList);
         recyclerView.setAdapter(postAdapter);
 
-        checkFollowing();
+        checkFollowingAndGetPosts();
 
         return view;
-
     }
 
     @Override
@@ -60,16 +59,16 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         HubDatabase.getUser(new UserCallback() {
             @Override
-            public void consume(User user,
-                                FirebaseFirestoreException err) {
+            public void consume(User user, FirebaseFirestoreException err) {
                 System.out.println(user);
             }
         });
     }
 
-
-
-    private void checkFollowing(){
+    /**
+     * A function that gets all of the users that a specific user follows, and gets their posts
+     */
+    private void checkFollowingAndGetPosts(){
         followingList = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow")
                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
@@ -83,7 +82,7 @@ public class HomeFragment extends Fragment {
                     followingList.add(snapshot.getKey());
                 }
 
-                getPostsOfUser();
+                getPostsOfFollowedUsers();
             }
 
             @Override
@@ -91,7 +90,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void getPostsOfUser(){
+    /**
+     * A function that gets all of the posts of the people that a specific user follows.
+     */
+    private void getPostsOfFollowedUsers(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
         reference.addValueEventListener(new ValueEventListener() {
             @Override

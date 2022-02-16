@@ -29,6 +29,7 @@
                     android:maxLines="1"
                     android:textColor="@color/black"
                     android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:id="@+id/username"/>
 
                 <ImageView
@@ -69,7 +70,8 @@
                     android:orientation="vertical"
                     android:paddingLeft="20dp"
                     android:paddingRight="4dp"
-                    android:layout_height="80dp">
+                    android:layout_height="80dp"
+                    tools:ignore="RtlHardcoded">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -145,11 +147,12 @@
 
                     <Button
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="35dp"
                         android:layout_marginTop="8dp"
                         android:id="@+id/edit_profile"
                         android:text="@string/edit_profile"
-                        android:textSize="7sp"
+                        android:textSize="11sp"
+                        android:textColor="@color/black"
                         android:background="@drawable/button_black"/>
                 </LinearLayout>
             </LinearLayout>
@@ -159,7 +162,6 @@
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:id="@+id/mid_bar"
-                android:layout_below="@id/top_bar"
                 android:orientation="vertical">
 
                 <TextView
@@ -183,13 +185,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/bio"
                 android:id="@+id/recycler_view"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/bio"
                 android:visibility="gone"
                 android:id="@+id/recycler_view_save"/>
         </LinearLayout>

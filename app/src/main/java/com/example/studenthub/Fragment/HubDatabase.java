@@ -12,7 +12,7 @@ import com.example.studenthub.Model.User;
 
 
 interface UserCallback {
-    void consume(User user,FirebaseFirestoreException err);
+    void consume(User user, FirebaseFirestoreException err);
 }
 
 public class HubDatabase {
