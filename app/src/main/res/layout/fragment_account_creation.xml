@@ -121,14 +121,14 @@
         android:layout_marginTop="171dp"
         android:layout_marginEnd="156dp"
         android:layout_marginBottom="71dp"
-        android:scaleX="3"
-        android:scaleY="3"
+        android:scaleX="2.5"
+        android:scaleY="2.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loadinghand" />
+        app:lottie_rawRes="@raw/useraccount" />
 
 </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

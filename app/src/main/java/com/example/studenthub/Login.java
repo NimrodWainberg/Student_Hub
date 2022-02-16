@@ -1,5 +1,6 @@
 package com.example.studenthub;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -86,16 +87,16 @@ public class Login extends AppCompatActivity {
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final ProgressDialog pd = new ProgressDialog(Login.this);
-                pd.setMessage("Please wait...");
-                pd.show();
+                Dialog dialog = new Dialog(Login.this);
+                dialog.setContentView(R.layout.progress_dialog);
+                dialog.show();
 
                 String email = Objects.requireNonNull(mEmail.getText()).toString().trim();
                 String password = Objects.requireNonNull(mPassword.getText()).toString().trim();
 
                 // Validate input
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    pd.dismiss();
+                    dialog.dismiss();
                     Toast.makeText(Login.this, "All fields are required!", Toast.LENGTH_SHORT).show();
                 } else {
                     // Authenticate details in DB
@@ -106,7 +107,7 @@ public class Login extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            pd.dismiss();
+                            dialog.dismiss();
                             Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
                         }
                     });
@@ -118,17 +119,10 @@ public class Login extends AppCompatActivity {
         mLoginAnonymousBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final ProgressDialog pd = new ProgressDialog(Login.this);
-                pd.setMessage("Please wait...");
-                pd.show();
-                //anonymousAuth();
-//                fAuth.signInAnonymously()
-//                        .addOnSuccessListener(){
-//                    Intent intent = new Intent(Login.this, MainActivity.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                    finish();
-//                }
+                Dialog dialog = new Dialog(Login.this);
+                dialog.setContentView(R.layout.progress_dialog);
+                dialog.show();
+
                 fAuth.signInAnonymously()
                         .addOnCompleteListener(Login.this, task -> {
                             if (task.isSuccessful()) {
@@ -137,7 +131,7 @@ public class Login extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             } else {
-                                pd.dismiss();
+                                dialog.dismiss();
                                 Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
                             }
                         });
@@ -174,12 +168,9 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    // Anonymous login
-//    private void anonymousAuth() {
-//        fAuth.signInAnonymously()
-//                .addOnSuccessListener(
-//                        startActivity();
-//                )
-//                //.addOnFailureListener();
+//    private void showDialog(){
+//        Dialog dialog = new Dialog(this);
+//        dialog.setContentView(R.layout.progress_dialog);
+//        dialog.show();
 //    }
 }
