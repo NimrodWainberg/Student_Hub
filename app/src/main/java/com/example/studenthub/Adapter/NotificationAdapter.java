@@ -45,39 +45,34 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        final Notification notification = mNotification.get(position);
+        Notification notification = mNotification.get(position);
+        holder.notificationText.setText(notification.getText());
+        getUserinfo(holder.image_profile, holder.username, notification.getUserId());
 
-        holder.text.setText(notification.getText());
-
-        getUserinfo(holder.image_profile,holder.username,notification.getUserId());
-
-        if(notification.isPost()){
+        // Notification could be either post or liked picture
+        if (notification.isPost()){
             holder.post_image.setVisibility(View.VISIBLE);
             getPostImage(holder.post_image,notification.getPostId());
         } else {
             holder.post_image.setVisibility(View.GONE);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(notification.isPost()){
-                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
-                    editor.putString("postid",notification.getPostId());
-                    editor.apply();
+        holder.itemView.setOnClickListener(view -> {
+            SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
 
-                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new PostDetailFragment()).commit();
-                } else {
+            if (notification.isPost()) {
+                editor.putString("postid",notification.getPostId());
+                editor.apply();
 
-                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
-                    editor.putString("profileid",notification.getUserId());
-                    editor.apply();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PostDetailFragment()).commit();
+            } else {
 
-                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ProfileFragment()).commit();
+                editor.putString("profileid",notification.getUserId());
+                editor.apply();
 
-                }
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ProfileFragment()).commit();
             }
         });
     }
@@ -90,28 +85,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView image_profile, post_image;
-        public TextView username,text;
-
+        public TextView username, notificationText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image_profile = itemView.findViewById(R.id.image_profile);
             post_image = itemView.findViewById(R.id.post_image);
-            text = itemView.findViewById(R.id.comment);
+            notificationText = itemView.findViewById(R.id.comment);
             username = itemView.findViewById(R.id.username);
 
         }
     }
 
-    private void getUserinfo(final ImageView imageView, final TextView username, String publisherid){
+    private void getUserinfo(ImageView imageView, TextView username, String publisherid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(publisherid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 Glide.with(mContext).load(user.getImageUrl()).into(imageView);
-//                username.setText(user.getUsername());
+                username.setText(user.getUsername());
             }
 
             @Override
@@ -119,7 +113,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
-    private void getPostImage(final ImageView imageView, String postid){
+    private void getPostImage(ImageView imageView, String postid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -129,9 +123,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 }

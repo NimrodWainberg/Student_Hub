@@ -40,13 +40,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        mUsers = new ArrayList<>();
-        userAdapter = new UserAdapter(getContext(),mUsers,true);
-        recyclerView = view.findViewById(R.id.recycler_view);
-        search_bar = view.findViewById(R.id.search_bar);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(userAdapter);
+        setViewsAndInitializeComponents(view);
 
         readUsers();
 
@@ -64,6 +58,20 @@ public class SearchFragment extends Fragment {
         });
 
         return view;
+    }
+
+    /**
+     * A function that sets the corresponding views and initializes components
+     * @param view View to fetch items from
+     */
+    private void setViewsAndInitializeComponents(View view) {
+        mUsers = new ArrayList<>();
+        userAdapter = new UserAdapter(getContext(),mUsers,true);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        search_bar = view.findViewById(R.id.search_bar);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(userAdapter);
     }
 
     /**

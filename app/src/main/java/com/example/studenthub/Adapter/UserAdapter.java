@@ -54,17 +54,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull final UserAdapter.ImageViewHolder holder, int position) {
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        final User User = userList.get(position);
+        User User = userList.get(position);
         holder.followBtn.setVisibility(View.VISIBLE);
         isFollowing(User.getId(), holder.followBtn);
 
-//      holder.username.setText(User.getUsername());
+        holder.username.setText(User.getUsername());
         holder.fullname.setText(User.getFullName());
         Glide.with(context).load(User.getImageUrl()).into(holder.image_profile);
 
+        // If the user looks at his own profile
         if (User.getId().equals(firebaseUser.getUid())){
             holder.followBtn.setVisibility(View.GONE);
         }
@@ -74,9 +74,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
             SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",
                     Context.MODE_PRIVATE).edit();
             editor.putString("profileid", User.getId());
-            editor.apply(); // Apply adding to sp
+            editor.apply();
 
-                // Switch display to profile fragment
+            // Switch display to profile fragment
             ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ProfileFragment()).commit();
 
@@ -93,7 +93,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                         .child("following").child(User.getId()).setValue(true);
                 FirebaseDatabase.getInstance().getReference().child("Follow").child(User.getId())
                         .child("followers").child(firebaseUser.getUid()).setValue(true);
-                addNotifications(User.getId());
+                addNotification(User.getId());
             }
             else { // If already followed
                 FirebaseDatabase.getInstance().getReference().child("follow").child(firebaseUser.getUid())
@@ -105,10 +105,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
     }
 
     /**
-     * A function that adds notifications
-     * @param userid
+     * A function that adds a notification into specific user's DB
+     * @param userid ID of following user
      */
-    private void addNotifications(String userid){
+    private void addNotification(String userid){
         DatabaseReference reference = FirebaseDatabase.getInstance().
                 getReference("Notifications").child(userid);
 
@@ -118,7 +118,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         hashMap.put("postid", "");
         hashMap.put("ispost", false);
 
-        reference.push().setValue(hashMap); // Push data into DB.
+        reference.push().setValue(hashMap); // Push data into DB
     }
 
     /**
@@ -152,7 +152,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
      * @param button Button to be changed
      */
     private void isFollowing(String userid, Button button){
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Follow").child(firebaseUser.getUid()).child("following");
 
@@ -160,10 +160,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(userid).exists()){ // If user is already followed
-                    button.setText("Following");
+                    //button.setText("Following");
+                    button.setText(R.string.following);
                 }
                 else { // If user isn't followed
-                    button.setText("Follow");
+                    //button.setText("Follow");
+                    button.setText(R.string.follow_btn);
                 }
             }
 

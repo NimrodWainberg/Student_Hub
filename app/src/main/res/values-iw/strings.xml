@@ -10,7 +10,7 @@
     <string name="search">חיפוש</string>
     <string name="posts">פוסטים</string>
     <string name="followers">עוקבים</string>
-    <string name="following">עוקב</string>
+    <string name="following">נעקבים</string>
     <string name="photo">תמונה</string>
     <string name="notifications">התראות</string>
     <string name="restore_password">שחזור סיסמה</string>
@@ -34,4 +34,7 @@
     <string name="edit_profile">ערוך פרופיל</string>
     <string name="description">תיאור</string>
     <string name="username">שם משתמש</string>
+    <string name="follow_btn">עקוב</string>
+    <string name="likes_tv">" לייקים"</string>
+    <string name="commented_quote">"commented: "</string>
 </resources>

@@ -34,7 +34,7 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the view
-        View view = inflater.inflate(R.layout.fragment_notification,container,false);
+        View view = inflater.inflate(R.layout.fragment_notification, container,false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -48,8 +48,10 @@ public class NotificationFragment extends Fragment {
         return view;
     }
 
+    /**
+     * A function that reads all notifications
+     */
     private void readAllNotifications() {
-
         // Get specific user's data
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         // Read its notifications
@@ -60,7 +62,7 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 notificationList.clear();
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     Notification notification = snapshot1.getValue(Notification.class);
                     notificationList.add(notification);
                 }

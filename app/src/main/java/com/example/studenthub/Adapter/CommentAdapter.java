@@ -56,9 +56,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
     @Override
     public void onBindViewHolder(@NonNull final CommentAdapter.ImageViewHolder holder, final int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final Comment comment = mComment.get(position);
+        Comment comment = mComment.get(position);
         holder.comment.setText(comment.getComment());
-        getUserInfo(holder.image_profile, comment.getPublisher());
+        getUserInfo(holder.image_profile, holder.username, comment.getPublisher());
 
         holder.username.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, MainActivity.class);
@@ -119,7 +119,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
      * @param imageView ImageView to be changed
      * @param publisherid ID to get details from
      */
-    private void getUserInfo(final ImageView imageView, String publisherid) {
+    private void getUserInfo(final ImageView imageView, TextView username, String publisherid) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(publisherid);
 
@@ -127,6 +127,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
             @Override
             public void onDataChange(@NonNull DataSnapshot Snapshot) {
                 User user = Snapshot.getValue(User.class);
+                username.setText(user.getUsername());
                 Glide.with(mContext).load(Objects.requireNonNull(user).getImageUrl()).into(imageView);
             }
 

@@ -15,9 +15,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image_profile"
         android:layout_toEndOf="@id/image_profile"
-        android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:layout_marginStart="10dp">
@@ -25,8 +23,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:id="@+id/username"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/fullname"
             android:maxLines="1"
+            android:layout_marginTop="10dp"
             android:text="@string/full_name"
             android:textStyle="bold"
             android:textColor="@color/black"/>
@@ -38,6 +46,5 @@
         android:visibility="gone"
         android:id="@+id/btn_follow"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
 </RelativeLayout>

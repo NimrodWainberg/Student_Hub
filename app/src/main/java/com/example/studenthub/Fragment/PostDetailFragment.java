@@ -25,7 +25,7 @@ import java.util.List;
 
 public class PostDetailFragment extends Fragment {
 
-    String postid;
+    String postId;
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private List<Post> postList;
@@ -36,26 +36,36 @@ public class PostDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_post_detail,container,false);
 
         SharedPreferences preferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-        postid = preferences.getString("postid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        postId = preferences.getString("postid", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        postList = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(),postList);
-        recyclerView.setAdapter(postAdapter);
+        setViewsAndInitializeComponents(view);
 
         readPosts();
 
         return view;
     }
 
+    /**
+     * A function that sets the corresponding views and initializes components
+     * @param view View to fetch items from
+     */
+    private void setViewsAndInitializeComponents(View view) {
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        postList = new ArrayList<>();
+        postAdapter = new PostAdapter(getContext(),postList);
+        recyclerView.setAdapter(postAdapter);
+    }
+
+    /**
+     * A function that reads all of the posts of a specific user
+     */
     private void readPosts() {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
-
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -38,14 +38,13 @@ public class CommentsActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private List <Comment> commentList;
 
-    EditText addcomment;
+    EditText comment;
     ImageView image_profile;
-    TextView post;
-
+    TextView postAction;
     String postid;
     String publisherid;
-
     FirebaseUser firebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +52,9 @@ public class CommentsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Comments");
+        getSupportActionBar().setTitle(R.string.comments_quote);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -68,10 +62,9 @@ public class CommentsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         commentList = new ArrayList<>();
 
-
-        addcomment = findViewById(R.id.add_comment);
+        comment = findViewById(R.id.add_comment);
         image_profile = findViewById(R.id.image_profile);
-        post = findViewById(R.id.post);
+        postAction = findViewById(R.id.post);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -81,52 +74,60 @@ public class CommentsActivity extends AppCompatActivity {
         commentAdapter = new CommentAdapter(this,commentList,postid);
         recyclerView.setAdapter(commentAdapter);
 
-        post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(addcomment.getText().toString().equals("")){
-                    Toast.makeText(CommentsActivity.this, "You cant send empty comment", Toast.LENGTH_SHORT).show();
-                } else {
-                    addComment();
-                }
+        postAction.setOnClickListener(view -> {
+            if(comment.getText().toString().equals("")){
+                Toast.makeText(CommentsActivity.this, "Comment cannot be empty",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                addComment();
             }
         });
 
         getImage();
-        readComments();
+        getComments();
 
     }
 
+    /**
+     * A function that adds a comment to a post
+     */
     private void addComment(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
 
         String commentid = reference.push().getKey();
 
         HashMap <String,Object> hashMap= new HashMap<>();
-        hashMap.put("comment",addcomment.getText().toString());
-        hashMap.put("publisher",firebaseUser.getUid());
-        hashMap.put("commentid",commentid);
+        hashMap.put("comment", comment.getText().toString());
+        hashMap.put("publisher", firebaseUser.getUid());
+        hashMap.put("commentid", commentid);
 
+        reference.child(commentid).setValue(hashMap); // Push the comment into DB
+        addNotification();
 
-        reference.child(commentid).setValue(hashMap);
-        addNotifications();
-        addcomment.setText("");
+        comment.setText(""); // Clear the EditText after comment has been posted
     }
 
-    private void addNotifications() {
+    /**
+     * A function that get adds the notification to DB
+     */
+    private void addNotification() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(publisherid);
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("userid", firebaseUser.getUid());
-        hashMap.put("text", "commented: " +addcomment.getText().toString());
+        hashMap.put("text", getString(R.string.commented_quote) + comment.getText().toString());
         hashMap.put("postid", postid);
         hashMap.put("ispost", true);
 
         reference.push().setValue(hashMap);
     }
 
+    /**
+     * A function that gets the profile picture of a specific user
+     */
     private void getImage(){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(firebaseUser.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,13 +137,14 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 
-    private void readComments(){
+    /**
+     * A function that gets all of the comments of a specific post
+     */
+    private void getComments(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -158,9 +160,7 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 }

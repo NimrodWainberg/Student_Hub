@@ -5,7 +5,7 @@
       <map>
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_favorite.xml" value="0.1" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.2" />
-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml" value="0.11302083333333333" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml" value="0.2" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.4" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_post.xml" value="0.31654676258992803" />
@@ -15,7 +15,7 @@
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_animation.xml" value="0.1721014492753623" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_dialog.xml" value="0.11302083333333333" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml" value="0.264" />
-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml" value="0.11302083333333333" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml" value="0.264" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_home.xml" value="0.11302083333333333" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_notification.xml" value="0.11302083333333333" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml" value="0.11302083333333333" />
@@ -25,7 +25,7 @@
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification_item.xml" value="0.264" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/photos_item.xml" value="0.11302083333333333" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.11302083333333333" />
-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.6" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.4" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/menu/bottom_navigation.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.4" />
         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml" value="0.2916666666666667" />

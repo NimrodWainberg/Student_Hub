@@ -40,16 +40,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         final Post post = mposts.get(position);
         Glide.with(context).load(post.getPostImage()).into(holder.post_image);
 
-        holder.post_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
-                editor.putString("postid",post.getPostId());
-                editor.apply();
+        holder.post_image.setOnClickListener(view -> {
+            SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
+            editor.putString("postid",post.getPostId());
+            editor.apply();
 
-                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new PostDetailFragment()).commit();
-            }
+            ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new PostDetailFragment()).commit();
         });
 
 
