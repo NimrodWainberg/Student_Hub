@@ -14,6 +14,7 @@ import com.example.studenthub.Model.User;
 interface UserCallback {
     void consume(User user,FirebaseFirestoreException err);
 }
+
 public class HubDatabase {
 
     public static void getUser(UserCallback callback) {
@@ -21,14 +22,10 @@ public class HubDatabase {
         FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(FirebaseAuth.getInstance().getUid())
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value,
-                                        @Nullable FirebaseFirestoreException error) {
-                        if(value!=null && value.getData()!=null) {
-                            User user = new User(value.getData());
-                            callback.consume(user,error);
-                        }
+                .addSnapshotListener((value, error) -> {
+                    if(value!=null && value.getData()!=null) {
+                        User user = new User(value.getData());
+                        callback.consume(user,error);
                     }
                 });
     }

@@ -47,12 +47,12 @@ public class PostDetailFragment extends Fragment {
         postAdapter = new PostAdapter(getContext(),postList);
         recyclerView.setAdapter(postAdapter);
 
-        readpost();
+        readPosts();
 
         return view;
     }
 
-    private void readpost() {
+    private void readPosts() {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
 
@@ -67,9 +67,7 @@ public class PostDetailFragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 }

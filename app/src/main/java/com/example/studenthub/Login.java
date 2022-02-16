@@ -84,26 +84,47 @@ public class Login extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         // Login Button
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Dialog dialog = new Dialog(Login.this);
-                dialog.setContentView(R.layout.progress_dialog);
-                dialog.show();
+        mLoginBtn.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(Login.this);
+            dialog.setContentView(R.layout.progress_dialog);
+            dialog.show();
 
-                String email = Objects.requireNonNull(mEmail.getText()).toString().trim();
-                String password = Objects.requireNonNull(mPassword.getText()).toString().trim();
+            String email = Objects.requireNonNull(mEmail.getText()).toString().trim();
+            String password = Objects.requireNonNull(mPassword.getText()).toString().trim();
 
-                // Validate input
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    dialog.dismiss();
-                    Toast.makeText(Login.this, "All fields are required!", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Authenticate details in DB
-                    fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, task -> {
+            // Validate input
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                dialog.dismiss();
+                Toast.makeText(Login.this, "All fields are required!", Toast.LENGTH_SHORT).show();
+            } else {
+                // Authenticate details in DB
+                fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, task -> {
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        dialog.dismiss();
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        dialog.dismiss();
+                        Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        // Anonymous login
+        mLoginAnonymousBtn.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(Login.this);
+            dialog.setContentView(R.layout.progress_dialog);
+            dialog.show();
+
+            fAuth.signInAnonymously()
+                    .addOnCompleteListener(Login.this, task -> {
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            dialog.dismiss();
                             startActivity(intent);
                             finish();
                         } else {
@@ -111,31 +132,6 @@ public class Login extends AppCompatActivity {
                             Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
                         }
                     });
-                }
-            }
-        });
-
-        // Anonymous login
-        mLoginAnonymousBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Dialog dialog = new Dialog(Login.this);
-                dialog.setContentView(R.layout.progress_dialog);
-                dialog.show();
-
-                fAuth.signInAnonymously()
-                        .addOnCompleteListener(Login.this, task -> {
-                            if (task.isSuccessful()) {
-                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                dialog.dismiss();
-                                Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
-            }
         });
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -167,10 +163,4 @@ public class Login extends AppCompatActivity {
             return true;
         });
     }
-
-//    private void showDialog(){
-//        Dialog dialog = new Dialog(this);
-//        dialog.setContentView(R.layout.progress_dialog);
-//        dialog.show();
-//    }
 }

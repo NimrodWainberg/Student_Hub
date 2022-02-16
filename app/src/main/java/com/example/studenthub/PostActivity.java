@@ -7,7 +7,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,8 +29,9 @@ public class PostActivity extends AppCompatActivity {
 
     Uri mImageUri;
     String miUrlOk = "";
-    StorageTask<UploadTask.TaskSnapshot> uploadTask;
-    StorageReference storageRef;
+    StorageTask<UploadTask.TaskSnapshot> task;
+    StorageReference storageReference;
+    DatabaseReference reference;
     ImageView close, image;
     TextView post;
     EditText description;
@@ -46,7 +46,7 @@ public class PostActivity extends AppCompatActivity {
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
 
-        storageRef = FirebaseStorage.getInstance().getReference("posts");
+        storageReference = FirebaseStorage.getInstance().getReference("Posts");
 
         close.setOnClickListener(view -> {startActivity(new Intent(PostActivity.this, MainActivity.class));
             finish();
@@ -69,11 +69,11 @@ public class PostActivity extends AppCompatActivity {
         pd.show();
 
         if (mImageUri != null){
-            final StorageReference fileReference = storageRef.child(System.currentTimeMillis()
+            final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
 
-            uploadTask = fileReference.putFile(mImageUri);
-            uploadTask.continueWithTask(task -> {
+            task = fileReference.putFile(mImageUri);
+            task.continueWithTask(task -> {
                 if (!task.isSuccessful()) {
                     throw Objects.requireNonNull(task.getException());
                 }
@@ -83,17 +83,17 @@ public class PostActivity extends AppCompatActivity {
                     Uri downloadUri = task.getResult();
                     miUrlOk = Objects.requireNonNull(downloadUri).toString();
 
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
+                    reference = FirebaseDatabase.getInstance().getReference("Posts");
 
-                    String postid = reference.push().getKey();
+                    String postId = reference.push().getKey();
 
                     HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("postid", postid);
-                    hashMap.put("postimage", miUrlOk);
+                    hashMap.put("postId", postId);
+                    hashMap.put("postImage", miUrlOk);
                     hashMap.put("description", description.getText().toString());
                     hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                    reference.child(postid).setValue(hashMap);
+                    reference.child(postId).setValue(hashMap);
 
                     pd.dismiss();
 
