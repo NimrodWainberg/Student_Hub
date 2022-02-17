@@ -65,7 +65,7 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/image_profile"
+            android:id="@+id/edit_profile_profile_picture"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"

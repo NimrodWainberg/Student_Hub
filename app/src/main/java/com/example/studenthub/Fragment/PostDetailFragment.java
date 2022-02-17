@@ -25,7 +25,7 @@ import java.util.List;
 
 public class PostDetailFragment extends Fragment {
 
-    String postId;
+    String userId;
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private List<Post> postList;
@@ -35,11 +35,13 @@ public class PostDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_detail,container,false);
 
-        SharedPreferences preferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-        postId = preferences.getString("postid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        /*SharedPreferences preferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        userId = preferences.getString("postid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+*/
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         setViewsAndInitializeComponents(view);
-
         readPosts();
 
         return view;
@@ -65,7 +67,7 @@ public class PostDetailFragment extends Fragment {
      * A function that reads all of the posts of a specific user
      */
     private void readPosts() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

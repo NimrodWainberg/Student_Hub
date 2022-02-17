@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom"
-        android:layout_below="@id/toolbar"/>
+        android:layout_below="@id/toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,32 +27,33 @@
         android:background="@color/lightPink"
         android:padding="4dp"
         android:layout_alignParentBottom="true">
-        
+
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/comment_profile_picture"
             android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/image_profile"/>
+            android:layout_height="40dp" />
 
         <EditText
+            android:id="@+id/add_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/image_profile"
-            android:hint="@string/add_a_comment"
-            android:id="@+id/add_comment"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/comment_profile_picture"
             android:background="@color/lightPink"
-            android:layout_toLeftOf="@id/post"/>
+            android:layout_toStartOf="@id/post"
+            android:hint="@string/add_a_comment" />
 
         <TextView
+            android:id="@+id/post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/post"
-            android:text="@string/post"
-            android:layout_marginEnd="5dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/black"/>
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="@string/post"
+            android:textColor="@color/black" />
     </RelativeLayout>
 </RelativeLayout>

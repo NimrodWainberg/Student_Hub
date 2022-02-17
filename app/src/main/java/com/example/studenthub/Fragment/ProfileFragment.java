@@ -59,10 +59,13 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Here we get the exact user ID from search box, if any
+        SharedPreferences prefs = getContext().getSharedPreferences("PREFS", MODE_PRIVATE);
+        id = prefs.getString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        profilePicture = view.findViewById(R.id.image_profile);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        profilePicture = view.findViewById(R.id.fragment_profile_picture);
         exitApp = view.findViewById(R.id.exit_app);
         posts = view.findViewById(R.id.posts);
         followers = view.findViewById(R.id.followers);
@@ -137,7 +140,7 @@ public class ProfileFragment extends Fragment {
         final Query query = FirebaseDatabase.getInstance().getReference("users");
         query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(getActivity() == null)
                     return;
 
@@ -158,7 +161,7 @@ public class ProfileFragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 

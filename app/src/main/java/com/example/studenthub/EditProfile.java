@@ -89,7 +89,7 @@ public class EditProfile extends AppCompatActivity {
     private void initViews() {
         closeIv = findViewById(R.id.close);
         saveBtn = findViewById(R.id.save);
-        profilePicture = findViewById(R.id.image_profile);
+        profilePicture = findViewById(R.id.edit_profile_profile_picture);
         changePictureTv = findViewById(R.id.tv_change);
         fullName = findViewById(R.id.edit_profile_fullname);
         username = findViewById(R.id.edit_profile_username_edittext);

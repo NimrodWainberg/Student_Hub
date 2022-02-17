@@ -52,8 +52,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         return new UserAdapter.ImageViewHolder(view);
     }
 
+    /*
+    * Here we fetch data of people we click on Search Fragment
+    * */
     @Override
-    public void onBindViewHolder(@NonNull final UserAdapter.ImageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserAdapter.ImageViewHolder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         User User = userList.get(position);
@@ -70,15 +73,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         }
 
         holder.itemView.setOnClickListener(view -> {
-            if (isFragment) {
+            if (isFragment) { // When a user is clicked on search box, put his ID in sp
             SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",
                     Context.MODE_PRIVATE).edit();
             editor.putString("profileid", User.getId());
             editor.apply();
 
             // Switch display to profile fragment
-            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ProfileFragment()).commit();
+            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ProfileFragment()).commit();
 
             } else {
                 Intent intent = new Intent(context, MainActivity.class);
@@ -141,7 +144,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
             super(itemView);
             username = itemView.findViewById(R.id.username);
             fullname = itemView.findViewById(R.id.fullname);
-            image_profile = itemView.findViewById(R.id.image_profile);
+            image_profile = itemView.findViewById(R.id.user_item_picture);
             followBtn = itemView.findViewById(R.id.btn_follow);
         }
     }

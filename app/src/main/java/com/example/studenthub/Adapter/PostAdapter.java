@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -22,7 +21,6 @@ import com.example.studenthub.Model.User;
 import com.example.studenthub.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,7 +54,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Post post = mPosts.get(position);
 
-        Glide.with(mContext).load(post.getPostImage()).into(holder.post_image);
+        Glide.with(mContext).load(post.getPostImage()).into(holder.posted_picture);
         
         if (post.getDescription().equals("")){
             holder.description.setVisibility(View.GONE);
@@ -123,7 +121,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     new ProfileFragment()).commit();
         });
 
-        holder.post_image.setOnClickListener(view -> {
+        holder.posted_picture.setOnClickListener(view -> {
             SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
             editor.putString("postId",post.getPostId());
             editor.apply();
@@ -141,14 +139,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView image_profile, like, post_image, comment, save;
+        public ImageView image_profile, like, posted_picture, comment, save;
         public TextView likes, username, publisher, comments, description;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.username);
             image_profile = itemView.findViewById(R.id.image_profile);
-            post_image = itemView.findViewById(R.id.post_image);
+            posted_picture = itemView.findViewById(R.id.post_item_image);
             like = itemView.findViewById(R.id.like);
             comment = itemView.findViewById(R.id.comment);
             save = itemView.findViewById(R.id.save);
@@ -246,23 +244,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 Glide.with(mContext).load(user.getImageUrl()).into(image_profile);
-                publisher.setText(user.getImageUrl());
+                publisher.setText(user.getFullName());
                 username.setText(user.getUsername());
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
-        /*query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                User user = snapshot.getValue(User.class);
-                Glide.with(mContext).load(user.getImageUrl()).into(image_profile);
-                publisher.setText(user.getImageUrl());
-                username.setText(user.getUsername());
-            }*/
 
     }
 }

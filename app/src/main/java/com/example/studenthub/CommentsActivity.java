@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,7 +41,7 @@ public class CommentsActivity extends AppCompatActivity {
     private List <Comment> commentList;
 
     EditText comment;
-    ImageView image_profile;
+    ImageView commentProfilePicture;
     TextView postAction;
     String postid;
     String publisherid;
@@ -66,7 +65,7 @@ public class CommentsActivity extends AppCompatActivity {
         commentList = new ArrayList<>();
 
         comment = findViewById(R.id.add_comment);
-        image_profile = findViewById(R.id.image_profile);
+        commentProfilePicture = findViewById(R.id.comment_profile_picture);
         postAction = findViewById(R.id.post);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -136,7 +135,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                Glide.with(getApplicationContext()).load(user.getImageUrl()).into(image_profile);
+                Glide.with(getApplicationContext()).load(user.getImageUrl()).into(commentProfilePicture);
             }
 
             @Override
@@ -148,11 +147,13 @@ public class CommentsActivity extends AppCompatActivity {
      * A function that gets all of the comments of a specific post
      */
     private void getComments(){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
-        final Query query = reference;
-        query.addChildEventListener(new ChildEventListener() {
+        final Query query = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(getApplicationContext() == null)
+                    return;
+
                 commentList.clear();
                 if(snapshot.getValue() != null){
                     for(DataSnapshot snapshot1 : snapshot.getChildren()){
@@ -168,16 +169,23 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
+        /*query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                commentList.clear();
+                if(snapshot.getValue() != null){
+                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                        Comment comment = snapshot1.getValue(Comment.class);
+                        commentList.add(comment);
+                    }
+
+                    commentAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(CommentsActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
+                }
+            }*/
     }
 }

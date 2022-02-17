@@ -49,7 +49,7 @@ public class NotificationFragment extends Fragment {
     }
 
     /**
-     * A function that reads all notifications
+     * A function that reads all notifications of specific used from DB
      */
     private void readAllNotifications() {
         // Get specific user's data

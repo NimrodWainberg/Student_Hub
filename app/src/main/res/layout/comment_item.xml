@@ -3,40 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:padding="8dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/notification_picture"/>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/comment_item_picture"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:orientation="vertical"
-        android:layout_toEndOf="@+id/notification_picture"
-        android:layout_toStartOf="@+id/post_image">
+        android:layout_toEndOf="@+id/comment_item_picture">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/username"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:textColor="@color/black"
+            android:id="@+id/username"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/comment"
             android:maxLines="5"/>
-    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/post_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"/>
+    </LinearLayout>
 
 </RelativeLayout>
