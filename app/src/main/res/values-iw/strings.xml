@@ -22,7 +22,7 @@
     <string name="error_message">משהו השתבש!</string>
     <string name="more_options_text">אפשרויות נוספות</string>
     <string name="save_text">שמור</string>
-    <string name="change_photo_text">שנה תמונה</string>
+    <string name="change_photo_text">לחץ לשינוי התמונה</string>
     <string name="bio_hint">ביו</string>
     <string name="add_a_comment" tools:ignore="TypographyEllipsis">הוסף תגובה...</string>
     <string name="delete_comment_text">האם ברצונך למחוק את התגובה?</string>
@@ -48,4 +48,5 @@
     <string name="permission_granted">הרשאה ניתנה!</string>
     <string name="must_grant_permission">חובה לאשר הרשאות!</string>
     <string name="create_new_account">צור חשבון חדש</string>
+    <string name="uploading">Uploading</string>
 </resources>

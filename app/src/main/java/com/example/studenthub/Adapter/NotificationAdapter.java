@@ -50,12 +50,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         Notification notification = mNotification.get(position);
         holder.notificationText.setText(notification.getText());
-        getUserinfo(holder.image_profile, holder.username, notification.getUserId());
+        if(notification.getUserId() != null)
+            getUserinfo(holder.image_profile, holder.username, notification.getUserId());
 
         // Notification could be either a new follow or liked picture
         if (notification.isPost()){
             holder.post_image.setVisibility(View.VISIBLE);
-            getPostImage(holder.post_image,notification.getPostId());
+            getPostImage(holder.post_image, notification.getPostId());
         } else {
             holder.post_image.setVisibility(View.GONE);
         }
@@ -101,25 +102,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private void getUserinfo(ImageView imageView, TextView username, String publisherid){
         final Query query = FirebaseDatabase.getInstance().getReference("users").child(publisherid);
-        query.addChildEventListener(new ChildEventListener() {
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 Glide.with(mContext).load(user.getImageUrl()).into(imageView);
                 username.setText(user.getUsername());
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+            public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            }
         });
     }
 
@@ -129,7 +124,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post post = snapshot.getValue(Post.class);
-                Glide.with(mContext).load(Objects.requireNonNull(post).getPostImage()).into(imageView);
+                Glide.with(mContext).load(post.getPostImage()).into(imageView);
             }
 
             @Override

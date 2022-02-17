@@ -41,7 +41,6 @@ public class SearchFragment extends Fragment {
        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         setViewsAndInitializeComponents(view);
-
         readUsers();
 
         search_bar.addTextChangedListener(new TextWatcher() {

@@ -24,7 +24,7 @@
     <string name="error_message">Something gone wrong!</string>
     <string name="more_options_text">More options</string>
     <string name="save_text">Save</string>
-    <string name="change_photo_text">Change Photo</string>
+    <string name="change_photo_text">Click to change the picture</string>
     <string name="bio_hint">Bio</string>
     <string name="add_a_comment" tools:ignore="TypographyEllipsis">Add a comment...</string>
     <string name="delete_comment_text">Do you want to delete your comment?</string>
@@ -34,7 +34,7 @@
     <string name="comments_quote">" Comments"</string>
     <string name="restore_password">Restore Password</string>
     <string name="username">Username</string>
-    <string name="image_url_link" translatable="false">https://firebasestorage.googleapis.com/v0/b/instagramtest-fcbef.appspot.com/o/placeholder.png</string>
+    <string name="image_url_link" translatable="false">https://www.lexremodeling.com/wp-content/uploads/2018/03/user-alt-256.png</string>
     <string name="follow_btn">Follow</string>
     <string name="likes_tv">" likes"</string>
     <string name="commented_quote">"commented: "</string>
@@ -49,4 +49,5 @@
     <string name="profile">Profile</string>
     <string name="permission_granted">Permission granted!</string>
     <string name="must_grant_permission">Must grant permission!</string>
+    <string name="uploading">Uploading</string>
 </resources>

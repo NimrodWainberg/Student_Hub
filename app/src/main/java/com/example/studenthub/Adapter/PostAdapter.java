@@ -240,35 +240,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
      * @param userid User ID
      */
     private void publisherInfo(ImageView image_profile, TextView username, TextView publisher, String userid) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users")
-                .child(userid);
-        final Query query = reference;
-        query.addChildEventListener(new ChildEventListener() {
+        final Query query = FirebaseDatabase.getInstance().getReference("users").child(userid);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                Glide.with(mContext).load(Objects.requireNonNull(user).getImageUrl()).into(image_profile);
+                Glide.with(mContext).load(user.getImageUrl()).into(image_profile);
                 publisher.setText(user.getImageUrl());
                 username.setText(user.getUsername());
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
         });
+        /*query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                User user = snapshot.getValue(User.class);
+                Glide.with(mContext).load(user.getImageUrl()).into(image_profile);
+                publisher.setText(user.getImageUrl());
+                username.setText(user.getUsername());
+            }*/
+
     }
 }

@@ -60,8 +60,6 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        SharedPreferences prefs = requireContext().getSharedPreferences("PREFS", MODE_PRIVATE);
-        //id = prefs.getString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         profilePicture = view.findViewById(R.id.image_profile);
@@ -140,11 +138,9 @@ public class ProfileFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     User b = data.getValue(User.class);
-                    if(b.getId()!=null)
-                        if (b.getId().equals(id)) {
+                    if (b.getId().equals(id)) {
                         String fullNameUpdate = b.getFullName();
                         String userNameUpdate = b.getUsername();
                         String bioUpdate = b.getBio();
@@ -154,10 +150,8 @@ public class ProfileFragment extends Fragment {
                         username.setText(userNameUpdate);
                         bio.setText(bioUpdate);
                         Glide.with(getContext()).load(uriUpdate).into(profilePicture);
-
                     }
                 }
-                return;
             }
 
             @Override
