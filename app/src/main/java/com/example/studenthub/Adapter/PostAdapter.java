@@ -50,9 +50,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final PostAdapter.ViewHolder holder,final int position) {
+    public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Post post = mPosts.get(position);
+        final Post post = mPosts.get(position);
 
         Glide.with(mContext).load(post.getPostImage()).into(holder.posted_picture);
         
@@ -63,26 +63,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.description.setText(post.getDescription());
         }
 
-        publisherInfo(holder.image_profile, holder.username, holder.publisher, post.getPublisher());
+        publisherInfo(holder.smallProfilePic, holder.username, holder.publisher, post.getPublisher());
 
-        isLiked(post.getPostId(),holder.like);
-        numOfLikes(holder.likes,post.getPostId());
-        getComments(post.getPostId(),holder.comments);
+        isPostLiked(post.getPostId(), holder.like);
+        numOfLikes(holder.likes, post.getPostId());
+        getComments(post.getPostId(), holder.comments);
 
         holder.like.setOnClickListener(view -> {
-            if(holder.like.getTag().equals("like")){
+            if(holder.like.getTag().equals("like")){ // Liking a picture
                 FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostId())
                         .child(firebaseUser.getUid()).setValue(true);
-                addNotifications(post.getPublisher(),post.getPostId());
-            } else
+                addNotifications(post.getPublisher(), post.getPostId());
+            } else // Unliking a picture
                 FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostId())
                         .child(firebaseUser.getUid()).removeValue();
         });
 
         holder.comment.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, CommentsActivity.class);
-            intent.putExtra("postId",post.getPostId());
-            intent.putExtra("publisherid",post.getPublisher());
+            intent.putExtra("postId", post.getPostId());
+            intent.putExtra("publisherid", post.getPublisher());
             mContext.startActivity(intent);
         });
 
@@ -94,7 +94,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         });
 
 
-        holder.image_profile.setOnClickListener(view -> {
+        holder.smallProfilePic.setOnClickListener(view -> {
             SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
             editor.putString("profileid",post.getPublisher());
             editor.apply();
@@ -139,13 +139,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView image_profile, like, posted_picture, comment, save;
+        public ImageView smallProfilePic, like, posted_picture, comment, save;
         public TextView likes, username, publisher, comments, description;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.username);
-            image_profile = itemView.findViewById(R.id.image_profile);
+            smallProfilePic = itemView.findViewById(R.id.small_circle_pfp);
             posted_picture = itemView.findViewById(R.id.post_item_image);
             like = itemView.findViewById(R.id.like);
             comment = itemView.findViewById(R.id.comment);
@@ -172,7 +172,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         });
     }
 
-    private void isLiked(String postId, ImageView imageView){
+    private void isPostLiked(String postId, ImageView imageView){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Likes").child(postId);
 

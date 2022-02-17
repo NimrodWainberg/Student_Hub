@@ -1,7 +1,6 @@
 package com.example.studenthub;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +20,6 @@ import com.example.studenthub.Model.Comment;
 import com.example.studenthub.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +40,7 @@ public class CommentsActivity extends AppCompatActivity {
 
     EditText comment;
     ImageView commentProfilePicture;
-    TextView postAction;
+    TextView postCommentBtn;
     String postid;
     String publisherid;
     FirebaseUser firebaseUser;
@@ -66,20 +64,20 @@ public class CommentsActivity extends AppCompatActivity {
 
         comment = findViewById(R.id.add_comment);
         commentProfilePicture = findViewById(R.id.comment_profile_picture);
-        postAction = findViewById(R.id.post);
+        postCommentBtn = findViewById(R.id.post);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         Intent intent = getIntent();
         postid = intent.getStringExtra("postid");
         publisherid = intent.getStringExtra("publisherid");
-        commentAdapter = new CommentAdapter(this,commentList,postid);
+        commentAdapter = new CommentAdapter(CommentsActivity.this, commentList, postid);
         recyclerView.setAdapter(commentAdapter);
 
-        postAction.setOnClickListener(view -> {
+        postCommentBtn.setOnClickListener(view -> {
             if(comment.getText().toString().equals("")){
-                Toast.makeText(CommentsActivity.this, "Comment cannot be empty",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommentsActivity.this,
+                        getString(R.string.comment_cannot_be_empty), Toast.LENGTH_SHORT).show();
             } else {
                 addComment();
             }
@@ -113,7 +111,8 @@ public class CommentsActivity extends AppCompatActivity {
      * A function that get adds the notification to DB
      */
     private void addNotification() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(publisherid);
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("Notifications").child(publisherid);
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("userid", firebaseUser.getUid());
@@ -125,7 +124,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     /**
-     * A function that gets the profile picture of a specific user
+     * A function that gets the profile picture
      */
     private void getImage(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users")
@@ -171,21 +170,5 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-        /*query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                commentList.clear();
-                if(snapshot.getValue() != null){
-                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                        Comment comment = snapshot1.getValue(Comment.class);
-                        commentList.add(comment);
-                    }
-
-                    commentAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Toast.makeText(CommentsActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
-                }
-            }*/
     }
 }

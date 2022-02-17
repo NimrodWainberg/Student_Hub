@@ -51,7 +51,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CommentAdapter.ImageViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull CommentAdapter.ImageViewHolder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Comment comment = mComment.get(position);
         holder.comment.setText(comment.getComment());
@@ -73,7 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
             if (comment.getPublisher().equals(firebaseUser.getUid())) {
                 AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
                 alertDialog.setTitle(mContext.getString(R.string.delete_comment_text));
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No",
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
                         (dialog, which) -> dialog.dismiss());
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
                         (dialog, which) -> {
@@ -98,13 +98,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-
         public ImageView image_profile;
         public TextView username, comment;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-
             image_profile = itemView.findViewById(R.id.comment_item_picture);
             username = itemView.findViewById(R.id.username);
             comment = itemView.findViewById(R.id.comment);
@@ -123,9 +121,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot Snapshot) {
+                if(mContext == null)
+                    return;
+
                 User user = Snapshot.getValue(User.class);
                 username.setText(user.getUsername());
-                Glide.with(mContext).load(Objects.requireNonNull(user).getImageUrl()).into(imageView);
+                Glide.with(mContext).load(user.getImageUrl()).into(imageView);
             }
 
             @Override

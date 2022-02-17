@@ -63,7 +63,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.itemView.setOnClickListener(view -> {
             SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
-
             if (notification.isPost()) {
                 editor.putString("postid", notification.getPostId());
                 editor.apply();
@@ -71,7 +70,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PostDetailFragment()).commit();
             } else { // if liked picture
-
                 editor.putString("profileid",notification.getUserId());
                 editor.apply();
 

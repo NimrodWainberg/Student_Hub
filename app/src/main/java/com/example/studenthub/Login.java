@@ -95,7 +95,7 @@ public class Login extends AppCompatActivity {
             // Validate input
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                 dialog.dismiss();
-                Toast.makeText(Login.this, "All fields are required!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, getString(R.string.all_fields_required), Toast.LENGTH_SHORT).show();
             } else {
                 // Authenticate details in DB
                 fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, task -> {
@@ -107,7 +107,7 @@ public class Login extends AppCompatActivity {
                         finish();
                     } else {
                         dialog.dismiss();
-                        Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(v, getString(R.string.sign_in_failed), Snackbar.LENGTH_SHORT).show();
                     }
                 });
             }

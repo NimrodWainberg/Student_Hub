@@ -35,10 +35,10 @@ public class PostDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_detail,container,false);
 
-        /*SharedPreferences preferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         userId = preferences.getString("postid", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-*/
+
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         setViewsAndInitializeComponents(view);

@@ -49,4 +49,8 @@
     <string name="must_grant_permission">חובה לאשר הרשאות!</string>
     <string name="create_new_account">צור חשבון חדש</string>
     <string name="uploading">Uploading</string>
+    <string name="comment_cannot_be_empty">Comment cannot be empty</string>
+    <string name="all_fields_required">All fields are required!</string>
+    <string name="sign_in_failed">Sign in failed</string>
+    <string name="failed_to_post">Failed to post!</string>
 </resources>

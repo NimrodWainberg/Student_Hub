@@ -119,16 +119,17 @@ public class EditProfile extends AppCompatActivity {
      */
     private void uploadImage() {
         final ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage(getString(R.string.uploading));
+        pd.setMessage("Uploading");
         pd.show();
         if (uri != null) {
+            // Randomizing file name
             final StorageReference fileReference = storageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(uri));
 
             uploadTask = fileReference.putFile(uri);
             uploadTask.continueWithTask(task -> {
                 if (!task.isSuccessful()) {
-                    throw task.getException();
+                    throw Objects.requireNonNull(task.getException());
                 }
                 return fileReference.getDownloadUrl();
             }).addOnCompleteListener(task -> {
@@ -140,7 +141,7 @@ public class EditProfile extends AppCompatActivity {
                     DatabaseReference reference = FirebaseDatabase.getInstance()
                             .getReference("users").child(firebaseUser.getUid());
                     HashMap<String, Object> map = new HashMap<>();
-                    map.put("imageurl", "" + updatedUrl);
+                    map.put("imageurl", ""+updatedUrl);
                     reference.updateChildren(map);
 
                     pd.dismiss();

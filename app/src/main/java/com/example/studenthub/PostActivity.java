@@ -101,13 +101,13 @@ public class PostActivity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Toast.makeText(this, "Failed to post!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.failed_to_post), Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(e -> Toast.makeText(PostActivity.this, e.getMessage(),
                     Toast.LENGTH_SHORT).show());
 
         } else {
-            Toast.makeText(PostActivity.this, "No image selected!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostActivity.this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show();
             pd.dismiss();
         }
     }
@@ -119,7 +119,6 @@ public class PostActivity extends AppCompatActivity {
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             mImageUri = result.getUri();
-
             image.setImageURI(mImageUri);
 
         } else { // In this case there's an error, open MainActivity again
