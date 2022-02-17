@@ -138,6 +138,9 @@ public class ProfileFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(getActivity() == null)
+                    return;
+
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     User b = data.getValue(User.class);
                     if (b.getId().equals(id)) {
@@ -149,55 +152,14 @@ public class ProfileFragment extends Fragment {
                         fullname.setText(fullNameUpdate);
                         username.setText(userNameUpdate);
                         bio.setText(bioUpdate);
-                        Glide.with(getContext()).load(uriUpdate).into(profilePicture);
+                        Glide.with(getActivity()).load(uriUpdate).into(profilePicture);
                     }
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
-
-        /*query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if (getContext() == null) {
-                    return;
-                }
-
-                String fullNameUpdate = snapshot.child("fullName").getValue(String.class);
-                String userNameUpdate = snapshot.child("username").getValue(String.class);
-                String bioUpdate = snapshot.child("bio").getValue(String.class);
-                String uriUpdate = snapshot.child("imageUrl").getValue(String.class);
-
-                fullname.setText(fullNameUpdate);
-                username.setText(userNameUpdate);
-                bio.setText(bioUpdate);
-                Glide.with(getContext()).load(uriUpdate).into(profilePicture);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
     }
 
     /**
