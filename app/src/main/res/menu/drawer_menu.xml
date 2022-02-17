@@ -5,11 +5,11 @@
         <item
             android:id="@+id/drawer_create_account"
             android:icon="@drawable/ic_university_icon"
-            android:title="Create new account"/>
+            android:title="@string/create_new_account"/>
 
         <item android:id="@+id/drawer_forgot_password"
             android:icon="@drawable/ic_university_icon"
-            android:title="Forgot your password?" />
+            android:title="@string/forgot_your_password" />
 
     </group>
 

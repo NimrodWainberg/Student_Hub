@@ -36,5 +36,13 @@
     <string name="username">שם משתמש</string>
     <string name="follow_btn">עקוב</string>
     <string name="likes_tv">" לייקים"</string>
-    <string name="commented_quote">"commented: "</string>
+    <string name="commented_quote">"הגיב: "</string>
+    <string name="uploading_failed">ההעלאה נכשלה!</string>
+    <string name="no_image_selected">תמונה לא נבחרה!</string>
+    <string name="changes_saved">השינויים נשמרו!</string>
+    <string name="restore_password_error">האימייל לא יכול להיות ריק!</string>
+    <string name="reset_link_message">לינק איפוס נשלח ל-</string>
+    <string name="reset_link_problem">בעיה בשליחת לינק איפוס!</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="forgot_your_password">Forgot your password?</string>
 </resources>

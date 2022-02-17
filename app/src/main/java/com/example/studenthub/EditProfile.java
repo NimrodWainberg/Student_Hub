@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.example.studenthub.Model.User;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,13 +39,12 @@ import java.util.Objects;
 public class EditProfile extends AppCompatActivity {
 
     ImageView close, image_profile;
-    TextView save, tv_change;
-    TextInputEditText fullname, username, bio;
-
+    TextView saveBtn, changePictureTv;
+    TextInputEditText fullName, bio;
     FirebaseUser firebaseUser;
-
-    private Uri mImageUri;
-    private StorageTask uploadTask;
+    Uri uri;
+    //StorageTask uploadTask;
+    UploadTask uploadTask;
     StorageReference storageRef;
 
     @Override
@@ -56,22 +53,21 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         close = findViewById(R.id.close);
-        save = findViewById(R.id.save);
+        saveBtn = findViewById(R.id.save);
         image_profile = findViewById(R.id.image_profile);
-        tv_change = findViewById(R.id.tv_change);
-        fullname = findViewById(R.id.edit_profile_fullname);
+        changePictureTv = findViewById(R.id.tv_change);
+        fullName = findViewById(R.id.edit_profile_fullname);
         bio = findViewById(R.id.edit_profile_bio);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageRef = FirebaseStorage.getInstance().getReference("uploads");
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Getting the details of specific user
                 User user = snapshot.getValue(User.class);
-                fullname.setText(Objects.requireNonNull(user).getFullName());
+                fullName.setText(Objects.requireNonNull(user).getFullName());
                 bio.setText(user.getBio());
                 Glide.with(getApplicationContext()).load(user.getImageUrl()).into(image_profile);
             }
@@ -82,11 +78,11 @@ public class EditProfile extends AppCompatActivity {
 
         close.setOnClickListener(view -> finish());
 
-        save.setOnClickListener(view ->
-                updateProfile(Objects.requireNonNull(fullname.getText()).toString(),
+        saveBtn.setOnClickListener(view ->
+                updateProfile(Objects.requireNonNull(fullName.getText()).toString(),
                 Objects.requireNonNull(bio.getText()).toString()));
 
-        tv_change.setOnClickListener(view -> CropImage.activity()
+        changePictureTv.setOnClickListener(view -> CropImage.activity()
                 .setAspectRatio(1, 1)
                 .setCropShape(CropImageView.CropShape.OVAL)
                 .start(EditProfile.this));
@@ -105,7 +101,7 @@ public class EditProfile extends AppCompatActivity {
         map.put("bio", bio);
 
         reference.updateChildren(map);
-        Toast.makeText(EditProfile.this, "Changes saved!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(EditProfile.this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
     }
 
     private String getFileExtension(Uri uri) {
@@ -114,45 +110,45 @@ public class EditProfile extends AppCompatActivity {
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
+    /**
+     * A function that uploads a new profile picture and updates the DB.
+     */
     private void uploadImage() {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Uploading");
         pd.show();
-        if (mImageUri != null) {
+        if (uri != null) {
             final StorageReference fileReference = storageRef.child(System.currentTimeMillis()
-                    + "." + getFileExtension(mImageUri));
+                    + "." + getFileExtension(uri));
 
-            uploadTask = fileReference.putFile(mImageUri);
-            uploadTask.continueWithTask((Continuation<UploadTask.TaskSnapshot, Task<Uri>>) task -> {
+            uploadTask = fileReference.putFile(uri);
+            uploadTask.continueWithTask(task -> {
                 if (!task.isSuccessful()) {
                     throw task.getException();
                 }
                 return fileReference.getDownloadUrl();
-            }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
+            }).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    String miUrlOk = Objects.requireNonNull(downloadUri).toString();
+                    String updatedUrl = Objects.requireNonNull(downloadUri).toString();
 
+                    // Update image url on DataBase
                     DatabaseReference reference = FirebaseDatabase.getInstance()
                             .getReference("Users").child(firebaseUser.getUid());
                     HashMap<String, Object> map = new HashMap<>();
-                    map.put("imageurl", "" + miUrlOk);
+                    map.put("imageurl", "" + updatedUrl);
                     reference.updateChildren(map);
 
                     pd.dismiss();
 
                 } else {
                     pd.dismiss();
-                    Toast.makeText(EditProfile.this, "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfile.this, R.string.uploading_failed, Toast.LENGTH_SHORT).show();
                 }
-            }).addOnFailureListener(e -> {
-                pd.dismiss();
-                Toast.makeText(EditProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             });
-
         } else {
             pd.dismiss();
-            Toast.makeText(EditProfile.this, "No image selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditProfile.this, R.string.no_image_selected, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -164,7 +160,7 @@ public class EditProfile extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            mImageUri = result.getUri();
+            uri = result.getUri();
 
             uploadImage();
 

@@ -19,7 +19,6 @@ public class WelcomeAnimation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_animation);
 
-
         appName = findViewById(R.id.app_name);
         lottie = findViewById(R.id.lottie);
 

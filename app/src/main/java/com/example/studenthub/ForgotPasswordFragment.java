@@ -39,32 +39,28 @@ public class ForgotPasswordFragment extends Fragment {
         email = view.findViewById(R.id.forgot_password_email_edit_text);
         restore_btn = view.findViewById(R.id.restore_password_material_btn);
 
-        restore_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(!Objects.requireNonNull(email.getText()).toString().isEmpty())
-                {
-                    FirebaseAuth.getInstance().sendPasswordResetEmail(email.getText().toString())
-                    .addOnSuccessListener(unused -> {
-                        if(getActivity() != null)
-                            getActivity().runOnUiThread(() -> Toast.makeText(getContext(),
-                                    "Reset link has been sent to " + email.getText().toString(),
-                                    Toast.LENGTH_SHORT).show());
-                          }).addOnFailureListener(e -> {
-                              if(getActivity() != null)
-                                  getActivity().runOnUiThread(() -> Toast.makeText(getContext(),
-                                          "Problem sending a reset link!",
-                                          Toast.LENGTH_SHORT).show());
-                          });
-                } else {
-                    Toast.makeText(getContext(),"Email address cannot be empty!",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-                if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
-                    requireActivity().getSupportFragmentManager().popBackStack();
+        restore_btn.setOnClickListener(v -> {
+            if(!Objects.requireNonNull(email.getText()).toString().isEmpty())
+            {
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email.getText().toString())
+                .addOnSuccessListener(unused -> {
+                    if(getActivity() != null)
+                        getActivity().runOnUiThread(() -> Toast.makeText(getContext(),
+                                getString(R.string.reset_link_message) + email.getText().toString(),
+                                Toast.LENGTH_SHORT).show());
+                      }).addOnFailureListener(e -> {
+                          if(getActivity() != null)
+                              getActivity().runOnUiThread(() -> Toast.makeText(getContext(),
+                                      R.string.reset_link_problem,
+                                      Toast.LENGTH_SHORT).show());
+                      });
+            } else {
+                Toast.makeText(getContext(), R.string.restore_password_error,
+                        Toast.LENGTH_SHORT).show();
             }
+
+            if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
+                requireActivity().getSupportFragmentManager().popBackStack();
         });
         return view;
     }

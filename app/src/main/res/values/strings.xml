@@ -38,4 +38,12 @@
     <string name="follow_btn">Follow</string>
     <string name="likes_tv">" likes"</string>
     <string name="commented_quote">"commented: "</string>
+    <string name="uploading_failed">Uploading failed!</string>
+    <string name="no_image_selected">No image selected!</string>
+    <string name="changes_saved">Changes saved!</string>
+    <string name="restore_password_error">Email address cannot be empty!</string>
+    <string name="reset_link_message">"Reset link has been sent to "</string>
+    <string name="reset_link_problem">Problem sending a reset link!</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="forgot_your_password">Forgot your password?</string>
 </resources>

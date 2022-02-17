@@ -57,12 +57,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        HubDatabase.getUser(new UserCallback() {
-            @Override
-            public void consume(User user, FirebaseFirestoreException err) {
-                System.out.println(user);
-            }
-        });
+        HubDatabase.getUser((user, err) -> System.out.println(user));
     }
 
     /**
@@ -81,7 +76,6 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     followingList.add(snapshot.getKey());
                 }
-
                 getPostsOfFollowedUsers();
             }
 
