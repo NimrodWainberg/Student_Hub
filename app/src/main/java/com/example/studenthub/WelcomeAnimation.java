@@ -35,6 +35,6 @@ public class WelcomeAnimation extends AppCompatActivity {
 
             // kill the intent
             finish();
-        }, 3000);
+        }, 5000);
     }
 }
