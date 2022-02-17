@@ -1,5 +1,4 @@
 package com.example.studenthub.Model;
-import com.example.studenthub.Fragment.HubDatabase;
 
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class User {
         // Default empty constructor
     }
 
-    public User(Map<String,Object> data) {
+    public User(Map<String, Object> data) {
         this.username = (String) data.get("username");
         this.imageUrl = (String) data.get("imageUrl");
         this.bio = (String) data.get("bio");

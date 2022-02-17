@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -17,10 +18,12 @@ import com.example.studenthub.Model.Notification;
 import com.example.studenthub.Model.Post;
 import com.example.studenthub.Model.User;
 import com.example.studenthub.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 import java.util.Objects;
@@ -49,7 +52,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.notificationText.setText(notification.getText());
         getUserinfo(holder.image_profile, holder.username, notification.getUserId());
 
-        // Notification could be either post or liked picture
+        // Notification could be either a new follow or liked picture
         if (notification.isPost()){
             holder.post_image.setVisibility(View.VISIBLE);
             getPostImage(holder.post_image,notification.getPostId());
@@ -61,12 +64,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
 
             if (notification.isPost()) {
-                editor.putString("postid",notification.getPostId());
+                editor.putString("postid", notification.getPostId());
                 editor.apply();
 
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PostDetailFragment()).commit();
-            } else {
+            } else { // if liked picture
 
                 editor.putString("profileid",notification.getUserId());
                 editor.apply();
@@ -89,24 +92,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             image_profile = itemView.findViewById(R.id.image_profile);
             post_image = itemView.findViewById(R.id.post_image);
             notificationText = itemView.findViewById(R.id.comment);
             username = itemView.findViewById(R.id.username);
-
         }
     }
 
     private void getUserinfo(ImageView imageView, TextView username, String publisherid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(publisherid);
-        reference.addValueEventListener(new ValueEventListener() {
+        final Query query = FirebaseDatabase.getInstance().getReference("users").child(publisherid);
+        query.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 User user = snapshot.getValue(User.class);
                 Glide.with(mContext).load(user.getImageUrl()).into(imageView);
                 username.setText(user.getUsername());
             }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}

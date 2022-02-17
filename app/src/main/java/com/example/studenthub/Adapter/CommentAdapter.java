@@ -2,7 +2,6 @@ package com.example.studenthub.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,6 @@ import com.example.studenthub.MainActivity;
 import com.example.studenthub.Model.Comment;
 import com.example.studenthub.Model.User;
 import com.example.studenthub.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +46,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
     @NonNull
     @Override
     public CommentAdapter.ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.comment_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.notification, parent, false);
         return new CommentAdapter.ImageViewHolder(view);
     }
 
@@ -121,7 +118,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
      */
     private void getUserInfo(final ImageView imageView, TextView username, String publisherid) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(publisherid);
+                .child("users").child(publisherid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

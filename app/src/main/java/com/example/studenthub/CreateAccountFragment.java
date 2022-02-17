@@ -114,7 +114,7 @@ public class CreateAccountFragment extends Fragment {
                         firebaseDatabase = FirebaseDatabase.getInstance();
                         reference = firebaseDatabase.getReference().child("users");
 
-                        reference.child(usernameString).setValue(newUser).addOnCompleteListener(addUserTask -> {
+                        reference.child(userID).setValue(newUser).addOnCompleteListener(addUserTask -> {
                             if(addUserTask.isSuccessful()){
                                 Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
                                 dialog.dismiss();

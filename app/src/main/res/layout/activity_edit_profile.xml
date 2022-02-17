@@ -64,7 +64,7 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/image_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -106,13 +106,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/bio_layout"
+            android:id="@+id/edit_profile_username_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="25dp"
             android:layout_marginBottom="5dp"
             android:gravity="center"
             app:boxStrokeColor="@color/black"
@@ -120,30 +119,28 @@
             tools:ignore="RtlSymmetry">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_profile_bio"
+                android:id="@+id/edit_profile_username_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableTint="@color/black"
-                android:hint="@string/full_name"
+                android:hint="@string/username"
                 android:inputType="text"
                 android:maxLines="2"
                 android:maxLength="20" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
             android:gravity="start"
             android:paddingEnd="30dp"
             app:boxStrokeColor="@color/black"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/Bio"
+                android:id="@+id/edit_profile_bio_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

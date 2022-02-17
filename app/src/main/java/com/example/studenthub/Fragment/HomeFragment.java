@@ -57,7 +57,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        HubDatabase.getUser((user, err) -> System.out.println(user));
     }
 
     /**

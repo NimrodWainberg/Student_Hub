@@ -43,6 +43,9 @@
     <string name="restore_password_error">האימייל לא יכול להיות ריק!</string>
     <string name="reset_link_message">לינק איפוס נשלח ל-</string>
     <string name="reset_link_problem">בעיה בשליחת לינק איפוס!</string>
-    <string name="create_new_account">Create new account</string>
-    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="forgot_your_password">שכחת את הסיסמה?</string>
+    <string name="profile">פרופיל</string>
+    <string name="permission_granted">הרשאה ניתנה!</string>
+    <string name="must_grant_permission">חובה לאשר הרשאות!</string>
+    <string name="create_new_account">צור חשבון חדש</string>
 </resources>

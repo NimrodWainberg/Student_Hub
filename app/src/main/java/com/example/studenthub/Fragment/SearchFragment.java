@@ -79,7 +79,7 @@ public class SearchFragment extends Fragment {
      */
     private void readUsers() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,7 +104,7 @@ public class SearchFragment extends Fragment {
      * @param s User to be found
      */
     private void searchUsers(String s){
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username")
+        Query query = FirebaseDatabase.getInstance().getReference("users").orderByChild("username")
                 .startAt(s).endAt(s+"\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {

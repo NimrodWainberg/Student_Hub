@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     tools:context=".Fragment.ProfileFragment">
 
@@ -23,10 +24,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/username"
+                    android:id="@+id/username_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:text="@string/profile"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -145,15 +147,17 @@
 
                     </LinearLayout>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/edit_profile"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/button_black"
+                        android:layout_marginTop="2dp"
                         android:text="@string/edit_profile"
+                        android:backgroundTint="@color/colorAccent"
                         android:textColor="@color/black"
-                        android:textSize="11sp" />
+                        android:textSize="11sp"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="@color/black"/>
                 </LinearLayout>
             </LinearLayout>
 

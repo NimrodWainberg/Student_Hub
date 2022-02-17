@@ -107,7 +107,6 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:backgroundTint="#1F5165"
-            android:drawableEnd="@drawable/ic_university_icon"
             android:text="@string/login_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textSize="13sp"

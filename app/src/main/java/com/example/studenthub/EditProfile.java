@@ -5,30 +5,29 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.studenthub.Model.User;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -37,10 +36,9 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class EditProfile extends AppCompatActivity {
-
-    ImageView close, image_profile;
+    ImageView close, profilePicture;
     TextView saveBtn, changePictureTv;
-    TextInputEditText fullName, bio;
+    TextInputEditText fullName, username, bio;
     FirebaseUser firebaseUser;
     Uri uri;
     //StorageTask uploadTask;
@@ -54,50 +52,76 @@ public class EditProfile extends AppCompatActivity {
 
         close = findViewById(R.id.close);
         saveBtn = findViewById(R.id.save);
-        image_profile = findViewById(R.id.image_profile);
+        profilePicture = findViewById(R.id.image_profile);
         changePictureTv = findViewById(R.id.tv_change);
         fullName = findViewById(R.id.edit_profile_fullname);
-        bio = findViewById(R.id.edit_profile_bio);
+        username = findViewById(R.id.edit_profile_username_edittext);
+        bio = findViewById(R.id.edit_profile_bio_edittext);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageRef = FirebaseStorage.getInstance().getReference("uploads");
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+
+        final Query query = reference;
+        query.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 // Getting the details of specific user
-                User user = snapshot.getValue(User.class);
-                fullName.setText(Objects.requireNonNull(user).getFullName());
-                bio.setText(user.getBio());
-                Glide.with(getApplicationContext()).load(user.getImageUrl()).into(image_profile);
+                fullName.setText(snapshot.child("fullName").getValue(String.class));
+                username.setText(snapshot.child("username").getValue(String.class));
+                bio.setText(snapshot.child("bio").getValue(String.class));
+                Glide.with(getApplicationContext()).load(snapshot.child("imageUrl").getValue(String.class)).into(profilePicture);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
 
         close.setOnClickListener(view -> finish());
 
-        saveBtn.setOnClickListener(view ->
+        saveBtn.setOnClickListener(view -> updateProfile(Objects.requireNonNull(fullName.getText()).toString(),
+                        Objects.requireNonNull(username.getText()).toString(),
+                        Objects.requireNonNull(bio.getText()).toString()));
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 updateProfile(Objects.requireNonNull(fullName.getText()).toString(),
-                Objects.requireNonNull(bio.getText()).toString()));
+                        Objects.requireNonNull(username.getText()).toString(),
+                        Objects.requireNonNull(bio.getText()).toString());
+                finish();
+            }
+        });
 
         changePictureTv.setOnClickListener(view -> CropImage.activity()
                 .setAspectRatio(1, 1)
                 .setCropShape(CropImageView.CropShape.OVAL)
                 .start(EditProfile.this));
-
-        image_profile.setOnClickListener(view -> CropImage.activity()
-                .setAspectRatio(1, 1)
-                .setCropShape(CropImageView.CropShape.OVAL)
-                .start(EditProfile.this));
     }
 
-    private void updateProfile(String fullName, String bio) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+    private void updateProfile(String fullName, String username, String bio) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getUid());
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("fullname", fullName);
+        map.put("username", username);
         map.put("bio", bio);
 
         reference.updateChildren(map);
@@ -134,7 +158,7 @@ public class EditProfile extends AppCompatActivity {
 
                     // Update image url on DataBase
                     DatabaseReference reference = FirebaseDatabase.getInstance()
-                            .getReference("Users").child(firebaseUser.getUid());
+                            .getReference("users").child(firebaseUser.getUid());
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("imageurl", "" + updatedUrl);
                     reference.updateChildren(map);

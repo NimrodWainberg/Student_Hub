@@ -1,6 +1,7 @@
 package com.example.studenthub;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,10 +22,12 @@ import com.example.studenthub.Model.Comment;
 import com.example.studenthub.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -126,7 +129,7 @@ public class CommentsActivity extends AppCompatActivity {
      * A function that gets the profile picture of a specific user
      */
     private void getImage(){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users")
                 .child(firebaseUser.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -146,21 +149,35 @@ public class CommentsActivity extends AppCompatActivity {
      */
     private void getComments(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
-
-        reference.addValueEventListener(new ValueEventListener() {
+        final Query query = reference;
+        query.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 commentList.clear();
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Comment comment = snapshot1.getValue(Comment.class);
-                    commentList.add(comment);
-                }
+                if(snapshot.getValue() != null){
+                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                        Comment comment = snapshot1.getValue(Comment.class);
+                        commentList.add(comment);
+                    }
 
-               commentAdapter.notifyDataSetChanged();
+                    commentAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(CommentsActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 }
