@@ -36,7 +36,7 @@ public class ForgotPasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
 
-        email = view.findViewById(R.id.forgot_password_email_edit_text);
+        email = view.findViewById(R.id.username_layout);
         restore_btn = view.findViewById(R.id.restore_password_material_btn);
 
         restore_btn.setOnClickListener(v -> {
