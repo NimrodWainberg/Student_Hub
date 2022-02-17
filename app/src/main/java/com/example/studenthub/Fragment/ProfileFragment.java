@@ -45,7 +45,6 @@ import java.util.Objects;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment {
-
     ImageView profilePicture, exitApp;
     TextView posts, followers, following, fullname, bio, username;
     Button edit_profile;
@@ -62,7 +61,8 @@ public class ProfileFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         SharedPreferences prefs = requireContext().getSharedPreferences("PREFS", MODE_PRIVATE);
-        id = prefs.getString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        //id = prefs.getString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         profilePicture = view.findViewById(R.id.image_profile);
         exitApp = view.findViewById(R.id.exit_app);
@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment {
         getFollowers();
         getNumberOfPosts();
         getPhotos();
-
 
         // If a user looks at his own profile
         if (id.equals(firebaseUser.getUid())) {
@@ -137,8 +136,37 @@ public class ProfileFragment extends Fragment {
     }
 
     private void userInfo() {
-        final Query query = FirebaseDatabase.getInstance().getReference("users").child(id);
-        query.addChildEventListener(new ChildEventListener() {
+        final Query query = FirebaseDatabase.getInstance().getReference("users");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    User b = data.getValue(User.class);
+                    if(b.getId()!=null)
+                        if (b.getId().equals(id)) {
+                        String fullNameUpdate = b.getFullName();
+                        String userNameUpdate = b.getUsername();
+                        String bioUpdate = b.getBio();
+                        String uriUpdate = b.getImageUrl();
+
+                        fullname.setText(fullNameUpdate);
+                        username.setText(userNameUpdate);
+                        bio.setText(bioUpdate);
+                        Glide.with(getContext()).load(uriUpdate).into(profilePicture);
+
+                    }
+                }
+                return;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (getContext() == null) {
@@ -175,7 +203,7 @@ public class ProfileFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
     }
 
     /**

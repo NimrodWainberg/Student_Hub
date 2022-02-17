@@ -109,7 +109,7 @@ public class CreateAccountFragment extends Fragment {
                         userID = Objects.requireNonNull(firebaseUser).getUid();
 
                         User newUser = new User(usernameString, emailString, fullNameString,
-                                getString(R.string.image_url_link),"Bio");
+                                getString(R.string.image_url_link),"Bio", userID);
 
                         firebaseDatabase = FirebaseDatabase.getInstance();
                         reference = firebaseDatabase.getReference().child("users");

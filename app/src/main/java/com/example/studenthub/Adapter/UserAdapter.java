@@ -160,11 +160,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(userid).exists()){ // If user is already followed
-                    //button.setText("Following");
                     button.setText(R.string.following);
                 }
                 else { // If user isn't followed
-                    //button.setText("Follow");
                     button.setText(R.string.follow_btn);
                 }
             }

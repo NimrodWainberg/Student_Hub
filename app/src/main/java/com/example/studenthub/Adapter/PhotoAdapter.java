@@ -48,8 +48,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new PostDetailFragment()).commit();
         });
-
-
     }
 
     @Override

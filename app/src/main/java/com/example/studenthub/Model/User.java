@@ -10,13 +10,21 @@ public class User {
     private String bio;
     private String id;
 
-
-    public User(String username, String email, String fullName, String imageUrl, String bio) {
+    /*public User(String username, String email, String fullName, String imageUrl, String bio) {
         this.username = username;
         this.email = email;
         this.fullName = fullName;
         this.imageUrl = imageUrl;
         this.bio = bio;
+    }*/
+
+    public User(String username, String email, String fullName, String imageUrl, String bio,String id) {
+        this.username = username;
+        this.email = email;
+        this.fullName = fullName;
+        this.imageUrl = imageUrl;
+        this.bio = bio;
+        this.id = id;
     }
 
     public User() {
