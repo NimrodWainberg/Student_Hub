@@ -1,37 +1,51 @@
 package com.example.studenthub;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity {
 
-    Uri mImageUri;
-    String miUrlOk = "";
-    StorageTask<UploadTask.TaskSnapshot> task;
-    StorageReference storageReference;
-    DatabaseReference reference;
+
+
+
+    FloatingActionButton camera, gallery;
+    ActivityResultLauncher<Uri> cameraResultLauncher;
+    ActivityResultLauncher<String> galleryResultLauncher;
+    ActivityResultLauncher<String> permissionsLauncher;
+    StorageReference storageRef, fileReference;
+    DatabaseReference photosFolderReference;
+    UploadTask task;
+    File picFile;
+    Uri uri;
     ImageView close, image;
     TextView post;
     EditText description;
@@ -41,26 +55,67 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        close = findViewById(R.id.close);
-        image = findViewById(R.id.image_added);
-        post = findViewById(R.id.post);
-        description = findViewById(R.id.description);
+        initViews();
+        initListeners();
+        initLaunchers();
 
-        storageReference = FirebaseStorage.getInstance().getReference("Posts");
+        storageRef = FirebaseStorage.getInstance().getReference("Posts");
 
-        close.setOnClickListener(view -> {startActivity(new Intent(PostActivity.this, MainActivity.class));
+        close.setOnClickListener(view -> {
+            startActivity(new Intent(PostActivity.this, MainActivity.class));
             finish();
         });
 
         post.setOnClickListener(view -> uploadImage());
-
-        CropImage.activity().setAspectRatio(1,1).start(PostActivity.this);
     }
 
-    private String getFileExtension(Uri uri){
+    private void initViews() {
+        close = findViewById(R.id.close);
+        image = findViewById(R.id.image_added);
+        post = findViewById(R.id.post);
+        description = findViewById(R.id.description);
+        camera = findViewById(R.id.upload_pic_camera);
+        gallery = findViewById(R.id.upload_pic_gallery);
+    }
+
+    private void initListeners() {
+        gallery.setOnClickListener(v -> galleryResultLauncher.launch("image/*"));
+
+        camera.setOnClickListener(v -> {
+            picFile = new File(getApplicationContext() // Creating a new file to insert the URI into
+                    .getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "Photo" + System.currentTimeMillis() + ".jpg");
+            uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", picFile);
+
+            cameraResultLauncher.launch(uri);
+        });
+    }
+
+    private void initLaunchers(){
+        cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
+            // True if image saved into given URI
+            if(result){
+                Glide.with(getApplicationContext()).load(picFile.getAbsoluteFile()).into(image);
+            }
+        });
+
+        galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
+            uri = result;
+            Glide.with(getApplicationContext()).load(result).into(image);
+
+            // לבדוק העלאה כפולה
+        });
+    }
+
+    /**
+     * A function that gets File type
+     * @param uri uri to be checked
+     * @return String of file type
+     */
+    private String getFileType(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
     private void uploadImage(){
@@ -68,11 +123,19 @@ public class PostActivity extends AppCompatActivity {
         pd.setMessage("Uploading");
         pd.show();
 
-        if (mImageUri != null){
-            final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    + "." + getFileExtension(mImageUri));
+        if (uri != null){
+            // Creating file name according to System's version
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) { // if picture taken
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                fileReference = storageRef.child("Picture" + dtf.format(now) + "." + getFileType(uri));
+            }
+            else {
+                fileReference = storageRef.child("Picture" + System.currentTimeMillis()
+                        + "." + getFileType(uri));
+            }
 
-            task = fileReference.putFile(mImageUri);
+            task = fileReference.putFile(uri);
             task.continueWithTask(task -> {
                 if (!task.isSuccessful()) {
                     throw Objects.requireNonNull(task.getException());
@@ -81,19 +144,19 @@ public class PostActivity extends AppCompatActivity {
             }).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    miUrlOk = Objects.requireNonNull(downloadUri).toString();
+                    String imageUri = Objects.requireNonNull(downloadUri).toString();
 
-                    reference = FirebaseDatabase.getInstance().getReference("Posts");
+                    photosFolderReference = FirebaseDatabase.getInstance().getReference("Posts");
 
-                    String postId = reference.push().getKey();
+                    String postId = photosFolderReference.push().getKey();
 
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("postId", postId);
-                    hashMap.put("postImage", miUrlOk);
+                    hashMap.put("postImage", imageUri);
                     hashMap.put("description", description.getText().toString());
                     hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                    reference.child(postId).setValue(hashMap);
+                    photosFolderReference.child(postId).setValue(hashMap);
 
                     pd.dismiss();
 
@@ -101,7 +164,7 @@ public class PostActivity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Toast.makeText(this, getString(R.string.failed_to_post), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, getString(R.string.failed_to_post), Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(e -> Toast.makeText(PostActivity.this, e.getMessage(),
                     Toast.LENGTH_SHORT).show());
@@ -112,20 +175,5 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            mImageUri = result.getUri();
-            image.setImageURI(mImageUri);
-
-        } else { // In this case there's an error, open MainActivity again
-            Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(PostActivity.this, MainActivity.class));
-            finish();
-        }
-    }
 
 }

@@ -85,8 +85,7 @@
         android:layout_marginTop="15dp"
         android:backgroundTint="#1951A8"
         android:src="@drawable/ic_add_a_photo_material"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck">
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_picture_gallery"

@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.studenthub.Fragment.PostDetailFragment;
 import com.example.studenthub.Model.Post;
@@ -19,8 +21,8 @@ import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Post> mposts;
+    private final Context context;
+    private final List<Post> mposts;
 
     public PhotoAdapter(Context context, List<Post> mposts) {
         this.context = context;

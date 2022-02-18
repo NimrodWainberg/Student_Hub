@@ -2,17 +2,14 @@ package com.example.studenthub;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -20,10 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,8 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -58,8 +49,7 @@ public class EditProfile extends AppCompatActivity {
     Uri uri;
     File picFile;
     UploadTask uploadTask;
-    StorageReference storageRef;
-    StorageReference fileReference;
+    StorageReference storageRef, fileReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,40 +103,31 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void initLaunchers(){
-        cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
-            @Override
-            public void onActivityResult(Boolean result) { // True if image saved into given URI
-                if(result){
-                    Glide.with(getApplicationContext()).load(picFile.getAbsoluteFile()).into(profilePicture);
-
-                    uploadPictureToStorage();
-                }
-            }
-        });
-
-        galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri result) {
-                uri = result;
-                Glide.with(getApplicationContext()).load(result).into(profilePicture);
+        cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> { // True if image saved into given URI
+            if(result){
+                Glide.with(getApplicationContext()).load(picFile.getAbsoluteFile()).into(profilePicture);
 
                 uploadPictureToStorage();
             }
         });
 
-        permissionsLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
-            @Override
-            public void onActivityResult(Boolean result) {
-                String string;
-                if (result) {
-                    string = getResources().getString(R.string.permission_granted);
-                }
-                else {
-                    string = getResources().getString(R.string.must_grant_permission);
-                }
-                Toast.makeText(getApplicationContext(), string+"", Toast.LENGTH_SHORT).show();
-            }
+        galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
+            uri = result;
+            Glide.with(getApplicationContext()).load(result).into(profilePicture);
+
+            uploadPictureToStorage();
         });
+/*
+        permissionsLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
+            String string;
+            if (result) {
+                string = getResources().getString(R.string.permission_granted);
+            }
+            else {
+                string = getResources().getString(R.string.must_grant_permission);
+            }
+            Toast.makeText(getApplicationContext(), string+"", Toast.LENGTH_SHORT).show();
+        });*/
     }
 
     private void initViews() {
@@ -243,20 +224,4 @@ public class EditProfile extends AppCompatActivity {
             Toast.makeText(EditProfile.this, R.string.no_image_selected, Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // TODO change, onActivityResult is deprecated
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            uri = result.getUri();
-
-            uploadPictureToStorage();
-
-        } else {
-            Toast.makeText(EditProfile.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
-        }
-    }*/
 }

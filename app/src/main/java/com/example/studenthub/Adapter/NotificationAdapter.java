@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.studenthub.Fragment.PostDetailFragment;
 import com.example.studenthub.Fragment.ProfileFragment;
@@ -18,20 +19,19 @@ import com.example.studenthub.Model.Notification;
 import com.example.studenthub.Model.Post;
 import com.example.studenthub.Model.User;
 import com.example.studenthub.R;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
-import java.util.Objects;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
-    private Context mContext;
-    private List <Notification> mNotification;
+    private final Context mContext;
+    private final List <Notification> mNotification;
 
     public NotificationAdapter(Context mContext, List<Notification> mNotifications) {
         this.mContext = mContext;

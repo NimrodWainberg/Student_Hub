@@ -3,13 +3,15 @@ package com.example.studenthub.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
 import com.example.studenthub.Adapter.PostAdapter;
 import com.example.studenthub.Model.Post;
 import com.example.studenthub.R;
@@ -37,9 +39,6 @@ public class PostDetailFragment extends Fragment {
 
         SharedPreferences preferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         userId = preferences.getString("postid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         setViewsAndInitializeComponents(view);
         readPosts();

@@ -1,18 +1,13 @@
 package com.example.studenthub;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,10 +19,8 @@ import com.example.studenthub.Fragment.NotificationFragment;
 import com.example.studenthub.Fragment.ProfileFragment;
 import com.example.studenthub.Fragment.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -36,8 +29,10 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser;
+
     // Listener- listen when users logged in / out
     FirebaseAuth.AuthStateListener mAuthListener;
+
     StorageReference storageReference;
     DrawerLayout drawerLayout;
     BottomNavigationView bottom_navigation;
@@ -60,15 +55,13 @@ public class MainActivity extends AppCompatActivity {
         mAuth.removeAuthStateListener(mAuthListener);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawerLayout = findViewById(R.id.drawer_layout);
         storageReference = FirebaseStorage.getInstance().getReference();
-        final View view = getLayoutInflater().inflate(R.layout.guest_dailog, null);
-        Button login = view.findViewById(R.id.dialog_login);
-        Button got_it = view.findViewById(R.id.dialog_got_it);
 
         // Set toolbar and menu icon
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -81,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
             // getCurrentUser - function we can get the currently registered user as an
             // instance of FirebaseUser class
             firebaseUser = firebaseAuth.getCurrentUser();
-            //Log.d("Language111", ""+firebaseUser.getEmail());
         };
         // Dialog Animation
         Dialog dialog = new Dialog(MainActivity.this);
@@ -124,14 +116,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.nav_profile:
-
                     // Check if user is logged in
-                   // Toast.makeText(MainActivity.this, ""+firebaseUser,Toast.LENGTH_LONG).show();
                     if (firebaseUser.getEmail() == null) {
                         dialog.show();
                     }
                     else {
-
                         SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                         editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         editor.apply();

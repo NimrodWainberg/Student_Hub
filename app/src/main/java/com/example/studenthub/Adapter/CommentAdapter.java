@@ -27,14 +27,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
-import java.util.Objects;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageViewHolder> {
 
-    private Context mContext;
-    private List<Comment> mComment;
-    private String postId;
+    private final Context mContext;
+    private final List<Comment> mComment;
+    private final String postId;
     private FirebaseUser firebaseUser;
 
     public CommentAdapter(Context context, List<Comment> comments, String postId) {
