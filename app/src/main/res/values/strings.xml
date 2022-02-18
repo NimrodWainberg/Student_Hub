@@ -54,4 +54,8 @@
     <string name="all_fields_required">All fields are required!</string>
     <string name="sign_in_failed">Sign in failed</string>
     <string name="failed_to_post">Failed to post!</string>
+    <string name="login_dialog">Login</string>
+    <string name="dialog_cancel">Got it</string>
+    <string name="guest_dialog_text">You need to login first</string>
+
 </resources>
