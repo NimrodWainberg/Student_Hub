@@ -68,7 +68,8 @@
                 android:drawableEnd="@drawable/ic_baseline_mail_24"
                 android:hint="@string/e_mail_address"
                 android:inputType="textEmailAddress"
-                android:maxLength="25"/>
+                android:maxLength="25"
+                android:textColorHint="#212121" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -96,7 +97,8 @@
                 android:drawableTint="@color/black"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:maxLength="12" />
+                android:maxLength="12"
+                android:textColorHint="#212121" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -109,6 +111,7 @@
             android:backgroundTint="#1F5165"
             android:text="@string/login_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            android:textColor="#90CAF9"
             android:textSize="13sp"
             app:cornerRadius="40dp">
         </com.google.android.material.button.MaterialButton>
@@ -124,6 +127,7 @@
             android:backgroundTint="#1F5165"
             android:text="@string/login_anonymous_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            android:textColor="#90CAF9"
             android:textSize="13sp"
             app:cornerRadius="40dp">
         </com.google.android.material.button.MaterialButton>
@@ -146,7 +150,8 @@
             app:layout_constraintTop_toBottomOf="@+id/login_button"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/login" />
+            app:lottie_rawRes="@raw/login"
+            tools:ignore="ImageContrastCheck" />
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

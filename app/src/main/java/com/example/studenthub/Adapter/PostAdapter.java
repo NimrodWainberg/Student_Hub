@@ -33,28 +33,28 @@ import java.util.Objects;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
-    private Context mContext;
-    private List<Post> mPosts;
+    private Context context;
+    private List<Post> posts;
     private FirebaseUser firebaseUser;
 
-    public PostAdapter(Context mContext, List<Post> mPosts) {
-        this.mContext = mContext;
-        this.mPosts = mPosts;
+    public PostAdapter(Context context, List<Post> posts) {
+        this.context = context;
+        this.posts = posts;
     }
 
     @NonNull
     @Override
     public PostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.post_item, parent, false);
         return new PostAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final Post post = mPosts.get(position);
+        Post post = posts.get(position);
 
-        Glide.with(mContext).load(post.getPostImage()).into(holder.posted_picture);
+        Glide.with(context).load(post.getPostImage()).into(holder.posted_picture);
         
         if (post.getDescription().equals("")){
             holder.description.setVisibility(View.GONE);
@@ -80,53 +80,53 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         });
 
         holder.comment.setOnClickListener(view -> {
-            Intent intent = new Intent(mContext, CommentsActivity.class);
+            Intent intent = new Intent(context, CommentsActivity.class);
             intent.putExtra("postId", post.getPostId());
             intent.putExtra("publisherid", post.getPublisher());
-            mContext.startActivity(intent);
+            context.startActivity(intent);
         });
 
         holder.comments.setOnClickListener(view -> {
-            Intent intent = new Intent(mContext, CommentsActivity.class);
+            Intent intent = new Intent(context, CommentsActivity.class);
             intent.putExtra("postId",post.getPostId());
             intent.putExtra("publisherid",post.getPublisher());
-            mContext.startActivity(intent);
+            context.startActivity(intent);
         });
 
 
         holder.smallProfilePic.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
             editor.putString("profileid",post.getPublisher());
             editor.apply();
 
-            ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ProfileFragment()).commit();
         });
 
         holder.publisher.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
             editor.putString("profileid",post.getPublisher());
             editor.apply();
 
-            ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ProfileFragment()).commit();
         });
 
         holder.username.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
             editor.putString("profileid",post.getPublisher());
             editor.apply();
 
-            ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ProfileFragment()).commit();
         });
 
         holder.posted_picture.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
             editor.putString("postId",post.getPostId());
             editor.apply();
 
-            ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new PostDetailFragment()).commit();
         });
 
@@ -134,7 +134,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mPosts.size();
+        return posts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -164,7 +164,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                comments.setText(mContext.getString(R.string.view_all) + snapshot.getChildrenCount() + mContext.getString(R.string.comments_quote));
+                comments.setText(context.getString(R.string.view_all) + snapshot.getChildrenCount() + context.getString(R.string.comments_quote));
             }
 
             @Override
@@ -202,7 +202,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         HashMap <String,Object> hashMap = new HashMap<>();
         hashMap.put("userid", firebaseUser.getUid());
-        hashMap.put("text", mContext.getString(R.string.liked_your_post_quote));
+        hashMap.put("text", context.getString(R.string.liked_your_post_quote));
         hashMap.put("postId", postId);
         hashMap.put("ispost", true);
 
@@ -221,7 +221,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String numberOfLikes = mContext.getString(R.string.likes_tv);
+                String numberOfLikes = context.getString(R.string.likes_tv);
                 likes.setText(snapshot.getChildrenCount() + numberOfLikes);
             }
 
@@ -243,7 +243,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                Glide.with(mContext).load(user.getImageUrl()).into(image_profile);
+                Glide.with(context).load(user.getImageUrl()).into(image_profile);
                 publisher.setText(user.getFullName());
                 username.setText(user.getUsername());
             }

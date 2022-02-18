@@ -40,10 +40,14 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/post"
             android:layout_toEndOf="@+id/comment_profile_picture"
             android:background="@color/lightPink"
-            android:layout_toStartOf="@id/post"
-            android:hint="@string/add_a_comment" />
+            android:hint="@string/add_a_comment"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#455A64" />
 
         <TextView
             android:id="@+id/post"

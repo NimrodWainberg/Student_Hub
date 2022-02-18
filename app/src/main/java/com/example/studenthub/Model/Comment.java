@@ -1,5 +1,8 @@
 package com.example.studenthub.Model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class Comment {
 
     private String comment;

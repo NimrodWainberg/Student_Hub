@@ -27,33 +27,34 @@
                     android:id="@+id/close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_close"/>
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_close"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edit_profile_headline"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/close"
+                    android:fontFamily="@font/bitter"
                     android:text="@string/edit_profile"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="14dp"
                     android:text="@string/save_text"
+                    android:fontFamily="@font/bitter"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -66,20 +67,39 @@
 
         <ImageView
             android:id="@+id/edit_profile_profile_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="190dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_university_icon"/>
+            tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/tv_change"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/change_photo_text"
-            android:textColor="@color/colorAccent"
-            android:textSize="16sp"/>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_picture_camera"
+        android:layout_width="57dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="#1951A8"
+        android:src="@drawable/ic_add_a_photo_material"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_picture_gallery"
+        android:layout_width="57dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@id/add_picture_camera"
+        android:backgroundTint="#1951A8"
+        android:src="@drawable/ic_gallery_black_24dp"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+</RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fullname_layout"
@@ -99,10 +119,10 @@
                 android:id="@+id/edit_profile_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableTint="@color/black"
                 android:hint="@string/full_name"
                 android:inputType="text"
-                android:maxLength="15" />
+                android:maxLength="15"
+                android:textColorHint="#212121" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -122,11 +142,11 @@
                 android:id="@+id/edit_profile_username_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableTint="@color/black"
                 android:hint="@string/username"
                 android:inputType="text"
+                android:maxLength="20"
                 android:maxLines="2"
-                android:maxLength="20" />
+                android:textColorHint="#212121" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -136,8 +156,8 @@
             android:layout_marginStart="40dp"
             android:gravity="start"
             android:paddingEnd="30dp"
-            app:boxStrokeColor="@color/black"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            tools:ignore="RtlSymmetry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_profile_bio_edittext"
@@ -145,9 +165,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginEnd="10dp"
-                android:drawableTint="@color/black"
                 android:hint="@string/bio_hint"
-                android:maxLength="20"/>
+                android:maxLength="20"
+                android:textColorHint="#212121"
+                tools:ignore="RtlHardcoded" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </LinearLayout>

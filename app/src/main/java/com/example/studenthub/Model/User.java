@@ -1,7 +1,10 @@
 package com.example.studenthub.Model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.Map;
 
+@IgnoreExtraProperties
 public class User {
     private String username;
     private String email;
@@ -10,7 +13,7 @@ public class User {
     private String bio;
     private String id;
 
-    public User(String username, String email, String fullName, String imageUrl, String bio,String id) {
+    public User(String username, String email, String fullName, String imageUrl, String bio, String id) {
         this.username = username;
         this.email = email;
         this.fullName = fullName;

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -147,28 +148,30 @@ public class CommentsActivity extends AppCompatActivity {
      */
     private void getComments(){
         final Query query = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
+
         query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(getApplicationContext() == null)
-                    return;
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (getApplicationContext() == null)
+                        return;
 
-                commentList.clear();
-                if(snapshot.getValue() != null){
-                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                        Comment comment = snapshot1.getValue(Comment.class);
-                        commentList.add(comment);
+                    commentList.clear();
+                    if (snapshot.getValue() != null) {
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            Comment comment = snapshot1.getValue(Comment.class);
+                            commentList.add(comment);
+                        }
+
+                        commentAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(CommentsActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
                     }
-
-                    commentAdapter.notifyDataSetChanged();
                 }
-                else{
-                    Toast.makeText(CommentsActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+
     }
 }
