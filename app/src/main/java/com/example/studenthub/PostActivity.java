@@ -1,5 +1,6 @@
 package com.example.studenthub;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -66,7 +67,9 @@ public class PostActivity extends AppCompatActivity {
             finish();
         });
 
-        post.setOnClickListener(view -> uploadImage());
+        post.setOnClickListener(view -> {
+            uploadImage();
+        });
     }
 
     private void initViews() {
@@ -119,9 +122,14 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void uploadImage(){
-        ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Uploading");
-        pd.show();
+        // Dialog Animation
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.post_wall);
+        dialog.show();
+
+//        ProgressDialog pd = new ProgressDialog(this);
+//        pd.setMessage("Uploading");
+//        pd.show();
 
         if (uri != null){
             // Creating file name according to System's version
@@ -158,7 +166,7 @@ public class PostActivity extends AppCompatActivity {
 
                     photosFolderReference.child(postId).setValue(hashMap);
 
-                    pd.dismiss();
+                    dialog.dismiss();
 
                     startActivity(new Intent(PostActivity.this, MainActivity.class));
                     finish();
@@ -171,7 +179,7 @@ public class PostActivity extends AppCompatActivity {
 
         } else {
             Toast.makeText(PostActivity.this, getString(R.string.no_image_selected), Toast.LENGTH_SHORT).show();
-            pd.dismiss();
+            dialog.dismiss();
         }
     }
 

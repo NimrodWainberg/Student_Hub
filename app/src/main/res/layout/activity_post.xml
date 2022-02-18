@@ -74,8 +74,7 @@
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#1951A8"
                 android:src="@drawable/ic_add_a_photo_material"
-                tools:ignore="ContentDescription,SpeakableTextPresentCheck">
-            </com.google.android.material.floatingactionbutton.FloatingActionButton>
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/upload_pic_gallery"
@@ -86,8 +85,7 @@
                 android:layout_toEndOf="@id/upload_pic_camera"
                 android:backgroundTint="#1951A8"
                 android:src="@drawable/ic_gallery_black_24dp"
-                tools:ignore="ContentDescription,SpeakableTextPresentCheck">
-            </com.google.android.material.floatingactionbutton.FloatingActionButton>
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck"></com.google.android.material.floatingactionbutton.FloatingActionButton>
         </RelativeLayout>
 
 
