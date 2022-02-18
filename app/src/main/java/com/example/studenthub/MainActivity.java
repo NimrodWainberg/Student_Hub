@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenthub.Fragment.HomeFragment;
 import com.example.studenthub.Fragment.NotificationFragment;
@@ -76,8 +77,12 @@ public class MainActivity extends AppCompatActivity {
             firebaseUser = firebaseAuth.getCurrentUser();
         };
         // Dialog Animation
-        Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.guest_dailog);
+       // dialog.setContentView(R.layout.guest_dailog);
+       // final View view = getLayoutInflater().inflate(R.layout.guest_dailog, null);
+       // Button login = view.findViewById(R.id.dialog_login);
+        //Button got_it = view.findViewById(R.id.dialog_got_it);
+
+
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
         bottom_navigation.setOnItemSelectedListener(item -> {
@@ -87,15 +92,14 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_search:
                     if (firebaseUser.getEmail() == null) {
-                        dialog.show();
-                    }
+                        showGuestDialog();                    }
                     else {
                         selectedFragment = new SearchFragment();
                     }
                     break;
                 case R.id.nav_post:
                     if (firebaseUser.getEmail() == null) {
-                        dialog.show();
+                        showGuestDialog();
                     }
                     else {
                         selectedFragment = null;
@@ -104,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_notifications:
                     if (firebaseUser.getEmail() == null) {
-                        dialog.show();
+                        showGuestDialog();
                     }
                     else {
                         if (firebaseUser.getEmail() == null) {
-                            dialog.show();
+                            showGuestDialog();
                         }
                         else {
                             selectedFragment = new NotificationFragment();
@@ -118,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_profile:
                     // Check if user is logged in
                     if (firebaseUser.getEmail() == null) {
-                        dialog.show();
+                        showGuestDialog();
+                        //dialog.show();
                     }
                     else {
                         SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
@@ -152,6 +157,31 @@ public class MainActivity extends AppCompatActivity {
                     new HomeFragment()).commit();
         }
     }
+    public void showGuestDialog() {
+        // Dialog Animation
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.guest_dailog);
+        final View view = getLayoutInflater().inflate(R.layout.guest_dailog, null);
+        Button login = view.findViewById(R.id.dialog_login);
+        Button got_it = view.findViewById(R.id.dialog_got_it);
+
+        dialog.show();
 
 
+        got_it.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(MainActivity.this, Login.class));
+            }
+        });
+    }
 }
