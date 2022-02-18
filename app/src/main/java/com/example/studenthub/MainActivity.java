@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         drawerLayout = findViewById(R.id.drawer_layout);
         storageReference = FirebaseStorage.getInstance().getReference();
+        final View view = getLayoutInflater().inflate(R.layout.guest_dailog, null);
+        Button login = view.findViewById(R.id.dialog_login);
+        Button got_it = view.findViewById(R.id.dialog_got_it);
 
         // Set toolbar and menu icon
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -150,4 +154,6 @@ public class MainActivity extends AppCompatActivity {
                     new HomeFragment()).commit();
         }
     }
+
+
 }

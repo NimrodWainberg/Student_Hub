@@ -62,7 +62,7 @@
             <!--                android:text="@string/delete_button_dialog" />-->
 
             <Button
-                android:id="@+id/cancel_button_dialog"
+                android:id="@+id/dialog_got_it"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                 android:textSize="15sp" />
 
             <Button
-                android:id="@+id/delete_song_button"
+                android:id="@+id/dialog_login"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
