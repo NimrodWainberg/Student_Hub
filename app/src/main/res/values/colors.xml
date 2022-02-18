@@ -7,4 +7,7 @@
     <color name="pink">#B65858</color>
     <color name="lightPink">#E6C8C8</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorRed">#C70039</color>
+    <color name="colorBrightGreen">#1DB954</color>
+    <color name="colorGreen">#097969</color>
 </resources>

@@ -1,12 +1,16 @@
 package com.example.studenthub;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -30,19 +34,41 @@ import com.google.firebase.storage.StorageReference;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    FirebaseAuth fAuth;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser;
+    // Listener- listen when users logged in / out
+    FirebaseAuth.AuthStateListener mAuthListener;
     StorageReference storageReference;
     DrawerLayout drawerLayout;
     BottomNavigationView bottom_navigation;
     Fragment selectedFragment = null;
+
+    // When the app is visible to the user
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Add the listener
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    // When the app is no more visible to the user
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove the listener
+        mAuth.removeAuthStateListener(mAuthListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawerLayout = findViewById(R.id.drawer_layout);
-        fAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+        final View view = getLayoutInflater().inflate(R.layout.guest_dailog, null);
+        Button login = view.findViewById(R.id.dialog_login);
+        Button got_it = view.findViewById(R.id.dialog_got_it);
 
         // Set toolbar and menu icon
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -51,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24);
 
+        mAuthListener = firebaseAuth -> {
+            // getCurrentUser - function we can get the currently registered user as an
+            // instance of FirebaseUser class
+            firebaseUser = firebaseAuth.getCurrentUser();
+            //Log.d("Language111", ""+firebaseUser.getEmail());
+        };
+        // Dialog Animation
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.guest_dailog);
+
         bottom_navigation = findViewById(R.id.bottom_navigation);
         bottom_navigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -58,20 +94,49 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                     break;
                 case R.id.nav_search:
-                    selectedFragment = new SearchFragment();
+                    if (firebaseUser.getEmail() == null) {
+                        dialog.show();
+                    }
+                    else {
+                        selectedFragment = new SearchFragment();
+                    }
                     break;
                 case R.id.nav_post:
-                    selectedFragment = null;
-                    startActivity(new Intent(MainActivity.this,PostActivity.class));
+                    if (firebaseUser.getEmail() == null) {
+                        dialog.show();
+                    }
+                    else {
+                        selectedFragment = null;
+                        startActivity(new Intent(MainActivity.this, PostActivity.class));
+                    }
                     break;
                 case R.id.nav_notifications:
-                    selectedFragment = new NotificationFragment();
+                    if (firebaseUser.getEmail() == null) {
+                        dialog.show();
+                    }
+                    else {
+                        if (firebaseUser.getEmail() == null) {
+                            dialog.show();
+                        }
+                        else {
+                            selectedFragment = new NotificationFragment();
+                        }
+                    }
                     break;
                 case R.id.nav_profile:
-                    SharedPreferences.Editor editor = getSharedPreferences("PREFS",MODE_PRIVATE).edit();
-                    editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    editor.apply();
-                    selectedFragment = new ProfileFragment();
+
+                    // Check if user is logged in
+                   // Toast.makeText(MainActivity.this, ""+firebaseUser,Toast.LENGTH_LONG).show();
+                    if (firebaseUser.getEmail() == null) {
+                        dialog.show();
+                    }
+                    else {
+
+                        SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                        editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        editor.apply();
+                        selectedFragment = new ProfileFragment();
+                    }
                     break;
             }
 
@@ -98,4 +163,6 @@ public class MainActivity extends AppCompatActivity {
                     new HomeFragment()).commit();
         }
     }
+
+
 }
