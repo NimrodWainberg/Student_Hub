@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             // getCurrentUser - function we can get the currently registered user as an
             // instance of FirebaseUser class
             firebaseUser = firebaseAuth.getCurrentUser();
-            Log.d("Language111", ""+firebaseUser.getEmail());
+            //Log.d("Language111", ""+firebaseUser.getEmail());
         };
         // Dialog Animation
         Dialog dialog = new Dialog(MainActivity.this);
@@ -102,22 +102,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.nav_post:
-                    selectedFragment = null;
-                    startActivity(new Intent(MainActivity.this,PostActivity.class));
+                    if (firebaseUser.getEmail() == null) {
+                        dialog.show();
+                    }
+                    else {
+                        selectedFragment = null;
+                        startActivity(new Intent(MainActivity.this, PostActivity.class));
+                    }
                     break;
                 case R.id.nav_notifications:
                     if (firebaseUser.getEmail() == null) {
                         dialog.show();
                     }
                     else {
-                        selectedFragment = new NotificationFragment();
+                        if (firebaseUser.getEmail() == null) {
+                            dialog.show();
+                        }
+                        else {
+                            selectedFragment = new NotificationFragment();
+                        }
                     }
                     break;
                 case R.id.nav_profile:
 
                     // Check if user is logged in
-                    Toast.makeText(MainActivity.this, ""+firebaseUser,
-                            Toast.LENGTH_LONG).show();
+                   // Toast.makeText(MainActivity.this, ""+firebaseUser,Toast.LENGTH_LONG).show();
                     if (firebaseUser.getEmail() == null) {
                         dialog.show();
                     }
