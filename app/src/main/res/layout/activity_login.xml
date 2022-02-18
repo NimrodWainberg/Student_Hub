@@ -110,11 +110,11 @@
             android:layout_marginEnd="50dp"
             android:backgroundTint="#1F5165"
             android:text="@string/login_btn"
-            android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textColor="#90CAF9"
             android:textSize="13sp"
-            app:cornerRadius="40dp"></com.google.android.material.button.MaterialButton>
+            app:cornerRadius="40dp">
+        </com.google.android.material.button.MaterialButton>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_anonymous_button"
@@ -126,7 +126,6 @@
             android:layout_marginEnd="50dp"
             android:backgroundTint="#1F5165"
             android:text="@string/login_anonymous_btn"
-            android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
             android:textColor="#90CAF9"
             android:textSize="13sp"

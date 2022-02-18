@@ -12,7 +12,8 @@
         android:background="#3F97BA"
         android:clickable="true"
         android:keepScreenOn="true"
-        tools:context="com.example.studenthub.CreateAccountFragment">
+        tools:context="com.example.studenthub.CreateAccountFragment"
+        tools:ignore="KeyboardInaccessibleWidget">
 
         <TextView
             android:id="@+id/account_creation_tv"
@@ -131,7 +132,8 @@
             android:backgroundTint="#153C4C"
             android:text="@string/create_account"
             android:textSize="13sp"
-            app:cornerRadius="40dp"></com.google.android.material.button.MaterialButton>
+            app:cornerRadius="40dp">
+        </com.google.android.material.button.MaterialButton>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/user_animation"
