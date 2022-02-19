@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.studenthub.Adapter.interfaces.OnEnterChatRoomListener;
 import com.example.studenthub.Model.ChatRoom;
 import com.example.studenthub.Model.User;

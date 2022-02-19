@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:textSize="32dp"
-        android:text="Create Chat Room"/>
+        android:textSize="23sp"
+        android:text="@string/create_room"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_rv"

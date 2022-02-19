@@ -2,7 +2,6 @@ package com.example.studenthub;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -106,21 +105,18 @@ public class MainActivity extends LoadingActivity {
         boolean finalIsConnected = isConnected;
 
         FloatingActionButton chatFab = findViewById(R.id.chat_button);
-        chatFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!finalIsConnected){ // Guest mode connected
-                    selectedFragment = new GuestModeFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).addToBackStack("GuestModeDialog").commit();
-                }
-                else if (getSupportFragmentManager().findFragmentByTag("ChatRoomsFragment") == null) {
-                    ChatRoomsFragment chatRoomsFragment = new ChatRoomsFragment();
-                    MainActivity.this.getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
-                            .add(android.R.id.content, chatRoomsFragment, "ChatRoomsFragment")
-                            .addToBackStack("ChatRoomsFragment").commit();
-                }
+        chatFab.setOnClickListener(view -> {
+            if (!finalIsConnected){ // Guest mode connected
+                selectedFragment = new GuestModeFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        selectedFragment).addToBackStack("GuestModeDialog").commit();
+            }
+            else if (getSupportFragmentManager().findFragmentByTag("ChatRoomsFragment") == null) {
+                ChatRoomsFragment chatRoomsFragment = new ChatRoomsFragment();
+                MainActivity.this.getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                        .add(android.R.id.content, chatRoomsFragment, "ChatRoomsFragment")
+                        .addToBackStack("ChatRoomsFragment").commit();
             }
         });
 

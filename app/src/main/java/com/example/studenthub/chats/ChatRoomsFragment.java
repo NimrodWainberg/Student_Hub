@@ -42,18 +42,15 @@ public class ChatRoomsFragment extends LoadingFragment implements OnEnterChatRoo
         chatRoomsRv.setLayoutManager(new LinearLayoutManager(getContext()));
         addNewChatRoomBtn = view.findViewById(R.id.newChatRoom_btn);
 
-        addNewChatRoomBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getParentFragmentManager().findFragmentByTag("UsersFragment") == null) {
+        addNewChatRoomBtn.setOnClickListener(view1 -> {
+            if (getParentFragmentManager().findFragmentByTag("UsersFragment") == null) {
 
-                    UsersFragment usersFragment = new UsersFragment();
-                    getParentFragmentManager().beginTransaction()
+                UsersFragment usersFragment = new UsersFragment();
+                getParentFragmentManager().beginTransaction()
 
-                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
-                            .add(android.R.id.content, usersFragment, "UsersFragment")
-                            .addToBackStack("UsersFragment").commit();
-                }
+                        .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                        .add(android.R.id.content, usersFragment, "UsersFragment")
+                        .addToBackStack("UsersFragment").commit();
             }
         });
         ProgressDialog progressDialog =  showLoading("Chat Rooms");

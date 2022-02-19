@@ -1,7 +1,6 @@
 package com.example.studenthub.firebase;
 
 
-import android.content.res.Resources;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;

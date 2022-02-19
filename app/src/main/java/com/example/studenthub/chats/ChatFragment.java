@@ -75,28 +75,25 @@ public class ChatFragment extends LoadingFragment {
                 }
             });
 
-            sendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(room ==null)
-                        return;
-                    String content = messageEt.getText().toString();
-                    if(content.isEmpty())
-                        return;
-                    String uid = FirebaseAuth.getInstance().getUid();
-                    String recipientId = room.getOwnerId().equals(uid) ? room.getSecondUserId() : room.getOwnerId();
-                    messagingManager.sendNewMessage(roomId,recipientId , content, new FirebaseCallBack<String>() {
-                        @Override
-                        public void onComplete(String successMessage) {
-                            messageEt.getText().clear();
-                        }
+            sendButton.setOnClickListener(view1 -> {
+                if(room ==null)
+                    return;
+                String content = messageEt.getText().toString();
+                if(content.isEmpty())
+                    return;
+                String uid = FirebaseAuth.getInstance().getUid();
+                String recipientId = room.getOwnerId().equals(uid) ? room.getSecondUserId() : room.getOwnerId();
+                messagingManager.sendNewMessage(roomId,recipientId , content, new FirebaseCallBack<String>() {
+                    @Override
+                    public void onComplete(String successMessage) {
+                        messageEt.getText().clear();
+                    }
 
-                        @Override
-                        public void onFailure(Exception e) {
-                            showToast("There was a problem sending message");
-                        }
-                    });
-                }
+                    @Override
+                    public void onFailure(Exception e) {
+                        showToast("There was a problem sending message");
+                    }
+                });
             });
         }
     }

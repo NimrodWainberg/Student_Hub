@@ -23,7 +23,6 @@
     <string name="save_text">שמור</string>
     <string name="bio_hint">ביו</string>
     <string name="add_a_comment" tools:ignore="TypographyEllipsis">הוסף תגובה...</string>
-    <string name="delete_comment_text">האם ברצונך למחוק את התגובה?</string>
     <string name="comment_deleted">תגובה נמחקה!</string>
     <string name="view_all">צפה ב</string>
     <string name="comments_quote">" תגובות"</string>
@@ -67,11 +66,11 @@
     <string name="create_chat_room">"האם תרצה להתחיל שיחה עם "</string>
     <string name="problem_loading">ישנה בעיה בטעינת העוקבים</string>
     <string name="added_chat_room">"התווסף צ'אט בהצלחה "</string>
-    <string name="deleted_chat_room">חדר צ\'אט נמחק בהצלחה</string>
     <string name="sent_message">הודעה נשלחה בהצלחה</string>
     <string name="chat_room_exists">צ\'אט עם המשתמש כבר קיים</string>
     <string name="finished_caching_users">משיכת המשתמשים נגמרה</string>
     <string name="chat">Chat</string>
     <string name="enter_your_message">Enter your message...</string>
     <string name="send">Send</string>
+    <string name="create_room">Create Chat Room</string>
 </resources>

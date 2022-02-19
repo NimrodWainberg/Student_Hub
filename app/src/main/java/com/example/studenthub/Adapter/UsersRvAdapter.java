@@ -61,11 +61,10 @@ public class UsersRvAdapter extends RecyclerView.Adapter<UsersRvAdapter.UsersVie
     }
 
     public AlertDialog showCreateRoomAlert(Context context, User user) {
-        AlertDialog alert = new AlertDialog.Builder(context)
+        return new AlertDialog.Builder(context)
                 .setTitle("StudentHub")
                 .setMessage("Would you like to create a chat room with " + user.getFullName())
                 .setPositiveButton("Yes", (dialogInterface, i) -> createRoomListener.createRoom(user.getId()))
                 .setNegativeButton("No",null).create();
-        return alert;
     }
 }
