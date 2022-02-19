@@ -49,10 +49,11 @@
     <string name="no">לא</string>
     <string name="guest_dialog_text">נדרשת התחברות</string>
     <string name="comment_cannot_be_empty">תגובה לא יכולה להיות ריקה</string>
-    <string name="sign_in_failed">הכניסה נכשלה</string>
+    <string name="sign_in_failed">ההתחברות נכשלה</string>
     <string name="uploading">מתבצעת העלאה</string>
     <string name="yes">כן</string>
     <string name="startedfollowing">" התחיל לעקוב אחרייך"</string>
     <string name="liked_your_post_quote">" אהב את התמונה"</string>
-    <string name="must_enter_description">You must enter description!</string>
+    <string name="must_enter_description">חובה לכתוב תיאור!</string>
+    <string name="institute">מוסד לימודים</string>
 </resources>

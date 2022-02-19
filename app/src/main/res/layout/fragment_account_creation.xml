@@ -138,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_school_black_24dp"
-                android:hint="@string/bio_hint"
+                android:hint="@string/institute"
                 android:inputType="text"
                 android:maxLength="30" />
         </com.google.android.material.textfield.TextInputLayout>
