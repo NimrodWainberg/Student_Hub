@@ -13,10 +13,7 @@ public class ChatRoom {
     private String ownerId;
     private String secondUserId;
 
-
-
     private HashMap<String,ChatMessage> chatMessages;
-
 
     public ChatRoom(String id,String ownerId,String secondUserId,HashMap<String,ChatMessage> chatMessages) {
         this.ownerId = ownerId;

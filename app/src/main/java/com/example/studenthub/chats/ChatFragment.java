@@ -27,8 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 public class ChatFragment extends LoadingFragment {
-
-
     RecyclerView messagesRv;
     ChatMessagesRvAdapter messagesRvAdapter;
     Button sendButton;
@@ -40,7 +38,8 @@ public class ChatFragment extends LoadingFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chat,container,false);
     }
 
@@ -52,7 +51,7 @@ public class ChatFragment extends LoadingFragment {
         messagesRv = view.findViewById(R.id.chat_rv);
         messagesRv.setLayoutManager(new LinearLayoutManager(getContext()));
         Bundle i = getArguments();
-        ProgressDialog progressDialog =  showLoading("Messages");
+        ProgressDialog progressDialog = showLoading("Messages");
         if(i != null) {
             roomId = i.getString("roomId");
 
@@ -71,18 +70,20 @@ public class ChatFragment extends LoadingFragment {
 
                 @Override
                 public void onFailure(Exception e) {
-                    if(ChatFragment.this.room ==null)  progressDialog.dismiss();
+                    if(ChatFragment.this.room ==null)
+                        progressDialog.dismiss();
                     showToast("There was a problem loading messages");
-                    System.out.println(e.getLocalizedMessage());
                 }
             });
 
             sendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(room ==null) return;
+                    if(room ==null)
+                        return;
                     String content = messageEt.getText().toString();
-                    if(content.isEmpty()) return;
+                    if(content.isEmpty())
+                        return;
                     String uid = FirebaseAuth.getInstance().getUid();
                     String recipientId = room.getOwnerId().equals(uid) ? room.getSecondUserId() : room.getOwnerId();
                     messagingManager.sendNewMessage(roomId,recipientId , content, new FirebaseCallBack<String>() {

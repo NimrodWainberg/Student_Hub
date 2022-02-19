@@ -20,12 +20,9 @@ public class StudentHubApp extends Application {
         super.onCreate();
         startService(new Intent(this, MessagingService.class));
         Log.d("StudentHubApp","Starting messaging service");
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
-            @Override
-            public void onSuccess(String s) {
-                token = s;
-                System.out.println(token);
-            }
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener((OnSuccessListener<String>) s -> {
+            token = s;
+            System.out.println(token);
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {

@@ -56,4 +56,5 @@
     <string name="liked_your_post_quote">" אהב את התמונה"</string>
     <string name="must_enter_description">חובה לכתוב תיאור!</string>
     <string name="institute">מוסד לימודים</string>
+    <string name="notification_channel">ערוץ הצ\'אטים</string>
 </resources>

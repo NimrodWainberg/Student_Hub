@@ -57,5 +57,6 @@
     <string name="yes">Yes</string>
     <string name="must_enter_description">You must enter description!</string>
     <string name="institute">Institute</string>
+    <string name="notification_channel">Chat channel</string>
 
 </resources>

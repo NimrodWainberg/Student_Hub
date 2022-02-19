@@ -20,14 +20,14 @@ public class FollowingManager {
     public static DatabaseReference followingRef = FirebaseDatabase.getInstance().getReference().child("Follow");
     public static DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        public static void follow(String uid1,String uid2) {
+        public static void follow(String uid1, String uid2) {
             followingRef.child(uid1)
                     .child("following").child(uid2).setValue(true);
             followingRef.child(uid2)
                     .child("followers").child(uid1).setValue(true);
         }
 
-    public static void unFollow(String uid1,String uid2) {
+    public static void unFollow(String uid1, String uid2) {
         followingRef.child(uid1)
                 .child("following").child(uid2).removeValue();
         followingRef.child(uid2)
@@ -40,35 +40,28 @@ public class FollowingManager {
         followingRef.child(uid)
                 .child("followers")
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        HashMap<String, Boolean> hash = new HashMap<>();
-                        for (DataSnapshot childSnapShot : dataSnapshot.getChildren()) {
-                            hash.put(childSnapShot.getKey(), true);
-                        }
-                        usersRef.get()
-                                .addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DataSnapshot usersDataSnapshot) {
-                                        List<User> following = new ArrayList<>();
-                                        for (DataSnapshot userChildSnap : usersDataSnapshot.getChildren()) {
-                                            if (hash.containsKey(userChildSnap.getKey()) &&
-                                                    hash.get(userChildSnap.getKey())) {
-                                                User u = userChildSnap.getValue(User.class);
-                                                following.add(u);
-                                            }
-                                        }
-                                        callback.onComplete(following);
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                callback.onFailure(e);
-                            }
-                        });
-
+                .addOnSuccessListener(dataSnapshot -> {
+                    HashMap<String, Boolean> hash = new HashMap<>();
+                    for (DataSnapshot childSnapShot : dataSnapshot.getChildren()) {
+                        hash.put(childSnapShot.getKey(), true);
                     }
+                    usersRef.get().addOnSuccessListener(usersDataSnapshot -> {
+                        List<User> following = new ArrayList<>();
+                        for (DataSnapshot userChildSnap : usersDataSnapshot.getChildren()) {
+                            if (hash.containsKey(userChildSnap.getKey()) &&
+                                    hash.get(userChildSnap.getKey())) {
+                                User u = userChildSnap.getValue(User.class);
+                                following.add(u);
+                            }
+                        }
+                        callback.onComplete(following);
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            callback.onFailure(e);
+                        }
+                    });
+
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override

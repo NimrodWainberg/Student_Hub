@@ -47,40 +47,22 @@ public class MessagingManager {
         String uid = FirebaseAuth.getInstance().getUid();
 
         chatRoomsRef.get()
-                .addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot childSnap : dataSnapshot.getChildren()) {
-                            if ( (((String) childSnap.child("ownerId").getValue()).equals(uid)
-                            && ((String)childSnap.child("secondUserId").getValue()).equals(recipientId))
-                            || (((String)childSnap.child("secondUserId").getValue()).equals(uid)
-                                    && ((String)childSnap.child("ownerId").getValue()).equals(recipientId))) {
-                                callback.onFailure(new Exception("Chat room with this user already exists"));
-                                return;
-                            }
+                .addOnSuccessListener(dataSnapshot -> {
+                    for (DataSnapshot childSnap : dataSnapshot.getChildren()) {
+                        if ( (((String) childSnap.child("ownerId").getValue()).equals(uid)
+                        && ((String)childSnap.child("secondUserId").getValue()).equals(recipientId))
+                        || (((String)childSnap.child("secondUserId").getValue()).equals(uid)
+                                && ((String)childSnap.child("ownerId").getValue()).equals(recipientId))) {
+                            callback.onFailure(new Exception("Chat room with this user already exists"));
+                            return;
                         }
-                        DatabaseReference newRoom = chatRoomsRef.push();
-                        ChatRoom room = new ChatRoom(newRoom.getKey(),uid,recipientId);
-                        newRoom.setValue(room)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        callback.onComplete("Successfully added chat room ");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        callback.onFailure(e);
-                                    }
-                                });
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                callback.onFailure(e);
-            }
-        });
+                    DatabaseReference newRoom = chatRoomsRef.push();
+                    ChatRoom room = new ChatRoom(newRoom.getKey(),uid,recipientId);
+                    newRoom.setValue(room)
+                            .addOnSuccessListener(unused -> callback.onComplete("Successfully added chat room "))
+                            .addOnFailureListener(e -> callback.onFailure(e));
+                }).addOnFailureListener(e -> callback.onFailure(e));
 
     }
     private ValueEventListener userCachingEventListener;
@@ -111,41 +93,19 @@ public class MessagingManager {
 
     public void deleteChatRoom(String id, FirebaseCallBack<String> callback) {
         chatRoomsRef.child(id).removeValue()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        callback.onComplete("Successfully deleted chat room");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callback.onFailure(e);
-                    }
-                });
+                .addOnSuccessListener(unused -> callback.onComplete("Successfully deleted chat room"))
+                .addOnFailureListener(e -> callback.onFailure(e));
     }
 
-    public void sendNewMessage(String roomId,
-                                      String recipientId,
-                                      String messageContent,
+    public void sendNewMessage(String roomId, String recipientId, String messageContent,
                                       FirebaseCallBack<String> callBack) {
         String uid = FirebaseAuth.getInstance().getUid();
         DatabaseReference newMessage = chatRoomsRef.child(roomId).child("chatMessages")
                 .push();
         ChatMessage message = new ChatMessage(newMessage.getKey(),uid,recipientId,messageContent);
         newMessage.setValue(message)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        callBack.onComplete("Successfully sent message" + message);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callBack.onFailure(e);
-                    }
-                });
+                .addOnSuccessListener(unused -> callBack.onComplete("Successfully sent message" + message))
+                .addOnFailureListener(e -> callBack.onFailure(e));
     }
 
     private ValueEventListener chatRoomMessagesValueEventListener;
