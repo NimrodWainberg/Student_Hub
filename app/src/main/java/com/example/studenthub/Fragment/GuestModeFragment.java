@@ -22,7 +22,7 @@ public class GuestModeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.guest_dailog, container, false);
+        View view = inflater.inflate(R.layout.guest_dialog, container, false);
         login = view.findViewById(R.id.dialog_login);
         got_it = view.findViewById(R.id.dialog_got_it);
 

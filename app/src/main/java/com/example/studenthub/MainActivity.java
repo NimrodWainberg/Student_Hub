@@ -23,6 +23,7 @@ import com.example.studenthub.chats.LoadingActivity;
 import com.example.studenthub.firebase.MessagingManager;
 import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -102,20 +103,28 @@ public class MainActivity extends LoadingActivity {
                 isConnected = true;
             }
         }
-        // chat button
-        findViewById(R.id.chat_button).setOnClickListener(view -> {
-            if (getSupportFragmentManager().findFragmentByTag("ChatRoomsFragment") == null) {
+        boolean finalIsConnected = isConnected;
 
-                ChatRoomsFragment chatRoomsFragment  = new ChatRoomsFragment();
-                getSupportFragmentManager().beginTransaction()
-
-                        .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
-                        .add(android.R.id.content, chatRoomsFragment, "ChatRoomsFragment")
-                        .addToBackStack("ChatRoomsFragment").commit();
+        FloatingActionButton chatFab = findViewById(R.id.chat_button);
+        chatFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!finalIsConnected){ // Guest mode connected
+                    selectedFragment = new GuestModeFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).addToBackStack("GuestModeDialog").commit();
+                }
+                else if (getSupportFragmentManager().findFragmentByTag("ChatRoomsFragment") == null) {
+                    ChatRoomsFragment chatRoomsFragment = new ChatRoomsFragment();
+                    MainActivity.this.getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                            .add(android.R.id.content, chatRoomsFragment, "ChatRoomsFragment")
+                            .addToBackStack("ChatRoomsFragment").commit();
+                }
             }
         });
+
         bottom_navigation = findViewById(R.id.bottom_navigation);
-        boolean finalIsConnected = isConnected;
         bottom_navigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.nav_home:
@@ -159,6 +168,7 @@ public class MainActivity extends LoadingActivity {
                     break;
             }
 
+            // Show dialog in case user is not connected
             // Source: https://stackoverflow.com/questions/17210674/how-to-get-which-fragment-has-been-selected
             if (selectedFragment != null && selectedFragment instanceof GuestModeFragment){
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
