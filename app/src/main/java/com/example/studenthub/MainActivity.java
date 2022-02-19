@@ -1,6 +1,7 @@
 package com.example.studenthub;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,18 +46,20 @@ public class MainActivity extends LoadingActivity {
         super.onStart();
         // Add the listener
         mAuth.addAuthStateListener(mAuthListener);
-        ProgressDialog progressDialog = showLoading("");
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.progress_dialog);
+        dialog.show();
         messagingManager.addUserCachingEventListener(new FirebaseCallBack<String>() {
             @Override
             public void onComplete(String object) {
-                if(progressDialog.isShowing())
-                    progressDialog.dismiss();
+                if(dialog.isShowing())
+                    dialog.dismiss();
             }
 
             @Override
             public void onFailure(Exception e) {
-                if(progressDialog.isShowing())
-                    progressDialog.dismiss();
+                if(dialog.isShowing())
+                    dialog.dismiss();
             }
         });
     }
