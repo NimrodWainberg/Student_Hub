@@ -178,8 +178,6 @@ public class CommentsActivity extends AppCompatActivity {
                             commentList.add(comment);
                     }
                         commentAdapter.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(CommentsActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
                     }
                 }
 
