@@ -248,7 +248,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 postList.clear();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) { // Iterating over posts IDs
                     Post post = snapshot1.getValue(Post.class);
                     if (post.getPublisher().equals(id)) {
                         postList.add(post);

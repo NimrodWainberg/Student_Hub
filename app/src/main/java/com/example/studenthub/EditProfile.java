@@ -45,7 +45,6 @@ public class EditProfile extends AppCompatActivity {
     FloatingActionButton camera, gallery;
     ActivityResultLauncher<Uri> cameraResultLauncher;
     ActivityResultLauncher<String> galleryResultLauncher;
-    ActivityResultLauncher<String> permissionsLauncher;
     Uri uri;
     File picFile;
     UploadTask uploadTask;

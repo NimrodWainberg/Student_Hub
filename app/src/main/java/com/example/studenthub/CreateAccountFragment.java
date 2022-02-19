@@ -25,9 +25,8 @@ import java.util.Objects;
 
 public class CreateAccountFragment extends Fragment {
 
-    TextInputEditText username, fullName, email, password;
+    TextInputEditText username, fullName, email, password, bio;
     MaterialButton registerBtn;
-    ProgressBar progressBar;
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference reference;
@@ -35,6 +34,7 @@ public class CreateAccountFragment extends Fragment {
     String emailString;
     String passString;
     String fullNameString;
+    String bioString;
     String userID;
 
     // Firebase
@@ -97,8 +97,9 @@ public class CreateAccountFragment extends Fragment {
             emailString = Objects.requireNonNull(email.getText()).toString().trim();
             passString = Objects.requireNonNull(password.getText()).toString().trim();
             fullNameString = Objects.requireNonNull(fullName.getText()).toString().trim();
+            bioString = Objects.requireNonNull(bio.getText()).toString().trim();
 
-            boolean answer = validate(usernameString, emailString, passString,fullNameString);
+            boolean answer = validate(usernameString, emailString, passString, fullNameString, bioString);
 
             if (answer) {
                 mAuth.createUserWithEmailAndPassword(emailString, passString)
@@ -109,7 +110,8 @@ public class CreateAccountFragment extends Fragment {
                         userID = Objects.requireNonNull(firebaseUser).getUid();
 
                         User newUser = new User(usernameString, emailString, fullNameString,
-                                getString(R.string.image_url_link),"Bio", userID);
+                                getString(R.string.image_url_link),
+                                bioString, userID);
 
                         firebaseDatabase = FirebaseDatabase.getInstance();
                         reference = firebaseDatabase.getReference().child("users");
@@ -143,15 +145,15 @@ public class CreateAccountFragment extends Fragment {
         fullName = view.findViewById(R.id.full_name_et);
         email = view.findViewById(R.id.email_et);
         password = view.findViewById(R.id.password_et);
+        bio = view.findViewById(R.id.edit_profile_bio_edittext);
         registerBtn = view.findViewById(R.id.create_account_btn);
-        progressBar = view.findViewById(R.id.bio);
     }
 
-    public boolean validate(String username, String email, String pass, String fullName) {
+    public boolean validate(String username, String email, String pass, String fullName, String bio) {
         boolean isValid = true;
 
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) ||
-                TextUtils.isEmpty(fullName)) {
+                TextUtils.isEmpty(fullName) || TextUtils.isEmpty(bio)) {
             isValid = false;
             Toast.makeText(getContext(), "Some fields are missing!", Toast.LENGTH_SHORT).show();
         }

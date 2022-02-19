@@ -39,7 +39,6 @@ public class MainActivity extends LoadingActivity {
     // Listener- listen when users logged in / out
     FirebaseAuth.AuthStateListener mAuthListener;
 
-    StorageReference storageReference;
     DrawerLayout drawerLayout;
     BottomNavigationView bottom_navigation;
     Fragment selectedFragment = null;
@@ -82,7 +81,6 @@ public class MainActivity extends LoadingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawerLayout = findViewById(R.id.drawer_layout);
-        storageReference = FirebaseStorage.getInstance().getReference();
 
         // Set toolbar and menu icon
         Toolbar toolbar = findViewById(R.id.toolbar);
