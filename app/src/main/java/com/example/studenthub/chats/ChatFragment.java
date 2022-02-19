@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.studenthub.Adapter.ChatMessagesRvAdapter;
 import com.example.studenthub.Model.ChatMessage;
 import com.example.studenthub.Model.ChatRoom;
@@ -32,6 +33,7 @@ public class ChatFragment extends LoadingFragment {
     EditText messageEt;
     String roomId;
     ChatRoom room;
+    LottieAnimationView lottieAnimationView;
     private final MessagingManager messagingManager = MessagingManager.getInstance();
 
 
@@ -49,6 +51,8 @@ public class ChatFragment extends LoadingFragment {
         messageEt = view.findViewById(R.id.message_et);
         messagesRv = view.findViewById(R.id.chat_rv);
         messagesRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Lottie
+        lottieAnimationView = view.findViewById(R.id.first_chat);
         Bundle i = getArguments();
         ProgressDialog progressDialog = showLoading("Messages");
         if(i != null) {
@@ -74,20 +78,24 @@ public class ChatFragment extends LoadingFragment {
                     showToast("There was a problem loading messages");
                 }
             });
+ sendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(room ==null)
+                        return;
+                    // Remove animation
+                    lottieAnimationView.setVisibility(view.GONE);
+                    String content = messageEt.getText().toString();
+                    if(content.isEmpty())
+                        return;
+                    String uid = FirebaseAuth.getInstance().getUid();
+                    String recipientId = room.getOwnerId().equals(uid) ? room.getSecondUserId() : room.getOwnerId();
+                    messagingManager.sendNewMessage(roomId,recipientId , content, new FirebaseCallBack<String>() {
+                        @Override
+                        public void onComplete(String successMessage) {
+                            messageEt.getText().clear();
+                        }
 
-            sendButton.setOnClickListener(view1 -> {
-                if(room ==null)
-                    return;
-                String content = messageEt.getText().toString();
-                if(content.isEmpty())
-                    return;
-                String uid = FirebaseAuth.getInstance().getUid();
-                String recipientId = room.getOwnerId().equals(uid) ? room.getSecondUserId() : room.getOwnerId();
-                messagingManager.sendNewMessage(roomId,recipientId , content, new FirebaseCallBack<String>() {
-                    @Override
-                    public void onComplete(String successMessage) {
-                        messageEt.getText().clear();
-                    }
 
                     @Override
                     public void onFailure(Exception e) {
