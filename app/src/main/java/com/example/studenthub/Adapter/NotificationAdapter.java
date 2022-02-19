@@ -97,13 +97,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    private void getUserDetails(ImageView imageView, TextView username, String publisherid){
+    private void getUserDetails(ImageView smallPicture, TextView username, String publisherid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(publisherid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                Glide.with(mContext).load(user.getImageUrl()).into(imageView);
+                Glide.with(mContext).load(user.getImageUrl()).into(smallPicture);
                 username.setText(user.getUsername());
             }
 

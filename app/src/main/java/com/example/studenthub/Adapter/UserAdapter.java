@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.studenthub.Fragment.ProfileFragment;
 import com.example.studenthub.MainActivity;
@@ -86,40 +84,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                 context.startActivity(intent);
             }
         });
-
-        /*holder.followBtn.setOnClickListener(view -> {
-            if(holder.followBtn.getText().toString().equals("follow")) {
-                FirebaseDatabase.getInstance().getReference().child("follow").child(firebaseUser.getUid())
-                        .child("following").child(User.getId()).setValue(true);
-                FirebaseDatabase.getInstance().getReference().child("Follow").child(User.getId())
-                        .child("followers").child(firebaseUser.getUid()).setValue(true);
-                addNotification(User.getId());
-            }
-            else { // If already followed
-                FirebaseDatabase.getInstance().getReference().child("follow").child(firebaseUser.getUid())
-                        .child("following").child(User.getId()).removeValue();
-                FirebaseDatabase.getInstance().getReference().child("Follow").child(User.getId())
-                        .child("followers").child(firebaseUser.getUid()).removeValue();
-            }
-        });*/
     }
-
-   /* *//**
-     * A function that adds a notification into specific user's DB
-     * @param userid ID of following user
-     *//*
-    private void addNotification(String userid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().
-                getReference("Notifications").child(userid);
-
-        HashMap <String,Object> hashMap = new HashMap<>();
-        hashMap.put("userid", firebaseUser.getUid());
-        hashMap.put("text", context.getString(R.string.startedfollowing));
-        hashMap.put("postid", "");
-        hashMap.put("ispost", false);
-
-        reference.push().setValue(hashMap); // Push data into DB
-    }*/
 
     /**
      * A function that returns number of users

@@ -49,7 +49,7 @@
                 android:drawableTint="@color/black"
                 android:hint="@string/username"
                 android:inputType="text"
-                android:maxLength="15" />
+                android:maxLength="20" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +72,7 @@
                 android:drawableEnd="@drawable/ic_badge_black_24dp"
                 android:hint="@string/full_name"
                 android:inputType="text"
-                android:maxLength="15" />
+                android:maxLength="30" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,6 +95,7 @@
                 android:drawableEnd="@drawable/ic_baseline_mail_24"
                 android:drawableTint="@color/black"
                 android:hint="@string/e_mail_address"
+                android:maxLength="30"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,19 +118,42 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:maxLength="15" />
+                android:maxLength="12" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account_creation_bio"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password_layout"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="center"
+            app:boxStrokeColor="@color/black"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bio_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_school_black_24dp"
+                android:hint="@string/bio_hint"
+                android:inputType="text"
+                android:maxLength="30" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/create_account_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/password_layout"
+            android:layout_below="@+id/account_creation_bio"
             android:layout_marginStart="50dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="50dp"
             android:backgroundTint="#153C4C"
             android:text="@string/create_account"
+            android:textColor="#D6E3ED"
             android:textSize="13sp"
             app:cornerRadius="40dp">
         </com.google.android.material.button.MaterialButton>
@@ -141,9 +165,9 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="155dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="156dp"
-            android:layout_marginBottom="71dp"
+            android:layout_marginBottom="70dp"
             android:scaleX="2.5"
             android:scaleY="2.5"
             app:layout_constraintEnd_toEndOf="parent"

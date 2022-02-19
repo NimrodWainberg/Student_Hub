@@ -32,7 +32,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.photos_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.photos_item, parent,false);
         return new PhotoAdapter.ViewHolder(view);
     }
 

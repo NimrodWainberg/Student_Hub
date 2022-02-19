@@ -36,7 +36,6 @@ public class PostActivity extends AppCompatActivity {
     FloatingActionButton camera, gallery;
     ActivityResultLauncher<Uri> cameraResultLauncher;
     ActivityResultLauncher<String> galleryResultLauncher;
-    ActivityResultLauncher<String> permissionsLauncher;
     StorageReference storageRef, fileReference;
     DatabaseReference photosFolderReference;
     UploadTask task;
@@ -62,7 +61,14 @@ public class PostActivity extends AppCompatActivity {
             finish();
         });
 
-        post.setOnClickListener(view -> uploadImage());
+        post.setOnClickListener(view -> {
+            if(!description.getText().toString().isEmpty())
+                PostActivity.this.uploadImage();
+            else{
+                Toast.makeText(PostActivity.this, getString(R.string.must_enter_description)
+                        , Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initViews() {

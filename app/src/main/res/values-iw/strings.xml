@@ -53,5 +53,6 @@
     <string name="uploading">מתבצעת העלאה</string>
     <string name="yes">כן</string>
     <string name="startedfollowing">" התחיל לעקוב אחרייך"</string>
-    <string name="liked_your_post_quote">" אהב את התמונה שלך"</string>
+    <string name="liked_your_post_quote">" אהב את התמונה"</string>
+    <string name="must_enter_description">You must enter description!</string>
 </resources>
