@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenthub.Fragment.GuestModeFragment;
 import com.example.studenthub.Fragment.HomeFragment;
 import com.example.studenthub.Fragment.NotificationFragment;
 import com.example.studenthub.Fragment.ProfileFragment;
@@ -22,6 +23,7 @@ import com.example.studenthub.Fragment.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -82,24 +84,34 @@ public class MainActivity extends AppCompatActivity {
        // Button login = view.findViewById(R.id.dialog_login);
         //Button got_it = view.findViewById(R.id.dialog_got_it);
 
-
+        boolean isConnected = false;
+        // Source: https://stackoverflow.com/a/45738019/15633316
+        for (UserInfo user: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+            if (user.getProviderId().equals("password")) { // user connected through email
+                isConnected = true;
+            }
+        }
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
+        boolean finalIsConnected = isConnected;
         bottom_navigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.nav_home:
                     selectedFragment = new HomeFragment();
                     break;
                 case R.id.nav_search:
-                    if (firebaseUser.getEmail() == null) {
-                        showGuestDialog();                    }
+                    if (!finalIsConnected) {
+                        selectedFragment = new GuestModeFragment();
+                        //showDialogFragment();
+                    }
                     else {
                         selectedFragment = new SearchFragment();
                     }
                     break;
                 case R.id.nav_post:
-                    if (firebaseUser.getEmail() == null) {
-                        showGuestDialog();
+                    if (!finalIsConnected) {
+                        selectedFragment = new GuestModeFragment();
+                        //showDialogFragment();
                     }
                     else {
                         selectedFragment = null;
@@ -107,22 +119,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.nav_notifications:
-                    if (firebaseUser.getEmail() == null) {
-                        showGuestDialog();
+                    if (!finalIsConnected) {
+                        selectedFragment = new GuestModeFragment();
+//                        showDialogFragment();
                     }
                     else {
-                        if (firebaseUser.getEmail() == null) {
-                            showGuestDialog();
-                        }
-                        else {
-                            selectedFragment = new NotificationFragment();
-                        }
+                        selectedFragment = new NotificationFragment();
                     }
                     break;
                 case R.id.nav_profile:
                     // Check if user is logged in
-                    if (firebaseUser.getEmail() == null) {
-                        showGuestDialog();
+                    if (!finalIsConnected) {
+                        selectedFragment = new GuestModeFragment();
+                        //                      showDialogFragment();
                         //dialog.show();
                     }
                     else {
@@ -157,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     new HomeFragment()).commit();
         }
     }
-    public void showGuestDialog() {
+    /*public void showGuestDialog() {
         // Dialog Animation
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.guest_dailog);
@@ -166,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
         Button got_it = view.findViewById(R.id.dialog_got_it);
 
         dialog.show();
-
 
         got_it.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +189,9 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(MainActivity.this, Login.class));
+                    finish();
             }
         });
     }
+    */
 }
