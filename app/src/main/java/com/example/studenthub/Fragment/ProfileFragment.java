@@ -133,27 +133,18 @@ public class ProfileFragment extends Fragment {
     }
 
     private void userInfo() {
-        final Query query = FirebaseDatabase.getInstance().getReference("users");
+        final Query query = FirebaseDatabase.getInstance().getReference("users").child(id);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(getActivity() == null)
                     return;
 
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    User b = data.getValue(User.class);
-                    if (b.getId().equals(id)) {
-                        String fullNameUpdate = b.getFullName();
-                        String userNameUpdate = b.getUsername();
-                        String bioUpdate = b.getBio();
-                        String uriUpdate = b.getImageUrl();
-
-                        fullname.setText(fullNameUpdate);
-                        username.setText(userNameUpdate);
-                        bio.setText(bioUpdate);
-                        Glide.with(getActivity()).load(uriUpdate).into(profilePicture);
-                    }
-                }
+                    User b = dataSnapshot.getValue(User.class);
+                    fullname.setText(b.getFullName());
+                    username.setText(b.getUsername());
+                    bio.setText(b.getBio());
+                    Glide.with(getActivity()).load(b.getImageUrl()).into(profilePicture);
             }
 
             @Override

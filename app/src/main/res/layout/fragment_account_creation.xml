@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -136,7 +135,6 @@
         </com.google.android.material.button.MaterialButton>
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/user_animation"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@+id/create_account_btn"

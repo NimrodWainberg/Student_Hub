@@ -1,7 +1,6 @@
 package com.example.studenthub;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -34,10 +33,6 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity {
-
-
-
-
     FloatingActionButton camera, gallery;
     ActivityResultLauncher<Uri> cameraResultLauncher;
     ActivityResultLauncher<String> galleryResultLauncher;
@@ -67,9 +62,7 @@ public class PostActivity extends AppCompatActivity {
             finish();
         });
 
-        post.setOnClickListener(view -> {
-            uploadImage();
-        });
+        post.setOnClickListener(view -> uploadImage());
     }
 
     private void initViews() {
@@ -105,8 +98,6 @@ public class PostActivity extends AppCompatActivity {
         galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
             uri = result;
             Glide.with(getApplicationContext()).load(result).into(image);
-
-            // לבדוק העלאה כפולה
         });
     }
 
@@ -126,10 +117,6 @@ public class PostActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.post_wall);
         dialog.show();
-
-//        ProgressDialog pd = new ProgressDialog(this);
-//        pd.setMessage("Uploading");
-//        pd.show();
 
         if (uri != null){
             // Creating file name according to System's version

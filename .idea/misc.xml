@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_favorite.xml" value="0.1" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_person.xml" value="0.119" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-hdpi/button_black.xml" value="0.119" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-hdpi/ic_university_icon.xml" value="0.119" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable/button_background.xml" value="0.119" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/font/aclonica.xml" value="0.14322916666666666" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.2" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml" value="0.11302083333333333" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.4" />
@@ -24,6 +29,8 @@
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification_item.xml" value="0.264" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/photos_item.xml" value="0.11302083333333333" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.11302083333333333" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_wall.xml" value="0.11302083333333333" />
+        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/progress_dialog.xml" value="0.1" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.6" />
         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/menu/bottom_navigation.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.4" />

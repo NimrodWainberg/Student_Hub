@@ -23,7 +23,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notification = mNotification.get(position);
         holder.notificationText.setText(notification.getText());
         if(notification.getUserId() != null)
-            getUserinfo(holder.image_profile, holder.username, notification.getUserId());
+            getUserDetails(holder.small_profile_picture, holder.username, notification.getUserId());
 
         // Notification could be either a new follow or liked picture
         if (notification.isPost()){
@@ -63,13 +62,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.itemView.setOnClickListener(view -> {
             SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
-            if (notification.isPost()) {
+            if (notification.isPost()) { // If someone liked any post, direct there
                 editor.putString("postid", notification.getPostId());
                 editor.apply();
 
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PostDetailFragment()).commit();
-            } else { // if liked picture
+            } else {
                 editor.putString("profileid",notification.getUserId());
                 editor.apply();
 
@@ -86,25 +85,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView image_profile, post_image;
+        public ImageView small_profile_picture, post_image;
         public TextView username, notificationText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            image_profile = itemView.findViewById(R.id.notification_picture);
+            small_profile_picture = itemView.findViewById(R.id.notification_picture);
             post_image = itemView.findViewById(R.id.post_image);
             notificationText = itemView.findViewById(R.id.comment);
             username = itemView.findViewById(R.id.username);
         }
     }
 
-    private void getUserinfo(ImageView imageView, TextView username, String publisherid){
+    //TODO not working
+    private void getUserDetails(ImageView imageView, TextView username, String publisherid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(publisherid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = new User();
-                user = snapshot.getValue(User.class);
+                User user = snapshot.getValue(User.class);
                 Glide.with(mContext).load(user.getImageUrl()).into(imageView);
                 username.setText(user.getUsername());
             }
@@ -114,13 +113,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
+    // TODO not working
     private void getPostImage(ImageView imageView, String postid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Post post = new Post();
-                post = snapshot.getValue(Post.class);
+                Post post = snapshot.getValue(Post.class);
                 Glide.with(mContext).load(post.getPostImage()).into(imageView);
             }
 

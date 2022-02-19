@@ -69,7 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         publisherInfo(holder.smallProfilePic, holder.username, holder.publisher, post.getPublisher());
 
         isPostLiked(post.getPostId(), holder.like);
-        numOfLikes(holder.likes, post.getPostId());
+        updateLikesCountOnPost(holder.likes, post.getPostId());
         getComments(post.getPostId(), holder.comments);
 
         holder.like.setOnClickListener(view -> {
@@ -216,7 +216,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
      * @param likes TextView to be changed
      * @param postId Post ID to fetch likes number from
      */
-    private void numOfLikes(TextView likes, String postId){
+    private void updateLikesCountOnPost(TextView likes, String postId){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Likes")
                 .child(postId);
         reference.addValueEventListener(new ValueEventListener() {
@@ -245,7 +245,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                Glide.with(context).load(user.getImageUrl()).into(image_profile);
+                Glide.with(context).load(user.getImageUrl()).circleCrop().into(image_profile);
                 publisher.setText(user.getFullName());
                 username.setText(user.getUsername());
             }

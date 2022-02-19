@@ -22,11 +22,11 @@ import java.util.List;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<Post> mposts;
+    private final List<Post> posts;
 
-    public PhotoAdapter(Context context, List<Post> mposts) {
+    public PhotoAdapter(Context context, List<Post> posts) {
         this.context = context;
-        this.mposts = mposts;
+        this.posts = posts;
     }
 
     @NonNull
@@ -39,7 +39,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        final Post post = mposts.get(position);
+        final Post post = posts.get(position);
         Glide.with(context).load(post.getPostImage()).into(holder.post_image);
 
         holder.post_image.setOnClickListener(view -> {
@@ -54,7 +54,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mposts.size();
+        return posts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -22,7 +22,6 @@
     <string name="error_message">משהו השתבש!</string>
     <string name="more_options_text">אפשרויות נוספות</string>
     <string name="save_text">שמור</string>
-    <string name="change_photo_text">לחץ לשינוי התמונה</string>
     <string name="bio_hint">ביו</string>
     <string name="add_a_comment" tools:ignore="TypographyEllipsis">הוסף תגובה...</string>
     <string name="delete_comment_text">האם ברצונך למחוק את התגובה?</string>
@@ -32,7 +31,6 @@
     <string name="comments_quote">" תגובות"</string>
     <string name="forgot_password_text">הזן את כתובת המייל בכדי לקבל לינק לאיפוס:</string>
     <string name="edit_profile">ערוך פרופיל</string>
-    <string name="description">תיאור</string>
     <string name="username">שם משתמש</string>
     <string name="follow_btn">עקוב</string>
     <string name="likes_tv">" לייקים"</string>
@@ -45,8 +43,6 @@
     <string name="reset_link_problem">בעיה בשליחת לינק איפוס!</string>
     <string name="forgot_your_password">שכחת את הסיסמה?</string>
     <string name="profile">פרופיל</string>
-    <string name="permission_granted">הרשאה ניתנה!</string>
-    <string name="must_grant_permission">חובה לאשר הרשאות!</string>
     <string name="create_new_account">צור חשבון חדש</string>
     <string name="uploading">Uploading</string>
     <string name="comment_cannot_be_empty">Comment cannot be empty</string>

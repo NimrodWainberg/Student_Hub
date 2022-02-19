@@ -23,7 +23,6 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/logo"
                     android:layout_width="180dp"
                     android:layout_height="35dp"
                     android:layout_centerInParent="true"

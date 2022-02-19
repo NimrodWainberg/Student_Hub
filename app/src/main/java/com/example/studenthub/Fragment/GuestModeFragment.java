@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.studenthub.Login;
 import com.example.studenthub.R;
 import com.google.android.material.button.MaterialButton;
@@ -27,23 +24,18 @@ public class GuestModeFragment extends Fragment {
         login = view.findViewById(R.id.dialog_login);
         got_it = view.findViewById(R.id.dialog_got_it);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
+        login.setOnClickListener(view1 -> {
+            FirebaseAuth.getInstance().signOut();
 
-                if(requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                startActivity(new Intent(getActivity(), Login.class));
-            }
+            if(requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
+                requireActivity().getSupportFragmentManager().popBackStack();
+            startActivity(new Intent(getActivity(), Login.class));
+            requireActivity().finish();
         });
 
-        got_it.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
-                    requireActivity().getSupportFragmentManager().popBackStack();
-            }
+        got_it.setOnClickListener(view1 -> {
+            if(requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
+                requireActivity().getSupportFragmentManager().popBackStack();
         });
 
         return view;

@@ -117,17 +117,6 @@ public class EditProfile extends AppCompatActivity {
 
             uploadPictureToStorage();
         });
-/*
-        permissionsLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
-            String string;
-            if (result) {
-                string = getResources().getString(R.string.permission_granted);
-            }
-            else {
-                string = getResources().getString(R.string.must_grant_permission);
-            }
-            Toast.makeText(getApplicationContext(), string+"", Toast.LENGTH_SHORT).show();
-        });*/
     }
 
     private void initViews() {

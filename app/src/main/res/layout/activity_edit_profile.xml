@@ -32,7 +32,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/edit_profile_headline"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -85,7 +84,8 @@
         android:layout_marginTop="15dp"
         android:backgroundTint="#1951A8"
         android:src="@drawable/ic_add_a_photo_material"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_picture_gallery"
@@ -101,7 +101,6 @@
 </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fullname_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,7 +124,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edit_profile_username_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

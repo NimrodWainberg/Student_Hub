@@ -7,7 +7,7 @@
             android:icon="@drawable/ic_university_icon"
             android:title="@string/create_new_account"/>
 
-        <item android:id="@+id/drawer_forgot_password"
+        <item
             android:icon="@drawable/ic_university_icon"
             android:title="@string/forgot_your_password" />
 

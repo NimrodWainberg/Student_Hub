@@ -19,7 +19,4 @@
             android:scaleX="3"
             android:scaleY="3"
             app:lottie_loop="true" />
-
-    <!--        app:lottie_rawRes="@raw/postplain" />-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

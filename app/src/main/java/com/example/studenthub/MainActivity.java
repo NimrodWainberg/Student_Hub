@@ -1,19 +1,15 @@
 package com.example.studenthub;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenthub.Fragment.GuestModeFragment;
 import com.example.studenthub.Fragment.HomeFragment;
@@ -78,11 +74,6 @@ public class MainActivity extends AppCompatActivity {
             // instance of FirebaseUser class
             firebaseUser = firebaseAuth.getCurrentUser();
         };
-        // Dialog Animation
-       // dialog.setContentView(R.layout.guest_dailog);
-       // final View view = getLayoutInflater().inflate(R.layout.guest_dailog, null);
-       // Button login = view.findViewById(R.id.dialog_login);
-        //Button got_it = view.findViewById(R.id.dialog_got_it);
 
         boolean isConnected = false;
         // Source: https://stackoverflow.com/a/45738019/15633316
@@ -128,11 +119,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.nav_profile:
-                    // Check if user is logged in
                     if (!finalIsConnected) {
                         selectedFragment = new GuestModeFragment();
-                        //                      showDialogFragment();
-                        //dialog.show();
                     }
                     else {
                         SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
@@ -143,7 +131,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            if (selectedFragment != null) {
+            // Source: https://stackoverflow.com/questions/17210674/how-to-get-which-fragment-has-been-selected
+            if (selectedFragment != null && selectedFragment instanceof GuestModeFragment){
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        selectedFragment).addToBackStack("GuestModeDialog").commit();
+            }
+            else if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
             }
@@ -166,32 +159,4 @@ public class MainActivity extends AppCompatActivity {
                     new HomeFragment()).commit();
         }
     }
-    /*public void showGuestDialog() {
-        // Dialog Animation
-        Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.guest_dailog);
-        final View view = getLayoutInflater().inflate(R.layout.guest_dailog, null);
-        Button login = view.findViewById(R.id.dialog_login);
-        Button got_it = view.findViewById(R.id.dialog_got_it);
-
-        dialog.show();
-
-        got_it.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                    FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(MainActivity.this, Login.class));
-                    finish();
-            }
-        });
-    }
-    */
 }
