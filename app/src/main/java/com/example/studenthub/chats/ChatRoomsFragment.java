@@ -58,7 +58,7 @@ public class ChatRoomsFragment extends LoadingFragment implements OnEnterChatRoo
                 }
             }
         });
-        ProgressDialog progressDialog =  showLoading("Chat Rooms");
+        ProgressDialog progressDialog = showLoading(getString(R.string.chat_rooms));
 
         messagingManager.addChatRoomsValueEventListener(new FirebaseCallBack<List<ChatRoom>>() {
             @Override
@@ -71,8 +71,7 @@ public class ChatRoomsFragment extends LoadingFragment implements OnEnterChatRoo
             @Override
             public void onFailure(Exception e) {
                 progressDialog.dismiss();
-                showToast("There was an problem loading chat rooms");
-                System.out.println(e.getLocalizedMessage());
+                showToast(getString(R.string.chat_rooms_problems));
             }
         });
 
@@ -86,14 +85,12 @@ public class ChatRoomsFragment extends LoadingFragment implements OnEnterChatRoo
 
     @Override
     public void enterChatRoom(String roomId) {
-
         if (getParentFragmentManager().findFragmentByTag("ChatFragment") == null) {
             Bundle b  = new Bundle();
             b.putString("roomId",roomId);
             ChatFragment chatFragment = new ChatFragment();
             chatFragment.setArguments(b);
             getParentFragmentManager().beginTransaction()
-
                     .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
                     .add(android.R.id.content, chatFragment, "ChatFragment")
                     .addToBackStack("ChatFragment").commit();

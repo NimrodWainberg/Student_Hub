@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Objects;
 
 public class CreateAccountFragment extends Fragment {
-
     TextInputEditText username, fullName, email, password, bio;
     MaterialButton registerBtn;
     FirebaseUser firebaseUser;
@@ -140,6 +139,10 @@ public class CreateAccountFragment extends Fragment {
         return view;
     }
 
+    /**
+     * A function that initializes all views
+     * @param view root View
+     */
     private void initViews(View view) {
         username = view.findViewById(R.id.username);
         fullName = view.findViewById(R.id.full_name_et);
@@ -149,6 +152,15 @@ public class CreateAccountFragment extends Fragment {
         registerBtn = view.findViewById(R.id.create_account_btn);
     }
 
+    /**
+     * A function that validates that all of user's input is legitimate
+     * @param username inputted username
+     * @param email inputted email
+     * @param pass inputted password
+     * @param fullName inputted full name
+     * @param bio inputted institution
+     * @return
+     */
     public boolean validate(String username, String email, String pass, String fullName, String bio) {
         boolean isValid = true;
 

@@ -97,6 +97,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
+    /**
+     * A function that fetches user details
+     * @param smallPicture Small profile picture to be updated
+     * @param username Username to be updated
+     * @param publisherid user ID to get its details
+     */
     private void getUserDetails(ImageView smallPicture, TextView username, String publisherid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(publisherid);
         reference.addValueEventListener(new ValueEventListener() {
@@ -112,6 +118,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
+    /**
+     * A function that gets a specific post from DB
+     * @param imageView ImageView to be updated
+     * @param postid Post ID to be fetched
+     */
     private void getPostImage(ImageView imageView, String postid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
         reference.addValueEventListener(new ValueEventListener() {

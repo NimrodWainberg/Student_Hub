@@ -159,6 +159,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * A function that fetches all comments of a specific post
+     * @param postId Post ID to get its comments
+     * @param comments Comments of the post
+     */
     private void getComments(String postId, final TextView comments){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Comments").child(postId);
 
@@ -174,6 +179,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         });
     }
 
+    /**
+     * A function that fetches the key in the DB and shows if a picture is liked or not
+     * @param postId Post ID to be checked
+     * @param imageView ImageView to be updated
+     */
     private void isPostLiked(String postId, ImageView imageView){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Likes").child(postId);

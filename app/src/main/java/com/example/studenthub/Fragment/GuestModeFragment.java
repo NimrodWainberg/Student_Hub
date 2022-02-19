@@ -14,7 +14,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class GuestModeFragment extends Fragment {
-
     MaterialButton login, got_it;
 
     @Nullable

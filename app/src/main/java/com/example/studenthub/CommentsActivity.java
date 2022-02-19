@@ -81,6 +81,9 @@ public class CommentsActivity extends AppCompatActivity {
         getComments();
     }
 
+    /**
+     * A function that finds all views by their IDs
+     */
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recycler_view);
@@ -133,12 +136,8 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
-
-        //commentEditText.setText(""); // Clear the EditText after comment has been posted
     }
 
     /**
@@ -187,6 +186,5 @@ public class CommentsActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
-
         }
     }

@@ -22,16 +22,14 @@ import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
 import java.util.List;
 
 public class UsersFragment extends LoadingFragment implements OnCreateRoomListener {
-
-
     private RecyclerView rvUsers;
     private UsersRvAdapter usersRvAdapter;
     private final MessagingManager messagingManager = MessagingManager.getInstance();
 
-
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_users,container,false);
     }
 
@@ -40,7 +38,7 @@ public class UsersFragment extends LoadingFragment implements OnCreateRoomListen
         super.onViewCreated(view, savedInstanceState);
         rvUsers = view.findViewById(R.id.users_rv);
         rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProgressDialog progressDialog = showLoading("Followers");
+        ProgressDialog progressDialog = showLoading(getString(R.string.followers));
         FollowingManager.getFollowing(new FirebaseCallBack<List<User>>() {
             @Override
             public void onComplete(List<User> users) {
@@ -52,7 +50,7 @@ public class UsersFragment extends LoadingFragment implements OnCreateRoomListen
             @Override
             public void onFailure(Exception e) {
                 progressDialog.dismiss();
-                showToast("There was a problem loading followers");
+                showToast(getString(R.string.problem_loading));
             }
         });
     }

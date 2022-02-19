@@ -88,6 +88,9 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that initializes all listeners
+     */
     private void initListeners() {
         gallery.setOnClickListener(v -> galleryResultLauncher.launch("image/*"));
 
@@ -101,6 +104,9 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that initializes all launchers
+     */
     private void initLaunchers(){
         cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> { // True if image saved into given URI
             if(result){
@@ -118,6 +124,9 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that initializes all views
+     */
     private void initViews() {
         closeIv = findViewById(R.id.close);
         saveBtn = findViewById(R.id.save);

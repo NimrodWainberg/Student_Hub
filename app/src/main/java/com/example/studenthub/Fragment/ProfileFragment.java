@@ -128,6 +128,10 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * A function that adds a notification to DB, including following user's username
+     * @param username following user's username to be included in notification
+     */
     private void addNotificationToDataBase(String username) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(id);
 
@@ -140,6 +144,9 @@ public class ProfileFragment extends Fragment {
         reference.push().setValue(hashMap);
     }
 
+    /**
+     * A function that fetches all of user's information from DB
+     */
     private void userInfo() {
         final Query query = FirebaseDatabase.getInstance().getReference("users").child(id);
         query.addValueEventListener(new ValueEventListener() {

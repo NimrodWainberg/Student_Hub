@@ -57,7 +57,6 @@ public class ChatRoomsRvAdapter extends RecyclerView.Adapter<ChatRoomsRvAdapter.
         }
 
         public void bind(ChatRoom room) {
-            // @TODO : set Image
             User u;
             String uid = FirebaseAuth.getInstance().getUid();
             if(room.getOwnerId().equals(uid))

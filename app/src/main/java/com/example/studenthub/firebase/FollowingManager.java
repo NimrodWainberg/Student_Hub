@@ -55,19 +55,9 @@ public class FollowingManager {
                             }
                         }
                         callback.onComplete(following);
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            callback.onFailure(e);
-                        }
-                    });
+                    }).addOnFailureListener(callback::onFailure);
 
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callback.onFailure(e);
-                    }
-                });
+                .addOnFailureListener(callback::onFailure);
     }
 }

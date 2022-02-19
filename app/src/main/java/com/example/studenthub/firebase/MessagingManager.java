@@ -1,6 +1,7 @@
 package com.example.studenthub.firebase;
 
 
+import android.content.res.Resources;
 import android.provider.ContactsContract;
 import android.util.Pair;
 
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.example.studenthub.Model.ChatMessage;
 import com.example.studenthub.Model.ChatRoom;
 import com.example.studenthub.Model.User;
+import com.example.studenthub.R;
 import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,56 +28,57 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MessagingManager {
-
-
-     private MessagingManager () {}
-
     private static MessagingManager instance;
-
     public DatabaseReference chatRoomsRef = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
     public DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+    public HashMap<String, User> cachedUsers = new HashMap<>();
+    private ValueEventListener userCachingEventListener;
+    private ValueEventListener chatRoomMessagesValueEventListener;
+    private ValueEventListener chatRoomsValueEventListener;
+
+    private MessagingManager() {}
 
     public static MessagingManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new MessagingManager();
         }
         return instance;
     }
 
-    public HashMap<String,User> cachedUsers = new HashMap<>();
     public void createNewChatRoom(String recipientId, FirebaseCallBack<String> callback) {
         String uid = FirebaseAuth.getInstance().getUid();
 
         chatRoomsRef.get()
                 .addOnSuccessListener(dataSnapshot -> {
                     for (DataSnapshot childSnap : dataSnapshot.getChildren()) {
-                        if ( (((String) childSnap.child("ownerId").getValue()).equals(uid)
-                        && ((String)childSnap.child("secondUserId").getValue()).equals(recipientId))
-                        || (((String)childSnap.child("secondUserId").getValue()).equals(uid)
-                                && ((String)childSnap.child("ownerId").getValue()).equals(recipientId))) {
-                            callback.onFailure(new Exception("Chat room with this user already exists"));
+                        if ((((String) childSnap.child("ownerId").getValue()).equals(uid)
+                                && ((String) childSnap.child("secondUserId").getValue()).equals(recipientId))
+                                || (((String) childSnap.child("secondUserId").getValue()).equals(uid)
+                                && ((String) childSnap.child("ownerId").getValue()).equals(recipientId))) {
+                            callback.onFailure(new Exception(Resources.getSystem().getString(R.string.chat_room_exists)));
                             return;
                         }
                     }
                     DatabaseReference newRoom = chatRoomsRef.push();
-                    ChatRoom room = new ChatRoom(newRoom.getKey(),uid,recipientId);
+                    ChatRoom room = new ChatRoom(newRoom.getKey(), uid, recipientId);
                     newRoom.setValue(room)
-                            .addOnSuccessListener(unused -> callback.onComplete("Successfully added chat room "))
-                            .addOnFailureListener(e -> callback.onFailure(e));
-                }).addOnFailureListener(e -> callback.onFailure(e));
+                            .addOnSuccessListener(unused ->
+                                    callback.onComplete(Resources.getSystem().getString(R.string.added_chat_room)))
+                            .addOnFailureListener(callback::onFailure);
+                }).addOnFailureListener(callback::onFailure);
 
     }
-    private ValueEventListener userCachingEventListener;
+
     public void addUserCachingEventListener(FirebaseCallBack<String> callBack) {
         userCachingEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot childSnap : snapshot.getChildren()) {
                     User u = childSnap.getValue(User.class);
-                    if(u == null) continue;
-                    cachedUsers.put(u.getId(),u);
+                    if (u == null) continue;
+                    cachedUsers.put(u.getId(), u);
                 }
-                callBack.onComplete("Finished caching users");
+                callBack.onComplete(Resources.getSystem().getString(R.string.finished_caching_users));
             }
 
             @Override
@@ -87,41 +90,43 @@ public class MessagingManager {
     }
 
     public void removeUserCachingEventListener() {
-        if(userCachingEventListener!=null)
+        if (userCachingEventListener != null)
             usersRef.removeEventListener(userCachingEventListener);
     }
 
-    public void deleteChatRoom(String id, FirebaseCallBack<String> callback) {
+    // TODO delete?
+    /*public void deleteChatRoom(String id, FirebaseCallBack<String> callback) {
         chatRoomsRef.child(id).removeValue()
-                .addOnSuccessListener(unused -> callback.onComplete("Successfully deleted chat room"))
-                .addOnFailureListener(e -> callback.onFailure(e));
-    }
+                .addOnSuccessListener(unused -> callback
+                        .onComplete(Resources.getSystem().getString(R.string.deleted_chat_room)))
+                .addOnFailureListener(callback::onFailure);
+    }*/
 
     public void sendNewMessage(String roomId, String recipientId, String messageContent,
-                                      FirebaseCallBack<String> callBack) {
+                               FirebaseCallBack<String> callBack) {
         String uid = FirebaseAuth.getInstance().getUid();
         DatabaseReference newMessage = chatRoomsRef.child(roomId).child("chatMessages")
                 .push();
-        ChatMessage message = new ChatMessage(newMessage.getKey(),uid,recipientId,messageContent);
+        ChatMessage message = new ChatMessage(newMessage.getKey(), uid, recipientId, messageContent);
         newMessage.setValue(message)
-                .addOnSuccessListener(unused -> callBack.onComplete("Successfully sent message" + message))
-                .addOnFailureListener(e -> callBack.onFailure(e));
+                .addOnSuccessListener(unused -> callBack
+                        .onComplete(Resources.getSystem().getString(R.string.sent_message) + message))
+                .addOnFailureListener(callBack::onFailure);
     }
 
-    private ValueEventListener chatRoomMessagesValueEventListener;
     public void addChatRoomMessagesValueEventListener(String roomId,
-                                                  FirebaseCallBack<Pair<List<ChatMessage>,ChatRoom>> callback) {
+                                                      FirebaseCallBack<Pair<List<ChatMessage>, ChatRoom>> callback) {
 
         Query query = chatRoomsRef.child(roomId);
         chatRoomMessagesValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ChatRoom room = snapshot.getValue(ChatRoom.class);
-                if(room==null) return;
+                if (room == null) return;
                 List<ChatMessage> chatMessages = new ArrayList<>(room.getChatMessages().values());
                 Collections.sort(chatMessages);
                 room.setChatMessages(null); // clean a bit
-                callback.onComplete(new Pair<>(chatMessages,room));
+                callback.onComplete(new Pair<>(chatMessages, room));
             }
 
             @Override
@@ -133,8 +138,8 @@ public class MessagingManager {
     }
 
     public void removeChatRoomMessagesValueEventListener(String roomId) {
-        if(chatRoomMessagesValueEventListener!=null)
-             chatRoomsRef.child(roomId).removeEventListener(chatRoomMessagesValueEventListener);
+        if (chatRoomMessagesValueEventListener != null)
+            chatRoomsRef.child(roomId).removeEventListener(chatRoomMessagesValueEventListener);
     }
 
     public User getUserById(String id) {
@@ -143,19 +148,18 @@ public class MessagingManager {
         return cachedUsers.get(id);
     }
 
-    private ValueEventListener chatRoomsValueEventListener;
     public void addChatRoomsValueEventListener(FirebaseCallBack<List<ChatRoom>> callBack) {
         String uid = FirebaseAuth.getInstance().getUid();
         chatRoomsValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<ChatRoom> chatRooms = new ArrayList<>();
-                String owner,secondUser;
+                String owner, secondUser;
 
-                for(DataSnapshot childSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     owner = ((String) childSnapshot.child("ownerId").getValue());
                     secondUser = ((String) childSnapshot.child("secondUserId").getValue());
-                    if(owner == null || secondUser == null)
+                    if (owner == null || secondUser == null)
                         continue;
                     if (owner.equals(uid) || secondUser.equals(uid)) {
                         chatRooms.add(childSnapshot.getValue(ChatRoom.class));
@@ -174,10 +178,7 @@ public class MessagingManager {
     }
 
     public void removeChatRoomsValueEventListener() {
-        if(chatRoomMessagesValueEventListener!=null)
+        if (chatRoomMessagesValueEventListener != null)
             chatRoomsRef.removeEventListener(chatRoomsValueEventListener);
     }
-
-
-
 }
