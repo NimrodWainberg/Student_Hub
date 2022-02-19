@@ -65,7 +65,6 @@
                 android:id="@+id/text_input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_baseline_mail_24"
                 android:hint="@string/e_mail_address"
                 android:inputType="textEmailAddress"
                 android:maxLength="25"

@@ -26,6 +26,7 @@ import com.example.studenthub.Login;
 import com.example.studenthub.Model.Post;
 import com.example.studenthub.Model.User;
 import com.example.studenthub.R;
+import com.example.studenthub.firebase.FollowingManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -97,11 +98,7 @@ public class ProfileFragment extends Fragment {
             if (buttonString.equals(getString(R.string.edit_profile)))
                 startActivity(new Intent(getContext(), EditProfile.class));
             else if (buttonString.equals(getString(R.string.follow_btn))) {
-                FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                        .child("following").child(id).setValue(true);
-                FirebaseDatabase.getInstance().getReference().child("Follow").child(id)
-                        .child("followers").child(firebaseUser.getUid()).setValue(true);
-
+                FollowingManager.follow(firebaseUser.getUid(),id);
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users")
                         .child(firebaseUser.getUid());
                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -119,10 +116,7 @@ public class ProfileFragment extends Fragment {
                  // If a new follow is created, update notifications
 
             } else if (buttonString.equals(getString(R.string.following))) {
-                FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                        .child("following").child(id).removeValue();
-                FirebaseDatabase.getInstance().getReference().child("Follow").child(id)
-                        .child("followers").child(firebaseUser.getUid()).removeValue();
+                FollowingManager.unFollow(firebaseUser.getUid(),id);
             }
         });
 

@@ -2,6 +2,7 @@ package com.example.studenthub.Model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.List;
 import java.util.Map;
 
 @IgnoreExtraProperties
@@ -32,6 +33,7 @@ public class User {
         this.bio = (String) data.get("bio");
         this.fullName = (String) data.get("fullName");
         this.email = (String) data.get("email");
+        this.id = (String) data.get("id");
     }
 
     public String getEmail() {

@@ -1,9 +1,11 @@
 package com.example.studenthub;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,11 @@ import com.example.studenthub.Fragment.HomeFragment;
 import com.example.studenthub.Fragment.NotificationFragment;
 import com.example.studenthub.Fragment.ProfileFragment;
 import com.example.studenthub.Fragment.SearchFragment;
+import com.example.studenthub.chats.ChatRoomsFragment;
+import com.example.studenthub.chats.LoadingActivity;
+import com.example.studenthub.chats.UsersFragment;
+import com.example.studenthub.firebase.MessagingManager;
+import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +32,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LoadingActivity {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser;
 
@@ -36,13 +43,27 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     BottomNavigationView bottom_navigation;
     Fragment selectedFragment = null;
-
+    private final MessagingManager messagingManager = MessagingManager.getInstance();
     // When the app is visible to the user
     @Override
     public void onStart() {
         super.onStart();
         // Add the listener
         mAuth.addAuthStateListener(mAuthListener);
+        ProgressDialog progressDialog =  showLoading("");
+        messagingManager.addUserCachingEventListener(new FirebaseCallBack<String>() {
+            @Override
+            public void onComplete(String object) {
+                if(progressDialog.isShowing())
+                    progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                if(progressDialog.isShowing())
+                    progressDialog.dismiss();
+            }
+        });
     }
 
     // When the app is no more visible to the user
@@ -52,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Remove the listener
         mAuth.removeAuthStateListener(mAuthListener);
+        messagingManager.removeUserCachingEventListener();
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -77,12 +99,27 @@ public class MainActivity extends AppCompatActivity {
 
         boolean isConnected = false;
         // Source: https://stackoverflow.com/a/45738019/15633316
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
         for (UserInfo user: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
             if (user.getProviderId().equals("password")) { // user connected through email
                 isConnected = true;
             }
         }
+        //chat button
+        findViewById(R.id.chat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getSupportFragmentManager().findFragmentByTag("ChatRoomsFragment") == null) {
 
+                    ChatRoomsFragment chatRoomsFragment  = new ChatRoomsFragment();
+                    getSupportFragmentManager().beginTransaction()
+
+                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                            .add(android.R.id.content, chatRoomsFragment, "ChatRoomsFragment")
+                            .addToBackStack("ChatRoomsFragment").commit();
+                }
+            }
+        });
         bottom_navigation = findViewById(R.id.bottom_navigation);
         boolean finalIsConnected = isConnected;
         bottom_navigation.setOnItemSelectedListener(item -> {
