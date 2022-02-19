@@ -66,9 +66,10 @@
     <string name="start_chat_with">"התחל שיחה עם: "</string>
     <string name="create_chat_room">"האם תרצה להתחיל שיחה עם "</string>
     <string name="problem_loading">ישנה בעיה בטעינת העוקבים</string>
-    <string name="chat_room_exists">Chat room with this user already exists</string>
-    <string name="added_chat_room">\"Successfully added chat room \"</string>
-    <string name="finished_caching_users">Finished caching users</string>
-    <string name="deleted_chat_room">Successfully deleted chat room</string>
-    <string name="sent_message">Successfully sent message</string>
+    <string name="added_chat_room">"התווסף צ'אט בהצלחה "</string>
+    <string name="deleted_chat_room">חדר צ\'אט נמחק בהצלחה</string>
+    <string name="sent_message">הודעה נשלחה בהצלחה</string>
+    <string name="chat_room_exists">צ\'אט עם המשתמש כבר קיים</string>
+    <string name="finished_caching_users">משיכת המשתמשים נגמרה</string>
+    <string name="chat">Chat</string>
 </resources>

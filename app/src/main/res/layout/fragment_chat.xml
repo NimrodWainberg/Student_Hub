@@ -18,7 +18,7 @@
         android:textColor="@color/colorGreen"
         android:textStyle="bold"
         android:textSize="32dp"
-        android:text="Chat With: "/>
+        android:text="Chat"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_rv"

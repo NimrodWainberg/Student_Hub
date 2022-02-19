@@ -1,9 +1,5 @@
 package com.example.studenthub.Model;
 
-import android.view.ContextMenu;
-
-import java.util.concurrent.CompletionException;
-
 public class ChatMessage  implements Comparable<ChatMessage> {
     private String id;
     private String authorId;

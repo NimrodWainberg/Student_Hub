@@ -1,12 +1,8 @@
 package com.example.studenthub.Adapter;
 
-import static android.provider.Settings.System.getString;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,21 +60,16 @@ public class UsersRvAdapter extends RecyclerView.Adapter<UsersRvAdapter.UsersVie
                 AlertDialog alert = showCreateRoomAlert(itemView.getContext(), user);
                 alert.show();
             });
-            uNameTV.setText(Resources.getSystem().getString(R.string.start_chat_with) + user.getFullName());
+            uNameTV.setText("Start Chat With: " + user.getFullName());
         }
     }
 
     public AlertDialog showCreateRoomAlert(Context context, User user) {
         AlertDialog alert = new AlertDialog.Builder(context)
-                .setTitle(Resources.getSystem().getString(R.string.app_name))
-                .setMessage(context.getString(R.string.create_chat_room) + user.getFullName())
-                .setPositiveButton(Resources.getSystem().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        createRoomListener.createRoom(user.getId());
-                    }
-                })
-                .setNegativeButton(Resources.getSystem().getString(R.string.no),null).create();
+                .setTitle("StudentHub")
+                .setMessage("Would you like to create a chat room with " + user.getFullName())
+                .setPositiveButton("Yes", (dialogInterface, i) -> createRoomListener.createRoom(user.getId()))
+                .setNegativeButton("No",null).create();
         return alert;
     }
 }

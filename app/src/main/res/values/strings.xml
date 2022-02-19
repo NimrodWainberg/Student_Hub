@@ -72,5 +72,6 @@
     <string name="finished_caching_users">Finished caching users</string>
     <string name="deleted_chat_room">Successfully deleted chat room</string>
     <string name="sent_message">Successfully sent message</string>
+    <string name="chat">Chat</string>
 
 </resources>

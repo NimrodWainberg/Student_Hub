@@ -2,7 +2,6 @@ package com.example.studenthub.Model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.List;
 import java.util.Map;
 
 @IgnoreExtraProperties

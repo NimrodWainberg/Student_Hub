@@ -9,14 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.studenthub.Adapter.interfaces.OnEnterChatRoomListener;
 import com.example.studenthub.Model.ChatRoom;
+import com.example.studenthub.Model.User;
 import com.example.studenthub.R;
 import com.example.studenthub.firebase.MessagingManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.example.studenthub.Model.User;
 import com.squareup.picasso.Picasso;
-
 
 import java.util.List;
 
@@ -63,14 +63,9 @@ public class ChatRoomsRvAdapter extends RecyclerView.Adapter<ChatRoomsRvAdapter.
                 u = MessagingManager.getInstance().getUserById(room.getSecondUserId());
             else u = MessagingManager.getInstance().getUserById(room.getOwnerId());
 
-            uNameTV.setText("Chat With: " +  u.getFullName());
+            uNameTV.setText("Chat" + u.getFullName());
             Picasso.get().load(u.getImageUrl()).into(uImageView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onEnterChatRoomListener.enterChatRoom(room.getId());
-                }
-            });
+            itemView.setOnClickListener(view -> onEnterChatRoomListener.enterChatRoom(room.getId()));
         }
     }
 }

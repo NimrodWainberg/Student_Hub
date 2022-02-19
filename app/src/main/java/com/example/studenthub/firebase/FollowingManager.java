@@ -1,11 +1,7 @@
 package com.example.studenthub.firebase;
 
-import androidx.annotation.NonNull;
-
 import com.example.studenthub.Model.User;
 import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;

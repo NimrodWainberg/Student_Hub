@@ -45,7 +45,7 @@
             android:textSize="18sp"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Chat With: username"
+            android:text="@string/chat"
             android:textColor="#737373" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

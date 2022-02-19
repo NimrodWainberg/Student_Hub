@@ -1,10 +1,6 @@
 package com.example.studenthub.Model;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class ChatRoom {
 

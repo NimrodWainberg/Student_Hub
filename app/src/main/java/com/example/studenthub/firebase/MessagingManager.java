@@ -1,8 +1,6 @@
 package com.example.studenthub.firebase;
 
 
-import android.content.res.Resources;
-import android.provider.ContactsContract;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
@@ -10,10 +8,7 @@ import androidx.annotation.NonNull;
 import com.example.studenthub.Model.ChatMessage;
 import com.example.studenthub.Model.ChatRoom;
 import com.example.studenthub.Model.User;
-import com.example.studenthub.R;
 import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,7 +50,7 @@ public class MessagingManager {
                                 && ((String) childSnap.child("secondUserId").getValue()).equals(recipientId))
                                 || (((String) childSnap.child("secondUserId").getValue()).equals(uid)
                                 && ((String) childSnap.child("ownerId").getValue()).equals(recipientId))) {
-                            callback.onFailure(new Exception(Resources.getSystem().getString(R.string.chat_room_exists)));
+                            callback.onFailure(new Exception("Chat room with this user already exists"));
                             return;
                         }
                     }
@@ -63,7 +58,7 @@ public class MessagingManager {
                     ChatRoom room = new ChatRoom(newRoom.getKey(), uid, recipientId);
                     newRoom.setValue(room)
                             .addOnSuccessListener(unused ->
-                                    callback.onComplete(Resources.getSystem().getString(R.string.added_chat_room)))
+                                    callback.onComplete("Successfully added chat room "))
                             .addOnFailureListener(callback::onFailure);
                 }).addOnFailureListener(callback::onFailure);
 
@@ -78,7 +73,7 @@ public class MessagingManager {
                     if (u == null) continue;
                     cachedUsers.put(u.getId(), u);
                 }
-                callBack.onComplete(Resources.getSystem().getString(R.string.finished_caching_users));
+                callBack.onComplete("Finished caching users");
             }
 
             @Override
@@ -94,14 +89,6 @@ public class MessagingManager {
             usersRef.removeEventListener(userCachingEventListener);
     }
 
-    // TODO delete?
-    /*public void deleteChatRoom(String id, FirebaseCallBack<String> callback) {
-        chatRoomsRef.child(id).removeValue()
-                .addOnSuccessListener(unused -> callback
-                        .onComplete(Resources.getSystem().getString(R.string.deleted_chat_room)))
-                .addOnFailureListener(callback::onFailure);
-    }*/
-
     public void sendNewMessage(String roomId, String recipientId, String messageContent,
                                FirebaseCallBack<String> callBack) {
         String uid = FirebaseAuth.getInstance().getUid();
@@ -110,7 +97,7 @@ public class MessagingManager {
         ChatMessage message = new ChatMessage(newMessage.getKey(), uid, recipientId, messageContent);
         newMessage.setValue(message)
                 .addOnSuccessListener(unused -> callBack
-                        .onComplete(Resources.getSystem().getString(R.string.sent_message) + message))
+                        .onComplete("Successfully sent message" + message))
                 .addOnFailureListener(callBack::onFailure);
     }
 
