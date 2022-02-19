@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:textColor="@color/black"
         android:layout_weight="1"
-        android:hint="Enter some message"
+        android:hint="@string/enter_your_message"
         android:textColorHint="@color/colorAccent"
         android:layout_height="wrap_content"/>
     <Button
@@ -19,6 +19,6 @@
         android:layout_width="75dp"
         android:textColor="@color/white"
         android:layout_height="wrap_content"
-        android:text="Send"
+        android:text="@string/send"
         android:textAllCaps="false"/>
 </LinearLayout>

@@ -1,7 +1,10 @@
 package com.example.studenthub.firebase;
 
+import androidx.annotation.NonNull;
+
 import com.example.studenthub.Model.User;
 import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -51,19 +54,9 @@ public class FollowingManager {
                             }
                         }
                         callback.onComplete(following);
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            callback.onFailure(e);
-                        }
-                    });
+                    }).addOnFailureListener(e -> callback.onFailure(e));
 
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callback.onFailure(e);
-                    }
-                });
+                .addOnFailureListener(e -> callback.onFailure(e));
     }
 }

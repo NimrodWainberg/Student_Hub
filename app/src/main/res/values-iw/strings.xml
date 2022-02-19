@@ -72,4 +72,6 @@
     <string name="chat_room_exists">צ\'אט עם המשתמש כבר קיים</string>
     <string name="finished_caching_users">משיכת המשתמשים נגמרה</string>
     <string name="chat">Chat</string>
+    <string name="enter_your_message">Enter your message...</string>
+    <string name="send">Send</string>
 </resources>

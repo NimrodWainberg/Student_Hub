@@ -51,7 +51,7 @@ public class MessagingManager {
                                 && ((String) childSnap.child("secondUserId").getValue()).equals(recipientId))
                                 || (((String) childSnap.child("secondUserId").getValue()).equals(uid)
                                 && ((String) childSnap.child("ownerId").getValue()).equals(recipientId))) {
-                            callback.onFailure(new Exception(Resources.getSystem().getString(R.string.chat_room_exists)));
+                            callback.onFailure(new Exception("Chat room with this user already exists"));
                             return;
                         }
                     }
@@ -59,7 +59,7 @@ public class MessagingManager {
                     ChatRoom room = new ChatRoom(newRoom.getKey(),uid,recipientId);
                     newRoom.setValue(room)
                             .addOnSuccessListener(unused ->
-                                    callback.onComplete(Resources.getSystem().getString(R.string.added_chat_room)))
+                                    callback.onComplete("Successfully added chat room "))
                             .addOnFailureListener(callback::onFailure);
                 }).addOnFailureListener(callback::onFailure);
 
@@ -90,14 +90,6 @@ public class MessagingManager {
             usersRef.removeEventListener(userCachingEventListener);
     }
 
-    // TODO delete?
-    /*public void deleteChatRoom(String id, FirebaseCallBack<String> callback) {
-        chatRoomsRef.child(id).removeValue()
-                .addOnSuccessListener(unused -> callback
-                        .onComplete(Resources.getSystem().getString(R.string.deleted_chat_room)))
-                .addOnFailureListener(callback::onFailure);
-    }*/
-
     public void sendNewMessage(String roomId, String recipientId, String messageContent,
                                       FirebaseCallBack<String> callBack) {
         String uid = FirebaseAuth.getInstance().getUid();
@@ -106,7 +98,7 @@ public class MessagingManager {
         ChatMessage message = new ChatMessage(newMessage.getKey(),uid,recipientId,messageContent);
         newMessage.setValue(message)
                 .addOnSuccessListener(unused -> callBack
-                        .onComplete(Resources.getSystem().getString(R.string.sent_message) + message))
+                        .onComplete("Successfully sent message: " + message))
                 .addOnFailureListener(callBack::onFailure);
     }
 
