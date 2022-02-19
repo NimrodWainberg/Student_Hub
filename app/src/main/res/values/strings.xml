@@ -56,5 +56,6 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="must_enter_description">You must enter description!</string>
+    <string name="institute">Institute</string>
 
 </resources>
