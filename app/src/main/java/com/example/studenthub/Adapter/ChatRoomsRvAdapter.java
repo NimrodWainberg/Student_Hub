@@ -64,7 +64,7 @@ public class ChatRoomsRvAdapter extends RecyclerView.Adapter<ChatRoomsRvAdapter.
                 u = MessagingManager.getInstance().getUserById(room.getSecondUserId());
             else u = MessagingManager.getInstance().getUserById(room.getOwnerId());
 
-            uNameTV.setText("Chat" + u.getFullName());
+            uNameTV.setText(u.getFullName());
             Picasso.get().load(u.getImageUrl()).into(uImageView);
             itemView.setOnClickListener(view -> onEnterChatRoomListener.enterChatRoom(room.getId()));
         }

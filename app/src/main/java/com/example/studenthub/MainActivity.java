@@ -45,7 +45,7 @@ public class MainActivity extends LoadingActivity {
         super.onStart();
         // Add the listener
         mAuth.addAuthStateListener(mAuthListener);
-        ProgressDialog progressDialog =  showLoading("");
+        ProgressDialog progressDialog = showLoading("");
         messagingManager.addUserCachingEventListener(new FirebaseCallBack<String>() {
             @Override
             public void onComplete(String object) {
@@ -99,19 +99,16 @@ public class MainActivity extends LoadingActivity {
                 isConnected = true;
             }
         }
-        //chat button
-        findViewById(R.id.chat_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getSupportFragmentManager().findFragmentByTag("ChatRoomsFragment") == null) {
+        // chat button
+        findViewById(R.id.chat_button).setOnClickListener(view -> {
+            if (getSupportFragmentManager().findFragmentByTag("ChatRoomsFragment") == null) {
 
-                    ChatRoomsFragment chatRoomsFragment  = new ChatRoomsFragment();
-                    getSupportFragmentManager().beginTransaction()
+                ChatRoomsFragment chatRoomsFragment  = new ChatRoomsFragment();
+                getSupportFragmentManager().beginTransaction()
 
-                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
-                            .add(android.R.id.content, chatRoomsFragment, "ChatRoomsFragment")
-                            .addToBackStack("ChatRoomsFragment").commit();
-                }
+                        .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                        .add(android.R.id.content, chatRoomsFragment, "ChatRoomsFragment")
+                        .addToBackStack("ChatRoomsFragment").commit();
             }
         });
         bottom_navigation = findViewById(R.id.bottom_navigation);
@@ -124,7 +121,6 @@ public class MainActivity extends LoadingActivity {
                 case R.id.nav_search:
                     if (!finalIsConnected) {
                         selectedFragment = new GuestModeFragment();
-                        //showDialogFragment();
                     }
                     else {
                         selectedFragment = new SearchFragment();
@@ -133,7 +129,6 @@ public class MainActivity extends LoadingActivity {
                 case R.id.nav_post:
                     if (!finalIsConnected) {
                         selectedFragment = new GuestModeFragment();
-                        //showDialogFragment();
                     }
                     else {
                         selectedFragment = null;
@@ -143,7 +138,6 @@ public class MainActivity extends LoadingActivity {
                 case R.id.nav_notifications:
                     if (!finalIsConnected) {
                         selectedFragment = new GuestModeFragment();
-//                        showDialogFragment();
                     }
                     else {
                         selectedFragment = new NotificationFragment();

@@ -1,25 +1,18 @@
 package com.example.studenthub.Adapter;
 
-import static android.provider.Settings.System.getString;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.studenthub.Adapter.interfaces.OnCreateRoomListener;
 import com.example.studenthub.Model.User;
 import com.example.studenthub.R;
-
 import java.util.List;
 
 public class UsersRvAdapter extends RecyclerView.Adapter<UsersRvAdapter.UsersViewHolder> {
@@ -64,7 +57,7 @@ public class UsersRvAdapter extends RecyclerView.Adapter<UsersRvAdapter.UsersVie
                 AlertDialog alert = showCreateRoomAlert(itemView.getContext(), user);
                 alert.show();
             });
-            uNameTV.setText("Start Chat With: " + user.getFullName());
+            uNameTV.setText("Start Chat With " + user.getFullName());
         }
     }
 

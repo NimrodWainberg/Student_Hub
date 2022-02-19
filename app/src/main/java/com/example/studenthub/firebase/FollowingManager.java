@@ -54,9 +54,9 @@ public class FollowingManager {
                             }
                         }
                         callback.onComplete(following);
-                    }).addOnFailureListener(e -> callback.onFailure(e));
+                    }).addOnFailureListener(callback::onFailure);
 
                 })
-                .addOnFailureListener(e -> callback.onFailure(e));
+                .addOnFailureListener(callback::onFailure);
     }
 }
