@@ -26,7 +26,7 @@ public class FollowingManager {
                     .child("followers").child(uid1).setValue(true);
         }
 
-    public static void unFollow(String uid1, String uid2) {
+    public static void unfollow(String uid1, String uid2) {
         followingRef.child(uid1)
                 .child("following").child(uid2).removeValue();
         followingRef.child(uid2)

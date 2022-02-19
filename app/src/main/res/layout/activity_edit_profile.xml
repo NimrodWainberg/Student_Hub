@@ -163,7 +163,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginEnd="10dp"
                 android:hint="@string/bio_hint"
-                android:maxLength="20"
+                android:maxLength="30"
                 android:textColorHint="#212121"
                 tools:ignore="RtlHardcoded" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.studenthub.Adapter.PhotoAdapter;
-import com.example.studenthub.EditProfile;
 import com.example.studenthub.Login;
 import com.example.studenthub.Model.Post;
 import com.example.studenthub.Model.User;
@@ -86,8 +85,14 @@ public class ProfileFragment extends Fragment {
         edit_profile.setOnClickListener(edit_profile_view -> {
             String buttonString = edit_profile.getText().toString();
 
-            if (buttonString.equals(getString(R.string.edit_profile)))
-                startActivity(new Intent(getContext(), EditProfile.class));
+            if (buttonString.equals(getString(R.string.edit_profile))){
+                EditProfileFragment editProfileFragment = new EditProfileFragment();
+                getParentFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                        .add(android.R.id.content, editProfileFragment, "editProfileFragment")
+                        .addToBackStack("editProfileFragment").commit();
+            }
+
             else if (buttonString.equals(getString(R.string.follow_btn))) {
                 FollowingManager.follow(firebaseUser.getUid(),id);
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users")
@@ -100,14 +105,12 @@ public class ProfileFragment extends Fragment {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) {}
                 });
                  // If a new follow is created, update notifications
 
             } else if (buttonString.equals(getString(R.string.following))) {
-                FollowingManager.unFollow(firebaseUser.getUid(),id);
+                FollowingManager.unfollow(firebaseUser.getUid(), id);
             }
         });
 

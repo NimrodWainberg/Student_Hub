@@ -1,10 +1,13 @@
-package com.example.studenthub;
+package com.example.studenthub.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,10 +16,12 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.studenthub.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +42,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EditProfile extends AppCompatActivity {
+public class EditProfileFragment extends Fragment {
     ImageView closeIv, profilePicture;
     TextView saveBtn;
     TextInputEditText fullName, username, bio;
@@ -50,12 +55,12 @@ public class EditProfile extends AppCompatActivity {
     UploadTask uploadTask;
     StorageReference storageRef, fileReference;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_edit_profile, container, false);
 
-        initViews();
+        initViews(view);
         initListeners();
         initLaunchers();
 
@@ -68,9 +73,9 @@ public class EditProfile extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Getting the details of specific user
                 fullName.setText(snapshot.child("fullName").getValue(String.class));
-                username.setText(snapshot.child("username"  ).getValue(String.class));
+                username.setText(snapshot.child("username").getValue(String.class));
                 bio.setText(snapshot.child("bio").getValue(String.class));
-                Glide.with(getApplicationContext()).load(snapshot.child("imageUrl")
+                Glide.with(getContext()).load(snapshot.child("imageUrl")
                         .getValue(String.class)).into(profilePicture);
             }
 
@@ -78,14 +83,20 @@ public class EditProfile extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
 
-        closeIv.setOnClickListener(view -> finish());
+        closeIv.setOnClickListener(view1 -> {
+            if(requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
+                requireActivity().getSupportFragmentManager().popBackStack();
+        });
 
-        saveBtn.setOnClickListener(view -> {
+        saveBtn.setOnClickListener(view2 -> {
             updateProfile(Objects.requireNonNull(fullName.getText()).toString(),
                     Objects.requireNonNull(username.getText()).toString(),
                     Objects.requireNonNull(bio.getText()).toString());
-            finish();
+            if(requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0)
+                requireActivity().getSupportFragmentManager().popBackStack();
         });
+
+        return view;
     }
 
     /**
@@ -95,10 +106,10 @@ public class EditProfile extends AppCompatActivity {
         gallery.setOnClickListener(v -> galleryResultLauncher.launch("image/*"));
 
         camera.setOnClickListener(v -> {
-            picFile = new File(getApplicationContext() // Creating a new file to insert the URI into
+            picFile = new File(getContext() // Creating a new file to insert the URI into
                     .getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                     "Photo" + System.currentTimeMillis() + ".jpg");
-            uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", picFile);
+            uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".provider", picFile);
 
             cameraResultLauncher.launch(uri);
         });
@@ -110,7 +121,7 @@ public class EditProfile extends AppCompatActivity {
     private void initLaunchers(){
         cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> { // True if image saved into given URI
             if(result){
-                Glide.with(getApplicationContext()).load(picFile.getAbsoluteFile()).into(profilePicture);
+                Glide.with(getContext()).load(picFile.getAbsoluteFile()).into(profilePicture);
 
                 uploadPictureToStorage();
             }
@@ -118,7 +129,7 @@ public class EditProfile extends AppCompatActivity {
 
         galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
             uri = result;
-            Glide.with(getApplicationContext()).load(result).into(profilePicture);
+            Glide.with(getContext()).load(result).into(profilePicture);
 
             uploadPictureToStorage();
         });
@@ -127,15 +138,15 @@ public class EditProfile extends AppCompatActivity {
     /**
      * A function that initializes the views
      */
-    private void initViews() {
-        closeIv = findViewById(R.id.close);
-        saveBtn = findViewById(R.id.save);
-        profilePicture = findViewById(R.id.edit_profile_profile_picture);
-        camera = findViewById(R.id.add_picture_camera);
-        gallery = findViewById(R.id.add_picture_gallery);
-        fullName = findViewById(R.id.edit_profile_fullname);
-        username = findViewById(R.id.edit_profile_username_edittext);
-        bio = findViewById(R.id.edit_profile_bio_edittext);
+    private void initViews(View view) {
+        closeIv = view.findViewById(R.id.close);
+        saveBtn = view.findViewById(R.id.save);
+        profilePicture = view.findViewById(R.id.edit_profile_profile_picture);
+        camera = view.findViewById(R.id.add_picture_camera);
+        gallery = view.findViewById(R.id.add_picture_gallery);
+        fullName = view.findViewById(R.id.edit_profile_fullname);
+        username = view.findViewById(R.id.edit_profile_username_edittext);
+        bio = view.findViewById(R.id.edit_profile_bio_edittext);
     }
 
     /**
@@ -153,7 +164,7 @@ public class EditProfile extends AppCompatActivity {
         map.put("bio", bio);
 
         reference.updateChildren(map);
-        Toast.makeText(EditProfile.this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.changes_saved, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -162,7 +173,7 @@ public class EditProfile extends AppCompatActivity {
      * @return String of file type
      */
     private String getFileType(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
+        ContentResolver contentResolver = getContext().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
@@ -171,20 +182,20 @@ public class EditProfile extends AppCompatActivity {
      * A function that uploads a new profile picture and updates the DB.
      */
     private void uploadPictureToStorage() {
-        final ProgressDialog pd = new ProgressDialog(this);
+        final ProgressDialog pd = new ProgressDialog(getContext());
         pd.setMessage(getString(R.string.uploading));
         pd.show();
         if (uri != null) {
-                // Creating file name according to System's version
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) { // if picture taken
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss");
-                    LocalDateTime now = LocalDateTime.now();
-                    fileReference = storageRef.child("Picture" + dtf.format(now) + "." + getFileType(uri));
-                }
-                else {
-                    fileReference = storageRef.child("Picture" + System.currentTimeMillis()
-                            + "." + getFileType(uri));
-                }
+            // Creating file name according to System's version
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) { // if picture taken
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                fileReference = storageRef.child("Picture" + dtf.format(now) + "." + getFileType(uri));
+            }
+            else {
+                fileReference = storageRef.child("Picture" + System.currentTimeMillis()
+                        + "." + getFileType(uri));
+            }
 
             uploadTask = fileReference.putFile(uri);
             uploadTask.continueWithTask(task -> {
@@ -213,12 +224,12 @@ public class EditProfile extends AppCompatActivity {
 
                 } else {
                     pd.dismiss();
-                    Toast.makeText(EditProfile.this, R.string.uploading_failed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.uploading_failed, Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             pd.dismiss();
-            Toast.makeText(EditProfile.this, R.string.no_image_selected, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.no_image_selected, Toast.LENGTH_SHORT).show();
         }
     }
 }

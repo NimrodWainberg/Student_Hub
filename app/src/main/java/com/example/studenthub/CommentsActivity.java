@@ -73,7 +73,7 @@ public class CommentsActivity extends AppCompatActivity {
                         getString(R.string.comment_cannot_be_empty), Toast.LENGTH_SHORT).show();
             } else {
                 addComment();
-                commentEditText.getText().toString();
+                commentEditText.setText("");
             }
         });
 
