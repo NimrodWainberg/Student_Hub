@@ -1,0 +1,355 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n    id 'com.google.gms.google-services'\r\n}\r\n\r\nandroid {\r\n    compileSdkVersion 31\r\n    buildToolsVersion '30.0.3'\r\n\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.studenthub\"\r\n        minSdkVersion 23\r\n        targetSdkVersion 31\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test:runner:1.4.0'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.4.1'\r\n    implementation 'com.google.android.material:material:1.5.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'\r\n    implementation 'com.google.firebase:firebase-auth:21.0.1'\r\n    implementation 'com.google.firebase:firebase-firestore:24.0.1'\r\n    implementation 'com.google.firebase:firebase-storage:20.0.0'\r\n    implementation 'com.google.firebase:firebase-database:20.0.3'\r\n    implementation platform('com.google.firebase:firebase-bom:29.1.0')\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.squareup.picasso:picasso:2.71828'\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'de.hdodenhof:circleimageview:2.2.0'\r\n    implementation 'com.github.bumptech.glide:glide:4.12.0'\r\n    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'\r\n    implementation 'com.rengwuxian.materialedittext:library:2.1.4'\r\n    implementation 'com.airbnb.android:lottie:3.7.0'\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 9e9afae2ac7decb69e0d7a907ee367d3c5ddda9c)
++++ b/app/build.gradle	(date 1645100519983)
+@@ -33,6 +33,7 @@
+ }
+ 
+ dependencies {
++    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+     testImplementation 'junit:junit:4.13.2'
+     androidTestImplementation 'androidx.test:runner:1.4.0'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+Index: app/src/main/res/layout/activity_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n\r\n<androidx.drawerlayout.widget.DrawerLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/drawer_layout\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#3F97BA\"\r\n    tools:context=\".Login\">\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\">\r\n\r\n\r\n        <androidx.appcompat.widget.Toolbar\r\n            android:id=\"@+id/toolbar\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"?attr/actionBarSize\"\r\n            android:background=\"?attr/colorPrimaryDark\"\r\n            android:theme=\"@style/ThemeOverlay.AppCompat.Dark\"\r\n            app:layout_scrollFlags=\"scroll|enterAlways\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/studenthub_logo\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/toolbar\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginTop=\"25dp\"\r\n            android:fontFamily=\"@font/bitter\"\r\n            android:text=\"@string/app_name\"\r\n            android:textColor=\"#000000\"\r\n            android:textSize=\"25sp\"\r\n            android:textStyle=\"bold\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/studenthub_sentence\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/studenthub_logo\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginTop=\"15dp\"\r\n            android:fontFamily=\"@font/bitter\"\r\n            android:text=\"@string/studenthub_sentence\"\r\n            android:textColor=\"#FFFFFF\"\r\n            android:textSize=\"19sp\" />\r\n\r\n        <com.google.android.material.textfield.TextInputLayout\r\n            android:id=\"@+id/email_layout\"\r\n            style=\"@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/studenthub_sentence\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:layout_marginTop=\"110dp\"\r\n            android:gravity=\"start\"\r\n            android:paddingEnd=\"30dp\"\r\n            app:boxStrokeColor=\"@color/black\"\r\n            app:errorEnabled=\"true\"\r\n            tools:ignore=\"RtlSymmetry\">\r\n\r\n            <com.google.android.material.textfield.TextInputEditText\r\n                android:id=\"@+id/text_input_email\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:drawableEnd=\"@drawable/ic_baseline_mail_24\"\r\n                android:hint=\"@string/e_mail_address\"\r\n                android:inputType=\"textEmailAddress\"\r\n                android:maxLength=\"25\"/>\r\n        </com.google.android.material.textfield.TextInputLayout>\r\n\r\n        <com.google.android.material.textfield.TextInputLayout\r\n            android:id=\"@+id/password_layout\"\r\n            style=\"@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/email_layout\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:gravity=\"start\"\r\n            android:paddingEnd=\"30dp\"\r\n            app:boxStrokeColor=\"@color/black\"\r\n            app:counterEnabled=\"true\"\r\n            app:counterMaxLength=\"12\"\r\n            app:counterOverflowTextAppearance=\"@style/CounterOverFlow\"\r\n            app:counterTextAppearance=\"@style/CounterText\"\r\n            app:errorEnabled=\"true\"\r\n            app:passwordToggleEnabled=\"true\"\r\n            tools:ignore=\"RtlSymmetry\">\r\n\r\n            <com.google.android.material.textfield.TextInputEditText\r\n                android:id=\"@+id/text_input_password\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:drawableTint=\"@color/black\"\r\n                android:hint=\"@string/password\"\r\n                android:inputType=\"textPassword\"\r\n                android:maxLength=\"12\" />\r\n        </com.google.android.material.textfield.TextInputLayout>\r\n\r\n        <com.google.android.material.button.MaterialButton\r\n            android:id=\"@+id/login_button\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/password_layout\"\r\n            android:layout_marginStart=\"50dp\"\r\n            android:layout_marginEnd=\"50dp\"\r\n            android:backgroundTint=\"#1F5165\"\r\n            android:text=\"@string/login_btn\"\r\n            android:textAppearance=\"@style/TextAppearance.AppCompat.Widget.Button\"\r\n            android:textSize=\"13sp\"\r\n            app:cornerRadius=\"40dp\">\r\n        </com.google.android.material.button.MaterialButton>\r\n\r\n        <com.google.android.material.button.MaterialButton\r\n            android:id=\"@+id/login_anonymous_button\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/password_layout\"\r\n            android:layout_marginStart=\"50dp\"\r\n            android:layout_marginTop=\"68dp\"\r\n            android:layout_marginEnd=\"50dp\"\r\n            android:backgroundTint=\"#1F5165\"\r\n            android:text=\"@string/login_anonymous_btn\"\r\n            android:textAppearance=\"@style/TextAppearance.AppCompat.Widget.Button\"\r\n            android:textSize=\"13sp\"\r\n            app:cornerRadius=\"40dp\">\r\n        </com.google.android.material.button.MaterialButton>\r\n\r\n        <com.airbnb.lottie.LottieAnimationView\r\n            android:id=\"@+id/login_animation\"\r\n            android:layout_width=\"100dp\"\r\n            android:layout_height=\"100dp\"\r\n            android:layout_below=\"@+id/login_anonymous_button\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginStart=\"155dp\"\r\n            android:layout_marginTop=\"50dp\"\r\n            android:layout_marginEnd=\"156dp\"\r\n            android:layout_marginBottom=\"10dp\"\r\n            android:scaleX=\"3\"\r\n            android:scaleY=\"3\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.5\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/login_button\"\r\n            app:lottie_autoPlay=\"true\"\r\n            app:lottie_loop=\"true\"\r\n            app:lottie_rawRes=\"@raw/login\" />\r\n    </RelativeLayout>\r\n\r\n    <com.google.android.material.navigation.NavigationView\r\n        android:id=\"@+id/navigation_view\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_gravity=\"start\"\r\n        app:headerLayout=\"@layout/header_layout\"\r\n        app:menu=\"@menu/drawer_menu\">\r\n    </com.google.android.material.navigation.NavigationView>\r\n\r\n</androidx.drawerlayout.widget.DrawerLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_login.xml b/app/src/main/res/layout/activity_login.xml
+--- a/app/src/main/res/layout/activity_login.xml	(revision 9e9afae2ac7decb69e0d7a907ee367d3c5ddda9c)
++++ b/app/src/main/res/layout/activity_login.xml	(date 1645099402849)
+@@ -65,7 +65,6 @@
+                 android:id="@+id/text_input_email"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+-                android:drawableEnd="@drawable/ic_baseline_mail_24"
+                 android:hint="@string/e_mail_address"
+                 android:inputType="textEmailAddress"
+                 android:maxLength="25"/>
+Index: app/src/main/res/layout/personalist.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/personalist.xml b/app/src/main/res/layout/personalist.xml
+new file mode 100644
+--- /dev/null	(date 1645099405149)
++++ b/app/src/main/res/layout/personalist.xml	(date 1645099405149)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Thu Feb 04 23:27:04 IST 2021\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-7.2-all.zip\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+--- a/gradle/wrapper/gradle-wrapper.properties	(revision 9e9afae2ac7decb69e0d7a907ee367d3c5ddda9c)
++++ b/gradle/wrapper/gradle-wrapper.properties	(date 1645099405118)
+@@ -1,6 +1,6 @@
+-#Thu Feb 04 23:27:04 IST 2021
++#Wed Feb 16 03:19:32 IST 2022
+ distributionBase=GRADLE_USER_HOME
++distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-bin.zip
+ distributionPath=wrapper/dists
+-zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-all.zip
++zipStoreBase=GRADLE_USER_HOME
+Index: app/src/main/res/drawable/background_pic_message.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/background_pic_message.xml b/app/src/main/res/drawable/background_pic_message.xml
+new file mode 100644
+--- /dev/null	(date 1645099405104)
++++ b/app/src/main/res/drawable/background_pic_message.xml	(date 1645099405104)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:shape="rectangle">
++    <solid android:color="@color/browser_actions_bg_grey"/>
++    <corners android:radius="8dp"/>
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_chat.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_chat.xml b/app/src/main/res/layout/activity_chat.xml
+new file mode 100644
+--- /dev/null	(date 1645099405097)
++++ b/app/src/main/res/layout/activity_chat.xml	(date 1645099405097)
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="utf-8"?>
++<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:animateLayoutChanges="true"
++    android:background="@color/browser_actions_title_color"
++    tools:context=".Model.ChatActivity">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical"
++        >
++
++        <ListView
++            android:id="@+id/messageStack"
++            android:layout_width="match_parent"
++            android:layout_height="500dp"
++            />
++
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="100dp"
++            android:orientation="horizontal"
++            >
++
++            <EditText
++                android:id="@+id/etMessage"
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:layout_weight="1"></EditText>
++
++            <Button
++                android:id="@+id/btnSend"
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:layout_weight="3"></Button>
++        </LinearLayout>
++    </LinearLayout>
++
++
++</FrameLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/firebase/MessagingService.java b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+new file mode 100644
+--- /dev/null	(date 1645099405112)
++++ b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java	(date 1645099405112)
+@@ -0,0 +1,21 @@
++package com.example.studenthub.firebase;
++
++import android.util.Log;
++
++import androidx.annotation.NonNull;
++
++import com.google.firebase.messaging.FirebaseMessagingService;
++import com.google.firebase.messaging.RemoteMessage;
++
++public class MessagingService extends FirebaseMessagingService {
++    @Override
++    public void onNewToken(@NonNull String token) {
++        super.onNewToken(token);
++    }
++
++
++    @Override
++    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
++        super.onMessageReceived(remoteMessage);
++    }
++}
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+new file mode 100644
+--- /dev/null	(date 1645101382270)
++++ b/.idea/deploymentTargetDropDown.xml	(date 1645101382270)
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="deploymentTargetDropDown">
++    <targetSelectedWithDropDown>
++      <Target>
++        <type value="QUICK_BOOT_TARGET" />
++        <deviceKey>
++          <Key>
++            <type value="VIRTUAL_DEVICE_PATH" />
++            <value value="C:\Users\or448\.android\avd\Pixel_2_API_30.avd" />
++          </Key>
++        </deviceKey>
++      </Target>
++    </targetSelectedWithDropDown>
++    <timeTargetWasSelectedWithDropDown value="2022-02-17T12:32:37.279900200Z" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/ChatMessage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/ChatMessage.java b/app/src/main/java/com/example/studenthub/ChatMessage.java
+new file mode 100644
+--- /dev/null	(date 1645099405126)
++++ b/app/src/main/java/com/example/studenthub/ChatMessage.java	(date 1645099405126)
+@@ -0,0 +1,6 @@
++package com.example.studenthub;
++
++public class ChatMessage {
++    private String id;
++
++}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_favorite.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_grid.xml\" value=\"0.1225\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable-xxhdpi/ic_add_a_photo_material.xml\" value=\"0.124\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable/button_background.xml\" value=\"0.1225\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable/ic_person_black_24dp.xml\" value=\"0.1225\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.176\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.31654676258992803\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_animation.xml\" value=\"0.1721014492753623\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_dialog.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.27202472952086554\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/header_layout.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/menu/bottom_navigation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/menu/drawer_menu.xml\" value=\"0.11145833333333334\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/menu/main_menu.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/menu/search_menu.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.2916666666666667\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.14218009478672985\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.26510416666666664\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/progress_dialog.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.4005208333333333\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 9e9afae2ac7decb69e0d7a907ee367d3c5ddda9c)
++++ b/.idea/misc.xml	(date 1645099405156)
+@@ -4,13 +4,9 @@
+     <option name="filePathToZoomLevelMap">
+       <map>
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_favorite.xml" value="0.1" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_grid.xml" value="0.1225" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable-xxhdpi/ic_add_a_photo_material.xml" value="0.124" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable/button_background.xml" value="0.1225" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/drawable/ic_person_black_24dp.xml" value="0.1225" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.2" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml" value="0.2" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.176" />
++        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml" value="0.11302083333333333" />
++        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.4" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_post.xml" value="0.31654676258992803" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_register.xml" value="0.11302083333333333" />
+@@ -19,22 +15,18 @@
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_animation.xml" value="0.1721014492753623" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_dialog.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml" value="0.264" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml" value="0.264" />
++        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_home.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_notification.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_profile.xml" value="0.27202472952086554" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_search.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/header_layout.xml" value="0.11302083333333333" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification_item.xml" value="0.264" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/photos_item.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.11302083333333333" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.4" />
++        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.6" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/menu/bottom_navigation.xml" value="0.11302083333333333" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/menu/drawer_menu.xml" value="0.11145833333333334" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/menu/main_menu.xml" value="0.264" />
+-        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/menu/search_menu.xml" value="0.2" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.4" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml" value="0.2916666666666667" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.264" />
+@@ -55,6 +47,15 @@
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/progress_dialog.xml" value="0.39947916666666666" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.4005208333333333" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable-anydpi/ic_add.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable-anydpi/ic_person.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable/background_pic_message.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_chat.xml" value="0.22" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/fragment_profile.xml" value="0.3333333333333333" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/personalist.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.1" />
+       </map>
+     </option>
+   </component>
+Index: app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/PrivateChat.java b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+new file mode 100644
+--- /dev/null	(date 1645099405143)
++++ b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java	(date 1645099405143)
+@@ -0,0 +1,18 @@
++package com.example.studenthub.Model;
++
++import com.example.studenthub.ChatMessage;
++
++public class PrivateChat {
++    private String id;
++    private String user1;
++    private String user2;
++    ChatMessage chatMessage;
++
++
++    public PrivateChat(String id, String user1, String user2) {
++        this.id = id;
++        this.user1 = user1;
++        this.user2 = user2;
++
++    }
++}
+Index: app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/ChatActivity.java b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+new file mode 100644
+--- /dev/null	(date 1645100589121)
++++ b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java	(date 1645100589121)
+@@ -0,0 +1,27 @@
++package com.example.studenthub.Model;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import android.app.Activity;
++import android.os.Bundle;
++import android.preference.Preference;
++import android.preference.PreferenceManager;
++
++import com.example.studenthub.R;
++//import com.example.studenthub.databinding.ActivityChatBinding;
++
++public class ChatActivity extends AppCompatActivity {
++
++//    private ActivityChatBinding binding;
++    private PreferenceManager preference;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++//        binding = ActivityChatBinding.inflate(getLayoutInflater());
++//        setContentView(binding.getRoot());
++
++
++    }
++
++}
+\ No newline at end of file

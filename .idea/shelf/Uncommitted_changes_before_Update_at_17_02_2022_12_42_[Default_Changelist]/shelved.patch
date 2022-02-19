@@ -1,0 +1,400 @@
+Index: app/src/main/java/com/example/studenthub/Model/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.studenthub.Model;\r\nimport com.example.studenthub.Fragment.HubDatabase;\r\n\r\nimport java.util.Map;\r\n\r\npublic class User {\r\n    private String username;\r\n    private String email;\r\n    private String fullName;\r\n    private String imageUrl;\r\n    private String bio;\r\n    private String id;\r\n\r\n\r\n    public User(String username, String email, String fullName, String imageUrl, String bio) {\r\n        this.username = username;\r\n        this.email = email;\r\n        this.fullName = fullName;\r\n        this.imageUrl = imageUrl;\r\n        this.bio = bio;\r\n    }\r\n\r\n    public User() {\r\n        // Default empty constructor\r\n    }\r\n\r\n    public User(Map<String,Object> data) {\r\n        this.username = (String) data.get(\"username\");\r\n        this.imageUrl = (String) data.get(\"imageUrl\");\r\n        this.bio = (String) data.get(\"bio\");\r\n        this.fullName = (String) data.get(\"fullName\");\r\n        this.email = (String) data.get(\"email\");\r\n    }\r\n\r\n    public String getEmail() {\r\n        return email;\r\n    }\r\n\r\n    public void setEmail(String email) {\r\n        this.email = email;\r\n    }\r\n\r\n    public String getFullName() {\r\n        return fullName;\r\n    }\r\n\r\n    public void setFullName(String fullName) {\r\n        this.fullName = fullName;\r\n    }\r\n\r\n    public String getImageUrl() {\r\n        return imageUrl;\r\n    }\r\n\r\n    public void setImageUrl(String imageUrl) {\r\n        this.imageUrl = imageUrl;\r\n    }\r\n\r\n    public String getBio() {\r\n        return bio;\r\n    }\r\n\r\n    public void setBio(String bio) {\r\n        this.bio = bio;\r\n    }\r\n\r\n    public String getId() {\r\n        return id;\r\n    }\r\n\r\n    public String getUsername() {\r\n        return username;\r\n    }\r\n\r\n    public void setUsername(String username) {\r\n        this.username = username;\r\n    }\r\n\r\n    public void setId(String id) {\r\n        this.id = id;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/User.java b/app/src/main/java/com/example/studenthub/Model/User.java
+--- a/app/src/main/java/com/example/studenthub/Model/User.java	(revision d2f1087c7dd3db37080edab26bae98a862340f76)
++++ b/app/src/main/java/com/example/studenthub/Model/User.java	(date 1645042659612)
+@@ -12,8 +12,7 @@
+     private String id;
+ 
+ 
+-    public User(String username, String email, String fullName, String imageUrl, String bio) {
+-        this.username = username;
++    public User(String email, String fullName, String imageUrl, String bio) {
+         this.email = email;
+         this.fullName = fullName;
+         this.imageUrl = imageUrl;
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n    id 'com.google.gms.google-services'\r\n}\r\n\r\nandroid {\r\n    compileSdkVersion 31\r\n    buildToolsVersion '30.0.3'\r\n\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.studenthub\"\r\n        minSdkVersion 23\r\n        targetSdkVersion 31\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test:runner:1.4.0'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'\r\n    implementation 'com.google.firebase:firebase-auth:21.0.1'\r\n    implementation 'com.google.firebase:firebase-firestore:24.0.1'\r\n    implementation 'com.google.firebase:firebase-storage:20.0.0'\r\n    implementation 'com.google.firebase:firebase-database:20.0.3'\r\n    implementation platform('com.google.firebase:firebase-bom:29.1.0')\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.squareup.picasso:picasso:2.71828'\r\n    implementation 'com.android.support:design:30.1.1'\r\n    implementation 'de.hdodenhof:circleimageview:2.2.0'\r\n    implementation 'com.github.bumptech.glide:glide:4.12.0'\r\n    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'\r\n    implementation 'com.android.support:support-v4:30.0.0'\r\n    implementation 'com.rengwuxian.materialedittext:library:2.1.4'\r\n    implementation 'com.airbnb.android:lottie:3.7.0'\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision d2f1087c7dd3db37080edab26bae98a862340f76)
++++ b/app/build.gradle	(date 1645042622706)
+@@ -14,6 +14,7 @@
+         targetSdkVersion 31
+         versionCode 1
+         versionName "1.0"
++        multiDexEnabled true
+ 
+         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+     }
+@@ -30,30 +31,46 @@
+         sourceCompatibility JavaVersion.VERSION_1_8
+         targetCompatibility JavaVersion.VERSION_1_8
+     }
++    buildFeatures {
++                viewBinding true
++            }
+ }
+ 
+ dependencies {
++    implementation 'com.makeramen:roundedimageview:2.3.0'
++    implementation 'com.google.firebase:firebase-messaging:23.0.0'
++    implementation 'com.google.android.material:material:1.5.0'
+     testImplementation 'junit:junit:4.13.2'
+     androidTestImplementation 'androidx.test:runner:1.4.0'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+     implementation fileTree(dir: "libs", include: ["*.jar"])
+-    implementation 'androidx.appcompat:appcompat:1.2.0'
++    implementation 'androidx.appcompat:appcompat:1.4.1'
+     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+-    implementation 'com.google.firebase:firebase-auth:21.0.1'
+-    implementation 'com.google.firebase:firebase-firestore:24.0.1'
+-    implementation 'com.google.firebase:firebase-storage:20.0.0'
+-    implementation 'com.google.firebase:firebase-database:20.0.3'
+-    implementation platform('com.google.firebase:firebase-bom:29.1.0')
++
++    implementation 'de.hdodenhof:circleimageview:3.1.0'
++    implementation 'com.squareup.picasso:picasso:2.71828'
++
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+     implementation 'com.squareup.picasso:picasso:2.71828'
++    //noinspection GradleCompatible
+     implementation 'com.android.support:design:30.1.1'
+-    implementation 'de.hdodenhof:circleimageview:2.2.0'
++    implementation 'de.hdodenhof:circleimageview:3.1.0'
+     implementation 'com.github.bumptech.glide:glide:4.12.0'
+     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
++    //noinspection GradleCompatible
+     implementation 'com.android.support:support-v4:30.0.0'
+     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+     implementation 'com.airbnb.android:lottie:3.7.0'
++
++    implementation 'com.google.firebase:firebase-firestore:24.0.1'
++    implementation 'com.google.firebase:firebase-messaging:23.0.0'
++    implementation 'com.google.firebase:firebase-auth:21.0.1'
++    implementation 'com.google.firebase:firebase-storage:20.0.0'
++    implementation 'com.google.firebase:firebase-database:20.0.3'
++    implementation platform('com.google.firebase:firebase-bom:29.1.0')
++
++    implementation 'androidx.multidex:multidex:2.0.1'
+ }
+ 
+ 
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:7.1.1'\r\n        classpath 'com.google.gms:google-services:4.3.10'\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision d2f1087c7dd3db37080edab26bae98a862340f76)
++++ b/build.gradle	(date 1645042622712)
+@@ -5,7 +5,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:7.1.1'
++        classpath "com.android.tools.build:gradle:4.0.2"
+         classpath 'com.google.gms:google-services:4.3.10'
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+Index: app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/PrivateChat.java b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+new file mode 100644
+--- /dev/null	(date 1645042622724)
++++ b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java	(date 1645042622724)
+@@ -0,0 +1,18 @@
++package com.example.studenthub.Model;
++
++import com.example.studenthub.ChatMessage;
++
++public class PrivateChat {
++    private String id;
++    private String user1;
++    private String user2;
++    ChatMessage chatMessage;
++
++
++    public PrivateChat(String id, String user1, String user2) {
++        this.id = id;
++        this.user1 = user1;
++        this.user2 = user2;
++
++    }
++}
+Index: app/src/main/res/layout/activity_chat.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_chat.xml b/app/src/main/res/layout/activity_chat.xml
+new file mode 100644
+--- /dev/null	(date 1645042622729)
++++ b/app/src/main/res/layout/activity_chat.xml	(date 1645042622729)
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="utf-8"?>
++<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:animateLayoutChanges="true"
++    android:background="@color/browser_actions_title_color"
++    tools:context=".Model.ChatActivity">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical"
++        >
++
++        <ListView
++            android:id="@+id/messageStack"
++            android:layout_width="match_parent"
++            android:layout_height="500dp"
++            />
++
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="100dp"
++            android:orientation="horizontal"
++            >
++
++            <EditText
++                android:id="@+id/etMessage"
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:layout_weight="1"></EditText>
++
++            <Button
++                android:id="@+id/btnSend"
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:layout_weight="3"></Button>
++        </LinearLayout>
++    </LinearLayout>
++
++
++</FrameLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/ChatActivity.java b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+new file mode 100644
+--- /dev/null	(date 1645042622718)
++++ b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java	(date 1645042622718)
+@@ -0,0 +1,27 @@
++package com.example.studenthub.Model;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import android.app.Activity;
++import android.os.Bundle;
++import android.preference.Preference;
++import android.preference.PreferenceManager;
++
++import com.example.studenthub.R;
++import com.example.studenthub.databinding.ActivityChatBinding;
++
++public class ChatActivity extends AppCompatActivity {
++
++    private ActivityChatBinding binding;
++    private PreferenceManager preference;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        binding = ActivityChatBinding.inflate(getLayoutInflater());
++        setContentView(binding.getRoot());
++
++
++    }
++
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/firebase/MessagingService.java b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+new file mode 100644
+--- /dev/null	(date 1645042623499)
++++ b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java	(date 1645042623499)
+@@ -0,0 +1,21 @@
++package com.example.studenthub.firebase;
++
++import android.util.Log;
++
++import androidx.annotation.NonNull;
++
++import com.google.firebase.messaging.FirebaseMessagingService;
++import com.google.firebase.messaging.RemoteMessage;
++
++public class MessagingService extends FirebaseMessagingService {
++    @Override
++    public void onNewToken(@NonNull String token) {
++        super.onNewToken(token);
++    }
++
++
++    @Override
++    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
++        super.onMessageReceived(remoteMessage);
++    }
++}
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.studenthub\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:label=\"@string/app_name\"\r\n        android:icon=\"@drawable/ic_university_icon\"\r\n        android:roundIcon=\"@drawable/ic_university_icon\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".WelcomeAnimation\" android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".CommentsActivity\" />\r\n        <activity android:name=\".PostActivity\" />\r\n        <activity android:name=\".EditProfile\" />\r\n        <activity android:name=\"com.theartofdev.edmodo.cropper.CropImageActivity\"\r\n            android:theme=\"@style/Base.Theme.AppCompat\" />\r\n        <activity android:name=\".Login\"\r\n            android:exported=\"true\"\r\n            android:launchMode=\"singleTop\"\r\n            android:windowSoftInputMode=\"adjustPan\">\r\n        </activity>\r\n        <activity android:name=\".MainActivity\" />\r\n\r\n        <meta-data\r\n            android:name=\"preloaded_fonts\"\r\n            android:resource=\"@array/preloaded_fonts\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision d2f1087c7dd3db37080edab26bae98a862340f76)
++++ b/app/src/main/AndroidManifest.xml	(date 1645042623482)
+@@ -8,23 +8,31 @@
+ 
+     <application
+         android:allowBackup="true"
+-        android:label="@string/app_name"
+         android:icon="@drawable/ic_university_icon"
++        android:label="@string/app_name"
+         android:roundIcon="@drawable/ic_university_icon"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <activity android:name=".WelcomeAnimation" android:exported="true">
++        <activity
++            android:name=".Model.ChatActivity"
++            android:exported="false" />
++        <activity
++            android:name=".WelcomeAnimation"
++            android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
++
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+         <activity android:name=".CommentsActivity" />
+         <activity android:name=".PostActivity" />
+         <activity android:name=".EditProfile" />
+-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
++        <activity
++            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+             android:theme="@style/Base.Theme.AppCompat" />
+-        <activity android:name=".Login"
++        <activity
++            android:name=".Login"
+             android:exported="true"
+             android:launchMode="singleTop"
+             android:windowSoftInputMode="adjustPan">
+@@ -34,6 +42,13 @@
+         <meta-data
+             android:name="preloaded_fonts"
+             android:resource="@array/preloaded_fonts" />
++        <service
++            android:name=".firebase.MessagingService"
++            android:exported="false">
++            <intent-filter>
++                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
++            </intent-filter>
++        </service>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/res/drawable/background_pic_message.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/background_pic_message.xml b/app/src/main/res/drawable/background_pic_message.xml
+new file mode 100644
+--- /dev/null	(date 1645042623519)
++++ b/app/src/main/res/drawable/background_pic_message.xml	(date 1645042623519)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:shape="rectangle">
++    <solid android:color="@color/browser_actions_bg_grey"/>
++    <corners android:radius="8dp"/>
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/ChatMessage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/ChatMessage.java b/app/src/main/java/com/example/studenthub/ChatMessage.java
+new file mode 100644
+--- /dev/null	(date 1645042623490)
++++ b/app/src/main/java/com/example/studenthub/ChatMessage.java	(date 1645042623490)
+@@ -0,0 +1,6 @@
++package com.example.studenthub;
++
++public class ChatMessage {
++    private String id;
++
++}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_favorite.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.31654676258992803\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_animation.xml\" value=\"0.1721014492753623\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_dialog.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.27202472952086554\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/header_layout.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.6\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/menu/bottom_navigation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.2916666666666667\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.14218009478672985\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.26510416666666664\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/progress_dialog.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.4005208333333333\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision d2f1087c7dd3db37080edab26bae98a862340f76)
++++ b/.idea/misc.xml	(date 1645042623542)
+@@ -47,6 +47,10 @@
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/progress_dialog.xml" value="0.39947916666666666" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.4005208333333333" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable/background_pic_message.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_chat.xml" value="0.22" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/fragment_profile.xml" value="0.3333333333333333" />
+       </map>
+     </option>
+   </component>
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Thu Feb 04 23:27:04 IST 2021\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-7.2-all.zip\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+--- a/gradle/wrapper/gradle-wrapper.properties	(revision d2f1087c7dd3db37080edab26bae98a862340f76)
++++ b/gradle/wrapper/gradle-wrapper.properties	(date 1645042623509)
+@@ -1,6 +1,6 @@
+-#Thu Feb 04 23:27:04 IST 2021
++#Wed Feb 16 03:19:32 IST 2022
+ distributionBase=GRADLE_USER_HOME
++distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-bin.zip
+ distributionPath=wrapper/dists
+-zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-all.zip
++zipStoreBase=GRADLE_USER_HOME

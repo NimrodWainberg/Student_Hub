@@ -1,0 +1,1112 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n    id 'com.google.gms.google-services'\r\n}\r\n\r\nandroid {\r\n    compileSdkVersion 31\r\n    buildToolsVersion '30.0.3'\r\n\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.studenthub\"\r\n        minSdkVersion 23\r\n        targetSdkVersion 31\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test:runner:1.4.0'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.4.1'\r\n    implementation 'com.google.android.material:material:1.5.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'\r\n    implementation 'com.google.firebase:firebase-auth:21.0.1'\r\n    implementation 'com.google.firebase:firebase-firestore:24.0.1'\r\n    implementation 'com.google.firebase:firebase-storage:20.0.0'\r\n    implementation 'com.google.firebase:firebase-database:20.0.3'\r\n    implementation platform('com.google.firebase:firebase-bom:29.1.0')\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.squareup.picasso:picasso:2.71828'\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'de.hdodenhof:circleimageview:2.2.0'\r\n    implementation 'com.github.bumptech.glide:glide:4.12.0'\r\n    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'\r\n    implementation 'com.rengwuxian.materialedittext:library:2.1.4'\r\n    implementation 'com.airbnb.android:lottie:3.7.0'\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 2635d42407106f5820ebc1d3ca3d609d33f93847)
++++ b/app/build.gradle	(date 1645172875523)
+@@ -33,6 +33,7 @@
+ }
+ 
+ dependencies {
++    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+     testImplementation 'junit:junit:4.13.2'
+     androidTestImplementation 'androidx.test:runner:1.4.0'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+Index: app/src/main/res/drawable/background_pic_message.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/background_pic_message.xml b/app/src/main/res/drawable/background_pic_message.xml
+new file mode 100644
+--- /dev/null	(date 1645172875563)
++++ b/app/src/main/res/drawable/background_pic_message.xml	(date 1645172875563)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:shape="rectangle">
++    <solid android:color="@color/browser_actions_bg_grey"/>
++    <corners android:radius="8dp"/>
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/res/layout/chat_room.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/chat_room.xml b/app/src/main/res/layout/chat_room.xml
+new file mode 100644
+--- /dev/null	(date 1645179446971)
++++ b/app/src/main/res/layout/chat_room.xml	(date 1645179446971)
+@@ -0,0 +1,50 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:background="@color/white"
++    app:cardCornerRadius="4dp"
++    android:padding="4dp"
++    android:layout_margin="8dp"
++    android:layout_height="wrap_content">
++<androidx.constraintlayout.widget.ConstraintLayout
++    android:background="@color/white"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++
++    <LinearLayout
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:gravity="center|start"
++        android:padding="8dp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent">
++
++        <androidx.cardview.widget.CardView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:backgroundTint="@color/colorGreen"
++            app:cardCornerRadius="16dp">
++
++            <ImageView
++                android:id="@+id/user_image_chat_room"
++                android:layout_width="32dp"
++                android:layout_height="32dp"
++                android:background="@android:color/transparent"
++                android:src="@drawable/ic_person" />
++        </androidx.cardview.widget.CardView>
++
++        <TextView
++            android:id="@+id/user_name_chat_room"
++            android:layout_width="wrap_content"
++            android:textSize="18sp"
++            android:layout_height="wrap_content"
++            android:padding="8dp"
++            android:text="Chat With: username"
++            android:textColor="#737373" />
++    </LinearLayout>
++</androidx.constraintlayout.widget.ConstraintLayout>
++</androidx.cardview.widget.CardView>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/StudentHubApp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/StudentHubApp.java b/app/src/main/java/com/example/studenthub/StudentHubApp.java
+new file mode 100644
+--- /dev/null	(date 1645176344421)
++++ b/app/src/main/java/com/example/studenthub/StudentHubApp.java	(date 1645176344421)
+@@ -0,0 +1,35 @@
++package com.example.studenthub;
++
++import android.app.Application;
++import android.content.Intent;
++import android.util.Log;
++
++import androidx.annotation.NonNull;
++
++import com.example.studenthub.firebase.MessagingService;
++import com.google.android.gms.tasks.OnFailureListener;
++import com.google.android.gms.tasks.OnSuccessListener;
++import com.google.firebase.messaging.FirebaseMessaging;
++
++public class StudentHubApp extends Application {
++
++    public static String token = "";
++    @Override
++    public void onCreate() {
++        super.onCreate();
++        startService(new Intent(this, MessagingService.class));
++        Log.d("StudentHubApp","Starting messaging service");
++        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
++            @Override
++            public void onSuccess(String s) {
++                token = s;
++                System.out.println(token);
++            }
++        }).addOnFailureListener(new OnFailureListener() {
++            @Override
++            public void onFailure(@NonNull Exception e) {
++                System.out.println("There was a problem receiving token");
++            }
++        });
++    }
++}
+Index: app/src/main/res/layout/personalist.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/personalist.xml b/app/src/main/res/layout/personalist.xml
+new file mode 100644
+--- /dev/null	(date 1645172875544)
++++ b/app/src/main/res/layout/personalist.xml	(date 1645172875544)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.studenthub\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"\r\n        android:maxSdkVersion=\"28\"/>\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:label=\"@string/app_name\"\r\n        android:icon=\"@drawable/ic_university_icon\"\r\n        android:roundIcon=\"@drawable/ic_university_icon\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".WelcomeAnimation\" android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".CommentsActivity\"\r\n            android:launchMode=\"singleTop\"/>\r\n        <activity android:name=\".PostActivity\"\r\n            android:launchMode=\"singleTop\"/>\r\n        <activity android:name=\".EditProfile\"\r\n            android:launchMode=\"singleTop\"/>\r\n        <activity android:name=\"com.theartofdev.edmodo.cropper.CropImageActivity\"\r\n            android:theme=\"@style/Base.Theme.AppCompat\" />\r\n        <activity android:name=\".Login\"\r\n            android:exported=\"true\"\r\n            android:launchMode=\"singleTop\"\r\n            android:windowSoftInputMode=\"adjustPan\">\r\n        </activity>\r\n        <activity android:name=\".MainActivity\"\r\n            android:launchMode=\"singleTop\"/>\r\n\r\n        <meta-data\r\n            android:name=\"preloaded_fonts\"\r\n            android:resource=\"@array/preloaded_fonts\" />\r\n\r\n    </application>\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 2635d42407106f5820ebc1d3ca3d609d33f93847)
++++ b/app/src/main/AndroidManifest.xml	(date 1645175239082)
+@@ -10,6 +10,7 @@
+     <application
+         android:allowBackup="true"
+         android:label="@string/app_name"
++        android:name=".StudentHubApp"
+         android:icon="@drawable/ic_university_icon"
+         android:roundIcon="@drawable/ic_university_icon"
+         android:supportsRtl="true"
+@@ -40,5 +41,13 @@
+             android:name="preloaded_fonts"
+             android:resource="@array/preloaded_fonts" />
+ 
++
++        <service
++            android:name=".firebase.MessagingService"
++            android:exported="false">
++            <intent-filter>
++                <action android:name="com.google.firebase.MESSAGING_EVENT" />
++            </intent-filter>
++        </service>
+     </application>
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n\r\n<androidx.drawerlayout.widget.DrawerLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/drawer_layout\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#3F97BA\"\r\n    tools:context=\".Login\">\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\">\r\n\r\n\r\n        <androidx.appcompat.widget.Toolbar\r\n            android:id=\"@+id/toolbar\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"?attr/actionBarSize\"\r\n            android:background=\"?attr/colorPrimaryDark\"\r\n            android:theme=\"@style/ThemeOverlay.AppCompat.Dark\"\r\n            app:layout_scrollFlags=\"scroll|enterAlways\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/studenthub_logo\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/toolbar\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginTop=\"25dp\"\r\n            android:fontFamily=\"@font/bitter\"\r\n            android:text=\"@string/app_name\"\r\n            android:textColor=\"#000000\"\r\n            android:textSize=\"25sp\"\r\n            android:textStyle=\"bold\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/studenthub_sentence\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/studenthub_logo\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginTop=\"15dp\"\r\n            android:fontFamily=\"@font/bitter\"\r\n            android:text=\"@string/studenthub_sentence\"\r\n            android:textColor=\"#FFFFFF\"\r\n            android:textSize=\"19sp\" />\r\n\r\n        <com.google.android.material.textfield.TextInputLayout\r\n            android:id=\"@+id/email_layout\"\r\n            style=\"@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/studenthub_sentence\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:layout_marginTop=\"110dp\"\r\n            android:gravity=\"start\"\r\n            android:paddingEnd=\"30dp\"\r\n            app:boxStrokeColor=\"@color/black\"\r\n            app:errorEnabled=\"true\"\r\n            tools:ignore=\"RtlSymmetry\">\r\n\r\n            <com.google.android.material.textfield.TextInputEditText\r\n                android:id=\"@+id/text_input_email\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:drawableEnd=\"@drawable/ic_baseline_mail_24\"\r\n                android:hint=\"@string/e_mail_address\"\r\n                android:inputType=\"textEmailAddress\"\r\n                android:maxLength=\"25\"/>\r\n        </com.google.android.material.textfield.TextInputLayout>\r\n\r\n        <com.google.android.material.textfield.TextInputLayout\r\n            android:id=\"@+id/password_layout\"\r\n            style=\"@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/email_layout\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:gravity=\"start\"\r\n            android:paddingEnd=\"30dp\"\r\n            app:boxStrokeColor=\"@color/black\"\r\n            app:counterEnabled=\"true\"\r\n            app:counterMaxLength=\"12\"\r\n            app:counterOverflowTextAppearance=\"@style/CounterOverFlow\"\r\n            app:counterTextAppearance=\"@style/CounterText\"\r\n            app:errorEnabled=\"true\"\r\n            app:passwordToggleEnabled=\"true\"\r\n            tools:ignore=\"RtlSymmetry\">\r\n\r\n            <com.google.android.material.textfield.TextInputEditText\r\n                android:id=\"@+id/text_input_password\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:drawableTint=\"@color/black\"\r\n                android:hint=\"@string/password\"\r\n                android:inputType=\"textPassword\"\r\n                android:maxLength=\"12\" />\r\n        </com.google.android.material.textfield.TextInputLayout>\r\n\r\n        <com.google.android.material.button.MaterialButton\r\n            android:id=\"@+id/login_button\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/password_layout\"\r\n            android:layout_marginStart=\"50dp\"\r\n            android:layout_marginEnd=\"50dp\"\r\n            android:backgroundTint=\"#1F5165\"\r\n            android:text=\"@string/login_btn\"\r\n            android:textColor=\"@color/white\"\r\n            android:textAppearance=\"@style/TextAppearance.AppCompat.Widget.Button\"\r\n            android:textSize=\"13sp\"\r\n            app:cornerRadius=\"40dp\"></com.google.android.material.button.MaterialButton>\r\n\r\n        <com.google.android.material.button.MaterialButton\r\n            android:id=\"@+id/login_anonymous_button\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/password_layout\"\r\n            android:layout_marginStart=\"50dp\"\r\n            android:layout_marginTop=\"68dp\"\r\n            android:layout_marginEnd=\"50dp\"\r\n            android:backgroundTint=\"#1F5165\"\r\n            android:text=\"@string/login_anonymous_btn\"\r\n            android:textColor=\"@color/white\"\r\n            android:textAppearance=\"@style/TextAppearance.AppCompat.Widget.Button\"\r\n            android:textSize=\"13sp\"\r\n            app:cornerRadius=\"40dp\">\r\n        </com.google.android.material.button.MaterialButton>\r\n\r\n        <com.airbnb.lottie.LottieAnimationView\r\n            android:id=\"@+id/login_animation\"\r\n            android:layout_width=\"100dp\"\r\n            android:layout_height=\"100dp\"\r\n            android:layout_below=\"@+id/login_anonymous_button\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginStart=\"155dp\"\r\n            android:layout_marginTop=\"50dp\"\r\n            android:layout_marginEnd=\"156dp\"\r\n            android:layout_marginBottom=\"10dp\"\r\n            android:scaleX=\"3\"\r\n            android:scaleY=\"3\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.5\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/login_button\"\r\n            app:lottie_autoPlay=\"true\"\r\n            app:lottie_loop=\"true\"\r\n            app:lottie_rawRes=\"@raw/login\" />\r\n    </RelativeLayout>\r\n\r\n    <com.google.android.material.navigation.NavigationView\r\n        android:id=\"@+id/navigation_view\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_gravity=\"start\"\r\n        app:headerLayout=\"@layout/header_layout\"\r\n        app:menu=\"@menu/drawer_menu\">\r\n    </com.google.android.material.navigation.NavigationView>\r\n\r\n</androidx.drawerlayout.widget.DrawerLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_login.xml b/app/src/main/res/layout/activity_login.xml
+--- a/app/src/main/res/layout/activity_login.xml	(revision 2635d42407106f5820ebc1d3ca3d609d33f93847)
++++ b/app/src/main/res/layout/activity_login.xml	(date 1645172875532)
+@@ -65,7 +65,6 @@
+                 android:id="@+id/text_input_email"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+-                android:drawableEnd="@drawable/ic_baseline_mail_24"
+                 android:hint="@string/e_mail_address"
+                 android:inputType="textEmailAddress"
+                 android:maxLength="25"/>
+Index: app/src/main/java/com/example/studenthub/ChatRoom.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/ChatRoom.java b/app/src/main/java/com/example/studenthub/ChatRoom.java
+new file mode 100644
+--- /dev/null	(date 1645181923589)
++++ b/app/src/main/java/com/example/studenthub/ChatRoom.java	(date 1645181923589)
+@@ -0,0 +1,63 @@
++package com.example.studenthub;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class ChatRoom {
++
++    public static String DUMMY = "DUMMY";
++    private String id;
++    private String ownerId;
++    private String secondUserId;
++
++    private List<ChatMessage> chatMessages;
++
++
++    public ChatRoom(String id,String ownerId,String secondUserId,List<ChatMessage> chatMessages) {
++        this.ownerId = ownerId;
++        this.secondUserId = secondUserId;
++        this.chatMessages = chatMessages;
++        this.id = id;
++    }
++    public ChatRoom() {}
++    public ChatRoom(String id,String ownerId,String secondUserId) {
++        this.ownerId = ownerId;
++        this.secondUserId = secondUserId;
++        this.chatMessages = new ArrayList<>();
++        chatMessages.add(new ChatMessage(DUMMY,ownerId,secondUserId,DUMMY));
++        this.id = id;
++    }
++
++    public String getOwnerId() {
++        return ownerId;
++    }
++
++    public void setOwnerId(String ownerId) {
++        this.ownerId = ownerId;
++    }
++
++    public String getSecondUserId() {
++        return secondUserId;
++    }
++
++    public void setSecondUserId(String secondUserId) {
++        this.secondUserId = secondUserId;
++    }
++
++    public List<ChatMessage> getChatMessages() {
++        return chatMessages;
++    }
++
++    public void setChatMessages(List<ChatMessage> chatMessages) {
++        this.chatMessages = chatMessages;
++    }
++
++    @Override
++    public String toString() {
++        return "ChatRoom{" +
++                "ownerId='" + ownerId + '\'' +
++                ", secondUserId='" + secondUserId + '\'' +
++                ", chatMessages=" + chatMessages +
++                '}';
++    }
++}
+Index: app/src/main/java/com/example/studenthub/Adapter/ChatRoomsRvAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Adapter/ChatRoomsRvAdapter.java b/app/src/main/java/com/example/studenthub/Adapter/ChatRoomsRvAdapter.java
+new file mode 100644
+--- /dev/null	(date 1645181923613)
++++ b/app/src/main/java/com/example/studenthub/Adapter/ChatRoomsRvAdapter.java	(date 1645181923613)
+@@ -0,0 +1,58 @@
++package com.example.studenthub.Adapter;
++
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.studenthub.ChatMessage;
++import com.example.studenthub.ChatRoom;
++import com.example.studenthub.R;
++
++import java.util.List;
++
++public class ChatRoomsRvAdapter extends RecyclerView.Adapter<ChatRoomsRvAdapter.ChatRoomsViewHolder> {
++
++    private List<ChatRoom> chatRooms;
++    public ChatRoomsRvAdapter(List<ChatRoom> chatRooms) {
++        this.chatRooms = chatRooms;
++    }
++
++    @NonNull
++    @Override
++    public ChatRoomsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        View v =  LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_room,parent,false);
++        return new ChatRoomsViewHolder(v);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull ChatRoomsViewHolder holder, int position) {
++        ChatRoom room = chatRooms.get(position);
++        holder.bind(room);
++    }
++
++    @Override
++    public int getItemCount() {
++        return chatRooms.size();
++    }
++
++    static class ChatRoomsViewHolder extends RecyclerView.ViewHolder {
++        private ImageView uImageView;
++        private TextView uNameTV;
++        public ChatRoomsViewHolder(@NonNull View itemView) {
++            super(itemView);
++            this.uImageView = itemView.findViewById(R.id.user_image_chat_room);
++            this.uNameTV = itemView.findViewById(R.id.user_name_chat_room);
++        }
++
++        public void bind(ChatRoom room) {
++            // @TODO : set Image
++
++            uNameTV.setText(room.getOwnerId());
++        }
++    }
++}
+Index: app/src/main/res/layout/activity_chat.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_chat.xml b/app/src/main/res/layout/activity_chat.xml
+new file mode 100644
+--- /dev/null	(date 1645179447003)
++++ b/app/src/main/res/layout/activity_chat.xml	(date 1645179447003)
+@@ -0,0 +1,31 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:animateLayoutChanges="true"
++    android:background="@color/white"
++    tools:context=".Model.ChatActivity">
++<TextView
++    android:id="@+id/chat_rooms_title_tv"
++    app:layout_constraintStart_toStartOf="parent"
++    app:layout_constraintEnd_toEndOf="parent"
++    app:layout_constraintTop_toTopOf="parent"
++    android:layout_margin="32dp"
++    android:layout_width="wrap_content"
++    android:layout_height="wrap_content"
++    android:textColor="@color/colorGreen"
++    android:textStyle="bold"
++    android:textSize="32dp"
++    android:text="Chat Rooms"/>
++
++    <androidx.recyclerview.widget.RecyclerView
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        tools:listitem="@layout/chat_room"
++        app:layout_constraintTop_toBottomOf="@id/chat_rooms_title_tv"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"/>
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/ChatMessage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/ChatMessage.java b/app/src/main/java/com/example/studenthub/ChatMessage.java
+new file mode 100644
+--- /dev/null	(date 1645181923854)
++++ b/app/src/main/java/com/example/studenthub/ChatMessage.java	(date 1645181923854)
+@@ -0,0 +1,70 @@
++package com.example.studenthub;
++
++public class ChatMessage {
++    private String id;
++    private String authorId;
++    private String recipientId;
++    private String message;
++    private long date;
++
++    public ChatMessage(String id, String authorId, String recipientId, String message) {
++        this.authorId = authorId;
++        this.recipientId = recipientId;
++        this.message = message;
++        this.date = System.currentTimeMillis();
++        this.id = id;
++    }
++
++    public ChatMessage() {}
++
++
++    public String getId() {
++        return id;
++    }
++
++    public void setId(String id) {
++        this.id = id;
++    }
++
++    public long getDate() {
++        return date;
++    }
++
++    public void setAuthorId(String authorId) {
++        this.authorId = authorId;
++    }
++
++    public String getRecipientId() {
++        return recipientId;
++    }
++
++    public void setRecipientId(String recipientId) {
++        this.recipientId = recipientId;
++    }
++
++    public String getMessage() {
++        return message;
++    }
++
++    public void setMessage(String message) {
++        this.message = message;
++    }
++
++    public void setDate(long date) {
++        this.date = date;
++    }
++
++    public String getAuthorId() {
++        return authorId;
++    }
++
++    @Override
++    public String toString() {
++        return "ChatMessage{" +
++                "authorId='" + authorId + '\'' +
++                ", recipientId='" + recipientId + '\'' +
++                ", message='" + message + '\'' +
++                ", date=" + date +
++                '}';
++    }
++}
+Index: app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/firebase/MessagingService.java b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+new file mode 100644
+--- /dev/null	(date 1645176616718)
++++ b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java	(date 1645176616718)
+@@ -0,0 +1,73 @@
++package com.example.studenthub.firebase;
++
++import android.app.Notification;
++import android.app.NotificationChannel;
++import android.app.NotificationManager;
++import android.app.PendingIntent;
++import android.content.Context;
++import android.content.Intent;
++import android.media.RingtoneManager;
++import android.net.Uri;
++import android.os.Build;
++import android.util.Log;
++
++import androidx.annotation.NonNull;
++import androidx.core.app.NotificationCompat;
++import androidx.core.app.NotificationManagerCompat;
++
++import com.example.studenthub.MainActivity;
++import com.example.studenthub.PreferencesUtils;
++import com.example.studenthub.R;
++import com.google.firebase.messaging.FirebaseMessagingService;
++import com.google.firebase.messaging.RemoteMessage;
++
++public class MessagingService extends FirebaseMessagingService {
++    private NotificationManagerCompat notificationManager = null;
++   // private PreferencesUtils pUtils = new PreferencesUtils(this);
++
++    @Override
++    public void onCreate() {
++        super.onCreate();
++        notificationManager = NotificationManagerCompat.from(this);
++    }
++
++    @Override
++    public void onNewToken(@NonNull String token) {
++        super.onNewToken(token);
++    }
++
++
++
++    @Override
++    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
++        super.onMessageReceived(remoteMessage);
++        sendNotification(remoteMessage);
++    }
++    private void sendNotification(RemoteMessage remoteMessage) {
++        Intent intent = new Intent(this, MainActivity.class);
++        PendingIntent pendingIntent = PendingIntent.getActivity(this,
++                0,intent,PendingIntent.FLAG_ONE_SHOT);
++        String channelId =   "Channel 1";
++        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
++        NotificationCompat.Builder notificationBuilder;
++        notificationBuilder =
++                new NotificationCompat.Builder(this, channelId)
++                        .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
++                        .setContentTitle(remoteMessage.getNotification().getTitle())
++                        .setContentText(remoteMessage.getNotification().getBody())
++                        .setAutoCancel(true)
++                        .setSound(defaultSoundUri)
++                        .setContentIntent(pendingIntent);
++        NotificationManager notificationManager =
++                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
++
++// Since android Oreo notification channel is needed.
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
++            NotificationChannel channel = new NotificationChannel(channelId,
++                    "Channel human readable title",
++                    NotificationManager.IMPORTANCE_DEFAULT);
++            notificationManager.createNotificationChannel(channel);
++        }
++        notificationManager.notify(0, notificationBuilder.build());
++    }
++}
+Index: app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/ChatActivity.java b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+new file mode 100644
+--- /dev/null	(date 1645177323753)
++++ b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java	(date 1645177323753)
+@@ -0,0 +1,17 @@
++package com.example.studenthub.Model;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++
++import android.os.Bundle;
++
++public class ChatActivity extends AppCompatActivity {
++
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++
++    }
++
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/Adapter/ChatMessagesRvAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Adapter/ChatMessagesRvAdapter.java b/app/src/main/java/com/example/studenthub/Adapter/ChatMessagesRvAdapter.java
+new file mode 100644
+--- /dev/null	(date 1645181923626)
++++ b/app/src/main/java/com/example/studenthub/Adapter/ChatMessagesRvAdapter.java	(date 1645181923626)
+@@ -0,0 +1,62 @@
++package com.example.studenthub.Adapter;
++
++
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.studenthub.ChatMessage;
++import com.example.studenthub.ChatRoom;
++import com.example.studenthub.R;
++
++import java.util.List;
++
++public class ChatMessagesRvAdapter extends RecyclerView.Adapter<ChatMessagesRvAdapter.ChatMessagesViewHolder> {
++
++    private List<ChatMessage> chatMessages;
++    public ChatMessagesRvAdapter(List<ChatMessage> chatMessages) {
++        this.chatMessages = chatMessages;
++    }
++
++    @NonNull
++    @Override
++    public ChatMessagesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        View v =  LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_room,parent,false);
++        return new ChatMessagesViewHolder(v);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull ChatMessagesViewHolder holder, int position) {
++        ChatMessage message = chatMessages.get(position);
++        holder.bind(message);
++    }
++
++    @Override
++    public int getItemCount() {
++        return chatMessages.size();
++    }
++
++    static class ChatMessagesViewHolder extends RecyclerView.ViewHolder {
++        private ImageView senderImageView;
++        private TextView senderNameTv;
++        private TextView messageContent;
++        public ChatMessagesViewHolder(@NonNull View itemView) {
++            super(itemView);
++            this.senderImageView = itemView.findViewById(R.id.user_image_chat);
++            this.senderNameTv = itemView.findViewById(R.id.user_name_chat);
++            this.messageContent = itemView.findViewById(R.id.user_message_chat);
++        }
++
++        public void bind(ChatMessage message) {
++            // @TODO : set Image
++            senderNameTv.setText(message.getAuthorId());
++            messageContent.setText(message.getMessage());
++        }
++    }
++}
++
+Index: app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/PrivateChat.java b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+new file mode 100644
+--- /dev/null	(date 1645172881339)
++++ b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java	(date 1645172881339)
+@@ -0,0 +1,18 @@
++package com.example.studenthub.Model;
++
++import com.example.studenthub.ChatMessage;
++
++public class PrivateChat {
++    private String id;
++    private String user1;
++    private String user2;
++    ChatMessage chatMessage;
++
++
++    public PrivateChat(String id, String user1, String user2) {
++        this.id = id;
++        this.user1 = user1;
++        this.user2 = user2;
++
++    }
++}
+Index: app/src/main/java/com/example/studenthub/firebase/MessagingManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/firebase/MessagingManager.java b/app/src/main/java/com/example/studenthub/firebase/MessagingManager.java
+new file mode 100644
+--- /dev/null	(date 1645182762315)
++++ b/app/src/main/java/com/example/studenthub/firebase/MessagingManager.java	(date 1645182762315)
+@@ -0,0 +1,115 @@
++package com.example.studenthub.firebase;
++
++
++import static com.example.studenthub.ChatRoom.DUMMY;
++
++import androidx.annotation.NonNull;
++
++import com.example.studenthub.ChatMessage;
++import com.example.studenthub.ChatRoom;
++import com.example.studenthub.firebase.interfaces.FirebaseCallBack;
++import com.google.android.gms.tasks.OnFailureListener;
++import com.google.android.gms.tasks.OnSuccessListener;
++import com.google.firebase.auth.FirebaseAuth;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class MessagingManager {
++
++    public static DatabaseReference chatRoomsRef = FirebaseDatabase.getInstance().getReference("chatrooms");
++
++
++    public static void createNewChatRoom(String recipientId, FirebaseCallBack<String> callback) {
++        String uid = FirebaseAuth.getInstance().getUid();
++        DatabaseReference  newRoom = chatRoomsRef.push();
++        ChatRoom room = new ChatRoom(newRoom.getKey(),uid,recipientId);
++        newRoom.setValue(room)
++        .addOnSuccessListener(new OnSuccessListener<Void>() {
++            @Override
++            public void onSuccess(Void unused) {
++                callback.onComplete("Successfully added chat room " + room);
++            }
++        })
++        .addOnFailureListener(new OnFailureListener() {
++            @Override
++            public void onFailure(@NonNull Exception e) {
++                callback.onFailure(e);
++            }
++        });
++    }
++
++    public static void deleteChatRoom(String id, FirebaseCallBack<String> callback) {
++        chatRoomsRef.child(id).removeValue()
++                .addOnSuccessListener(new OnSuccessListener<Void>() {
++                    @Override
++                    public void onSuccess(Void unused) {
++                        callback.onComplete("Successfully deleted chat room" + id);
++                    }
++                })
++                .addOnFailureListener(new OnFailureListener() {
++                    @Override
++                    public void onFailure(@NonNull Exception e) {
++                        callback.onFailure(e);
++                    }
++                });
++    }
++
++    public static void sendNewMessage(String roomId,
++                                      String recipientId,
++                                      String messageContent,
++                                      FirebaseCallBack<String> callBack) {
++        String uid = FirebaseAuth.getInstance().getUid();
++        DatabaseReference newMessage = chatRoomsRef.child(roomId).child("chatMessages")
++                .push();
++        ChatMessage message = new ChatMessage(newMessage.getKey(),uid,recipientId,messageContent);
++        newMessage.setValue(message)
++                .addOnSuccessListener(new OnSuccessListener<Void>() {
++                    @Override
++                    public void onSuccess(Void unused) {
++                        callBack.onComplete("Successfully sent message" + message);
++                    }
++                })
++                .addOnFailureListener(new OnFailureListener() {
++                    @Override
++                    public void onFailure(@NonNull Exception e) {
++                        callBack.onFailure(e);
++                    }
++                });
++    }
++
++    public void fetchChatRooms(FirebaseCallBack<List<ChatRoom>> callBack)
++    {
++        String uid = FirebaseAuth.getInstance().getUid();
++        chatRoomsRef.get()
++                .addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
++                    @Override
++                    public void onSuccess(DataSnapshot dataSnapshot) {
++                        List<ChatRoom> chatRooms = new ArrayList<>();
++                        String owner,secondUser;
++
++                        for(DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
++                            owner = ((String) childSnapshot.child("ownerId").getValue());
++                            secondUser = ((String) childSnapshot.child("secondUserId").getValue());
++                            if(owner == null || secondUser == null)
++                                continue;
++                            if (owner.equals(uid) || secondUser.equals(uid)) {
++                                chatRooms.add(childSnapshot.getValue(ChatRoom.class));
++                            }
++                        }
++                        callBack.onComplete(chatRooms);
++                    }
++                }).addOnFailureListener(new OnFailureListener() {
++            @Override
++            public void onFailure(@NonNull Exception e) {
++                callBack.onFailure(e);
++            }
++        });
++    }
++
++
++
++}
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"deploymentTargetDropDown\">\r\n    <targetSelectedWithDropDown>\r\n      <Target>\r\n        <type value=\"QUICK_BOOT_TARGET\" />\r\n        <deviceKey>\r\n          <Key>\r\n            <type value=\"VIRTUAL_DEVICE_PATH\" />\r\n            <value value=\"C:\\Users\\Yaniv\\.android\\avd\\Pixel_3a_XL_API_29.avd\" />\r\n          </Key>\r\n        </deviceKey>\r\n      </Target>\r\n    </targetSelectedWithDropDown>\r\n    <timeTargetWasSelectedWithDropDown value=\"2022-02-17T18:44:21.550160Z\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+--- a/.idea/deploymentTargetDropDown.xml	(revision 2635d42407106f5820ebc1d3ca3d609d33f93847)
++++ b/.idea/deploymentTargetDropDown.xml	(date 1645172875594)
+@@ -7,11 +7,11 @@
+         <deviceKey>
+           <Key>
+             <type value="VIRTUAL_DEVICE_PATH" />
+-            <value value="C:\Users\Yaniv\.android\avd\Pixel_3a_XL_API_29.avd" />
++            <value value="C:\Users\or448\.android\avd\Pixel_2_API_30.avd" />
+           </Key>
+         </deviceKey>
+       </Target>
+     </targetSelectedWithDropDown>
+-    <timeTargetWasSelectedWithDropDown value="2022-02-17T18:44:21.550160Z" />
++    <timeTargetWasSelectedWithDropDown value="2022-02-17T12:32:37.279900200Z" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/PreferencesUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/PreferencesUtils.java b/app/src/main/java/com/example/studenthub/PreferencesUtils.java
+new file mode 100644
+--- /dev/null	(date 1645175677674)
++++ b/app/src/main/java/com/example/studenthub/PreferencesUtils.java	(date 1645175677674)
+@@ -0,0 +1,58 @@
++package com.example.studenthub;
++
++import android.content.Context;
++import android.content.SharedPreferences;
++
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.List;
++import java.util.stream.Collectors;
++
++public class  PreferencesUtils {
++private String  FILE_NAME;
++private SharedPreferences  mPrefs;
++
++private String KEY_TOKENS = "key_tokens";
++private String KEY_MY_TOKEN = "key_my_token";
++
++        public PreferencesUtils(Context context) {
++           // mPrefs = context.getSharedPreferences(Context.MODE_PRIVATE);
++        }
++
++       public  void  addNewToken(String token) {
++        List<String> tokens = getTokens();
++        if (!tokens.contains(token)) {
++            tokens.add(token);
++        }
++         saveTokens(tokens);
++        }
++
++        public void  saveTokens(List<String> tokens) {
++            String input = "";
++            for ( String t : tokens) {
++                input += t + "|";
++            }
++            mPrefs.edit().putString(KEY_TOKENS, input).apply();
++        }
++
++        public List<String> getTokens() {
++            String tokensString = mPrefs.getString(KEY_TOKENS, "");
++            if (tokensString != null && !tokensString.equals("")) {
++                return new ArrayList<>(Arrays.asList(tokensString.split("|")));
++            }
++            return null;
++        }
++
++        void  saveMyToken(String token) {
++             mPrefs.edit().putString(KEY_MY_TOKEN, token).apply();
++        }
++
++        public String  getMyToken()  {
++        String  token = mPrefs.getString(KEY_MY_TOKEN, null);
++          if(token != null && !token.isEmpty()) {
++                    return token;
++                }else {
++              return null;
++          }
++        }
++        }
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/firebase/interfaces/FirebaseCallBack.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/firebase/interfaces/FirebaseCallBack.java b/app/src/main/java/com/example/studenthub/firebase/interfaces/FirebaseCallBack.java
+new file mode 100644
+--- /dev/null	(date 1645181923698)
++++ b/app/src/main/java/com/example/studenthub/firebase/interfaces/FirebaseCallBack.java	(date 1645181923698)
+@@ -0,0 +1,7 @@
++package com.example.studenthub.firebase.interfaces;
++
++public interface FirebaseCallBack<T> {
++
++    void onComplete(T object);
++    void onFailure(Exception e);
++}
+Index: app/src/main/java/com/example/studenthub/Model/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.studenthub.Model;\r\n\r\nimport java.util.Map;\r\n\r\npublic class User {\r\n    private String username;\r\n    private String email;\r\n    private String fullName;\r\n    private String imageUrl;\r\n    private String bio;\r\n    private String id;\r\n\r\n    public User(String username, String email, String fullName, String imageUrl, String bio,String id) {\r\n        this.username = username;\r\n        this.email = email;\r\n        this.fullName = fullName;\r\n        this.imageUrl = imageUrl;\r\n        this.bio = bio;\r\n        this.id = id;\r\n    }\r\n\r\n    public User() {\r\n        // Default empty constructor\r\n    }\r\n\r\n    public User(Map<String, Object> data) {\r\n        this.username = (String) data.get(\"username\");\r\n        this.imageUrl = (String) data.get(\"imageUrl\");\r\n        this.bio = (String) data.get(\"bio\");\r\n        this.fullName = (String) data.get(\"fullName\");\r\n        this.email = (String) data.get(\"email\");\r\n    }\r\n\r\n    public String getEmail() {\r\n        return email;\r\n    }\r\n\r\n    public void setEmail(String email) {\r\n        this.email = email;\r\n    }\r\n\r\n    public String getFullName() {\r\n        return fullName;\r\n    }\r\n\r\n    public void setFullName(String fullName) {\r\n        this.fullName = fullName;\r\n    }\r\n\r\n    public String getImageUrl() {\r\n        return imageUrl;\r\n    }\r\n\r\n    public void setImageUrl(String imageUrl) {\r\n        this.imageUrl = imageUrl;\r\n    }\r\n\r\n    public String getBio() {\r\n        return bio;\r\n    }\r\n\r\n    public void setBio(String bio) {\r\n        this.bio = bio;\r\n    }\r\n\r\n    public String getId() {\r\n        return id;\r\n    }\r\n\r\n    public String getUsername() {\r\n        return username;\r\n    }\r\n\r\n    public void setUsername(String username) {\r\n        this.username = username;\r\n    }\r\n\r\n    public void setId(String id) {\r\n        this.id = id;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/User.java b/app/src/main/java/com/example/studenthub/Model/User.java
+--- a/app/src/main/java/com/example/studenthub/Model/User.java	(revision 2635d42407106f5820ebc1d3ca3d609d33f93847)
++++ b/app/src/main/java/com/example/studenthub/Model/User.java	(date 1645179447020)
+@@ -1,5 +1,6 @@
+ package com.example.studenthub.Model;
+ 
++import java.util.List;
+ import java.util.Map;
+ 
+ public class User {
+@@ -29,6 +30,7 @@
+         this.bio = (String) data.get("bio");
+         this.fullName = (String) data.get("fullName");
+         this.email = (String) data.get("email");
++        this.id = (String) data.get("id");
+     }
+ 
+     public String getEmail() {
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Thu Feb 04 23:27:04 IST 2021\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-7.2-all.zip\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+--- a/gradle/wrapper/gradle-wrapper.properties	(revision 2635d42407106f5820ebc1d3ca3d609d33f93847)
++++ b/gradle/wrapper/gradle-wrapper.properties	(date 1645172875553)
+@@ -1,6 +1,6 @@
+-#Thu Feb 04 23:27:04 IST 2021
++#Wed Feb 16 03:19:32 IST 2022
+ distributionBase=GRADLE_USER_HOME
++distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-bin.zip
+ distributionPath=wrapper/dists
+-zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-all.zip
++zipStoreBase=GRADLE_USER_HOME
+Index: app/src/main/res/layout/chat_message.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/chat_message.xml b/app/src/main/res/layout/chat_message.xml
+new file mode 100644
+--- /dev/null	(date 1645179446996)
++++ b/app/src/main/res/layout/chat_message.xml	(date 1645179446996)
+@@ -0,0 +1,59 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:background="@color/white"
++    android:layout_height="wrap_content">
++
++    <LinearLayout
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        android:layout_width="0dp"
++        android:orientation="vertical"
++        android:layout_height="wrap_content">
++
++        <LinearLayout
++            android:orientation="horizontal"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content">
++
++     <androidx.cardview.widget.CardView
++         app:cardCornerRadius="12.5dp"
++         android:backgroundTint="@color/colorGreen"
++         android:layout_width="wrap_content"
++         android:layout_height="wrap_content">
++        <ImageView
++            android:id="@+id/user_image_chat"
++            android:background="@android:color/transparent"
++            android:src="@drawable/ic_person"
++            android:layout_width="25dp"
++            android:layout_height="25dp"/>
++     </androidx.cardview.widget.CardView>
++        <TextView
++            android:id="@+id/user_name_chat"
++            android:textColor="@color/black"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:padding="4dp"
++            android:text="user name"/>
++
++        </LinearLayout>
++        <androidx.cardview.widget.CardView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginStart="32dp"
++            android:backgroundTint="@color/colorGreen"
++            app:cardCornerRadius="12dp">
++            <TextView
++                android:id="@+id/user_message_chat"
++                android:layout_width="wrap_content"
++                android:padding="4dp"
++                android:layout_height="wrap_content"
++                android:text="Hello from username"/>
++        </androidx.cardview.widget.CardView>
++    </LinearLayout>
++
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/drawable/ic_baseline_notifications_active_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_notifications_active_24.xml b/app/src/main/res/drawable/ic_baseline_notifications_active_24.xml
+new file mode 100644
+--- /dev/null	(date 1645174866601)
++++ b/app/src/main/res/drawable/ic_baseline_notifications_active_24.xml	(date 1645174866601)
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M7.58,4.08L6.15,2.65C3.75,4.48 2.17,7.3 2.03,10.5h2c0.15,-2.65 1.51,-4.97 3.55,-6.42zM19.97,10.5h2c-0.15,-3.2 -1.73,-6.02 -4.12,-7.85l-1.42,1.43c2.02,1.45 3.39,3.77 3.54,6.42zM18,11c0,-3.07 -1.64,-5.64 -4.5,-6.32L13.5,4c0,-0.83 -0.67,-1.5 -1.5,-1.5s-1.5,0.67 -1.5,1.5v0.68C7.63,5.36 6,7.92 6,11v5l-2,2v1h16v-1l-2,-2v-5zM12,22c0.14,0 0.27,-0.01 0.4,-0.04 0.65,-0.14 1.18,-0.58 1.44,-1.18 0.1,-0.24 0.15,-0.5 0.15,-0.78h-4c0.01,1.1 0.9,2 2.01,2z"/>
++</vector>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_favorite.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.31654676258992803\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.27202472952086554\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/header_layout.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.6\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/menu/bottom_navigation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.2916666666666667\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.14218009478672985\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/create_account_animation.xml\" value=\"0.25052083333333336\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/create_account_dialog.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.26510416666666664\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/guest_dailog.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/header_layout.xml\" value=\"0.25052083333333336\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/loading_dialog.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/progress_dialog.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/menu/bottom_navigation.xml\" value=\"0.25052083333333336\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/menu/drawer_menu.xml\" value=\"0.25052083333333336\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/menu/search_menu.xml\" value=\"0.25052083333333336\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 2635d42407106f5820ebc1d3ca3d609d33f93847)
++++ b/.idea/misc.xml	(date 1645186744531)
+@@ -12,6 +12,8 @@
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_register.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/comment_item.xml" value="0.11302083333333333" />
++        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_animation.xml" value="0.1721014492753623" />
++        <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/create_account_dialog.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml" value="0.264" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml" value="0.11302083333333333" />
+         <entry key="..\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_home.xml" value="0.11302083333333333" />
+@@ -33,8 +35,6 @@
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_register.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml" value="0.14218009478672985" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/comment_item.xml" value="0.4005208333333333" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/create_account_animation.xml" value="0.25052083333333336" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/create_account_dialog.xml" value="0.39947916666666666" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml" value="0.39947916666666666" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml" value="0.26510416666666664" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_home.xml" value="0.4005208333333333" />
+@@ -42,17 +42,22 @@
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_profile.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_search.xml" value="0.4005208333333333" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/guest_dailog.xml" value="0.4" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/header_layout.xml" value="0.25052083333333336" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/loading_dialog.xml" value="0.39947916666666666" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/notification_item.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/photos_item.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/progress_dialog.xml" value="0.39947916666666666" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.4005208333333333" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/menu/bottom_navigation.xml" value="0.25052083333333336" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/menu/drawer_menu.xml" value="0.25052083333333336" />
+-        <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/menu/search_menu.xml" value="0.25052083333333336" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable-anydpi/ic_add.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable-anydpi/ic_person.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable/background_pic_message.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_chat.xml" value="0.22" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_comments.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/chat_message.xml" value="0.22" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/chat_room.xml" value="0.17552083333333332" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/fragment_profile.xml" value="0.3333333333333333" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/personalist.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.1" />
+       </map>
+     </option>
+   </component>

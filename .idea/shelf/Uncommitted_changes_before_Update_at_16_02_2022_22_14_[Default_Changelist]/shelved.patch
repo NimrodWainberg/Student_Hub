@@ -1,0 +1,498 @@
+Index: app/src/main/java/com/example/studenthub/Model/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.studenthub.Model;\r\nimport com.example.studenthub.Fragment.HubDatabase;\r\n\r\nimport java.util.Map;\r\n\r\npublic class User {\r\n    private String email;\r\n    private String fullName;\r\n    private String imageUrl;\r\n    private String bio;\r\n    private String id;\r\n\r\n\r\n    public User(String email, String fullName, String imageUrl, String bio) {\r\n        this.email = email;\r\n        this.fullName = fullName;\r\n        this.imageUrl = imageUrl;\r\n        this.bio = bio;\r\n    }\r\n\r\n    public User() {\r\n        // Default empty constructor\r\n    }\r\n\r\n    public User(Map<String,Object> data) {\r\n        this.imageUrl = (String) data.get(\"imageUrl\");\r\n        this.bio = (String) data.get(\"bio\");\r\n        this.fullName = (String) data.get(\"fullName\");\r\n        this.email = (String) data.get(\"email\");\r\n        this.id = (String) data.get(\"id\");\r\n    }\r\n\r\n    public String getEmail() {\r\n        return email;\r\n    }\r\n\r\n    public void setEmail(String email) {\r\n        this.email = email;\r\n    }\r\n\r\n    public String getFullName() {\r\n        return fullName;\r\n    }\r\n\r\n    public void setFullName(String fullName) {\r\n        this.fullName = fullName;\r\n    }\r\n\r\n    public String getImageUrl() {\r\n        return imageUrl;\r\n    }\r\n\r\n    public void setImageUrl(String imageUrl) {\r\n        this.imageUrl = imageUrl;\r\n    }\r\n\r\n    public String getBio() {\r\n        return bio;\r\n    }\r\n\r\n    public void setBio(String bio) {\r\n        this.bio = bio;\r\n    }\r\n\r\n    public String getId() {\r\n        return id;\r\n    }\r\n\r\n    @Override\r\n    public String toString() {\r\n        return \"User{\" +\r\n                \"email='\" + email + '\\'' +\r\n                \", fullName='\" + fullName + '\\'' +\r\n                \", imageUrl='\" + imageUrl + '\\'' +\r\n                \", bio='\" + bio + '\\'' +\r\n                '}';\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/User.java b/app/src/main/java/com/example/studenthub/Model/User.java
+--- a/app/src/main/java/com/example/studenthub/Model/User.java	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/app/src/main/java/com/example/studenthub/Model/User.java	(date 1645036147209)
+@@ -1,8 +1,10 @@
+ package com.example.studenthub.Model;
+ import com.example.studenthub.Fragment.HubDatabase;
++import com.google.firebase.database.IgnoreExtraProperties;
+ 
+ import java.util.Map;
+ 
++@IgnoreExtraProperties
+ public class User {
+     private String email;
+     private String fullName;
+@@ -11,11 +13,12 @@
+     private String id;
+ 
+ 
+-    public User(String email, String fullName, String imageUrl, String bio) {
++    public User(String email, String fullName, String imageUrl, String bio, String id) {
+         this.email = email;
+         this.fullName = fullName;
+         this.imageUrl = imageUrl;
+         this.bio = bio;
++        this.id = id;
+     }
+ 
+     public User() {
+Index: app/src/main/java/com/example/studenthub/CreateAccountFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.studenthub;\r\n\r\nimport android.app.FragmentManager;\r\nimport android.app.ProgressDialog;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.text.TextUtils;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ProgressBar;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.button.MaterialButton;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.android.material.textfield.TextInputEditText;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.auth.UserProfileChangeRequest;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.example.studenthub.Model.User;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Objects;\r\n\r\n\r\npublic class CreateAccountFragment extends Fragment {\r\n\r\n    TextInputEditText username, fullName, email, password;\r\n    MaterialButton registerBtn;\r\n    ProgressBar progressBar;\r\n\r\n    // Username\r\n    String emailString;\r\n    String passString;\r\n    String fullNameString;\r\n\r\n    // Firebase\r\n    FirebaseAuth mAuth = FirebaseAuth.getInstance();\r\n    // Listener- listen when users logged in/ out\r\n    FirebaseAuth.AuthStateListener mAuthListener;\r\n\r\n\r\n    // When the app is visible to the user\r\n    @Override\r\n    public void onStart() {\r\n        super.onStart();\r\n        // Add the listener\r\n        mAuth.addAuthStateListener(mAuthListener);\r\n    }\r\n\r\n\r\n    // When the app is no more visible to the user\r\n    @Override\r\n    public void onStop() {\r\n        super.onStop();\r\n\r\n        // Remove the listener\r\n        mAuth.removeAuthStateListener(mAuthListener);\r\n    }\r\n\r\n\r\n    public CreateAccountFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n\r\n        /*ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();\r\n        if (supportActionBar != null)\r\n            supportActionBar.hide();*/\r\n\r\n        // Firebase\r\n        // Initialize listener\r\n        // Use this function each time user signing in/ out/ up\r\n        mAuthListener = new FirebaseAuth.AuthStateListener() {\r\n            @Override\r\n            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {\r\n                // getCurrentUser - function we can get the currently registered user as an instance of FirebaseUser class\r\n                FirebaseUser user = firebaseAuth.getCurrentUser();\r\n                if (user != null) {\r\n                    // TODO if want to show the user is name from login:\r\n                    // userTv.setText(user.getDisplayName() + \" is logged in!\");\r\n                    user.updateProfile(new UserProfileChangeRequest.Builder()\r\n                            .setDisplayName(fullNameString).build()).addOnCompleteListener\r\n                            (new OnCompleteListener<Void>() {\r\n                                @Override\r\n                                public void onComplete(@NonNull Task<Void> task) {\r\n                                    if (task.isSuccessful()) {\r\n                                        //profile update successful\r\n                                    }\r\n\r\n                                }\r\n                            });\r\n                } else {\r\n\r\n                }\r\n            }\r\n\r\n        };\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle\r\n            savedInstanceState) {\r\n\r\n        View view = inflater.inflate(R.layout.fragment_account_creation, container, false);\r\n        initViews(view);\r\n\r\n        // On registration key clicked\r\n        // Save user in firebase\r\n        registerBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                emailString = email.getText().toString().trim();\r\n                passString = password.getText().toString().trim();\r\n                fullNameString = fullName.getText().toString().trim();\r\n\r\n                boolean answer = validate(emailString, passString,fullNameString);\r\n\r\n                if (answer) {\r\n                    System.out.println(emailString + \"   \" + passString);\r\n                    mAuth.createUserWithEmailAndPassword(emailString, passString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<AuthResult> task) {\r\n\r\n                            // Complete adding new user successfully\r\n                            if (task.isSuccessful()) {\r\n                                User newUser = new User(emailString,fullNameString,null,null);\r\n                                if(FirebaseAuth.getInstance().getUid()!=null)\r\n                                    FirebaseFirestore.getInstance()\r\n                                            .collection(\"users\")\r\n                                            .document(FirebaseAuth.getInstance().getUid())\r\n                                            .set(newUser);\r\n                                Snackbar.make(view, \"Sign up successful\", Snackbar.LENGTH_SHORT).show();\r\n                                getFragmentManager().popBackStack();\r\n                            } else {\r\n                                Snackbar.make(view, \"Sign up failed\", Snackbar.LENGTH_SHORT).show();\r\n                            }\r\n                        }\r\n                    });\r\n                }else {\r\n                    Snackbar.make(view,\"Please make sure all credentials are correct\",Snackbar.LENGTH_SHORT).show();\r\n                }\r\n            }\r\n        });\r\n\r\n\r\n        return view;\r\n    }\r\n\r\n    private void initViews(View view) {\r\n        fullName = view.findViewById(R.id.full_name_et);\r\n        email = view.findViewById(R.id.email_et);\r\n        password = view.findViewById(R.id.password_et);\r\n        registerBtn = view.findViewById(R.id.create_account_btn);\r\n        progressBar = view.findViewById(R.id.bio);\r\n    }\r\n\r\n    public boolean validate(String email, String pass, String fullName) {\r\n        boolean isValid = true;\r\n        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(fullName)) {\r\n            isValid = false;\r\n            Toast.makeText(getContext(), \"Some fields are missing!\", Toast.LENGTH_SHORT).show();\r\n        }\r\n\r\n        if (pass.length() < 5) {\r\n            isValid = false;\r\n            Toast.makeText(getContext(), \"Password must be longer than 5 characters!\", Toast.LENGTH_SHORT).show();\r\n        }\r\n\r\n        if (fullName.length() < 4) {\r\n            isValid = false;\r\n            Toast.makeText(getContext(), \"Please enter your full name!\", Toast.LENGTH_SHORT).show();\r\n        }\r\n\r\n        return isValid;\r\n    }\r\n}\r\n\r\n//getParentFragmentManager\r\n//popBackStack
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/CreateAccountFragment.java b/app/src/main/java/com/example/studenthub/CreateAccountFragment.java
+--- a/app/src/main/java/com/example/studenthub/CreateAccountFragment.java	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/app/src/main/java/com/example/studenthub/CreateAccountFragment.java	(date 1645035564258)
+@@ -23,6 +23,8 @@
+ import com.google.firebase.auth.FirebaseAuth;
+ import com.google.firebase.auth.FirebaseUser;
+ import com.google.firebase.auth.UserProfileChangeRequest;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
+ import com.google.firebase.firestore.FirebaseFirestore;
+ import com.example.studenthub.Model.User;
+ 
+@@ -134,14 +136,19 @@
+ 
+                             // Complete adding new user successfully
+                             if (task.isSuccessful()) {
+-                                User newUser = new User(emailString,fullNameString,null,null);
+-                                if(FirebaseAuth.getInstance().getUid()!=null)
+-                                    FirebaseFirestore.getInstance()
+-                                            .collection("users")
+-                                            .document(FirebaseAuth.getInstance().getUid())
+-                                            .set(newUser);
++                                User newUser = new User(emailString,fullNameString,null,null,mAuth.getUid());
++                                if(FirebaseAuth.getInstance().getUid()!=null) {
++                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
++                                    DatabaseReference myRef = database.getReference("user");
++                                    myRef.setValue(newUser);
++
++//                                    FirebaseFirestore.getInstance()
++//                                            .collection("users")
++//                                            .document(FirebaseAuth.getInstance().getUid())
++//                                            .set(newUser);
+                                 Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show();
+                                 getFragmentManager().popBackStack();
++                                }
+                             } else {
+                                 Snackbar.make(view, "Sign up failed", Snackbar.LENGTH_SHORT).show();
+                             }
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n    id 'com.google.gms.google-services'\r\n}\r\n\r\nandroid {\r\n    compileSdkVersion 31\r\n    buildToolsVersion '30.0.3'\r\n\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.studenthub\"\r\n        minSdkVersion 23\r\n        targetSdkVersion 31\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test:runner:1.4.0'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'\r\n    implementation 'com.google.firebase:firebase-auth:21.0.1'\r\n    implementation 'com.google.firebase:firebase-firestore:24.0.1'\r\n    implementation 'com.google.firebase:firebase-storage:20.0.0'\r\n    implementation 'com.google.firebase:firebase-database:20.0.3'\r\n    implementation platform('com.google.firebase:firebase-bom:29.1.0')\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.squareup.picasso:picasso:2.71828'\r\n    implementation 'com.android.support:design:30.1.1'\r\n    implementation 'de.hdodenhof:circleimageview:2.2.0'\r\n    implementation 'com.github.bumptech.glide:glide:4.12.0'\r\n    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'\r\n    implementation 'com.android.support:support-v4:30.0.0'\r\n    implementation 'com.rengwuxian.materialedittext:library:2.1.4'\r\n    implementation 'com.airbnb.android:lottie:3.7.0'\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/app/build.gradle	(date 1645025299459)
+@@ -14,6 +14,7 @@
+         targetSdkVersion 31
+         versionCode 1
+         versionName "1.0"
++        multiDexEnabled true
+ 
+         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+     }
+@@ -30,30 +31,46 @@
+         sourceCompatibility JavaVersion.VERSION_1_8
+         targetCompatibility JavaVersion.VERSION_1_8
+     }
++    buildFeatures {
++                viewBinding true
++            }
+ }
+ 
+ dependencies {
++    implementation 'com.makeramen:roundedimageview:2.3.0'
++    implementation 'com.google.firebase:firebase-messaging:23.0.0'
++    implementation 'com.google.android.material:material:1.5.0'
+     testImplementation 'junit:junit:4.13.2'
+     androidTestImplementation 'androidx.test:runner:1.4.0'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+     implementation fileTree(dir: "libs", include: ["*.jar"])
+-    implementation 'androidx.appcompat:appcompat:1.2.0'
++    implementation 'androidx.appcompat:appcompat:1.4.1'
+     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+-    implementation 'com.google.firebase:firebase-auth:21.0.1'
+-    implementation 'com.google.firebase:firebase-firestore:24.0.1'
+-    implementation 'com.google.firebase:firebase-storage:20.0.0'
+-    implementation 'com.google.firebase:firebase-database:20.0.3'
+-    implementation platform('com.google.firebase:firebase-bom:29.1.0')
++
++    implementation 'de.hdodenhof:circleimageview:3.1.0'
++    implementation 'com.squareup.picasso:picasso:2.71828'
++
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+     implementation 'com.squareup.picasso:picasso:2.71828'
++    //noinspection GradleCompatible
+     implementation 'com.android.support:design:30.1.1'
+-    implementation 'de.hdodenhof:circleimageview:2.2.0'
++    implementation 'de.hdodenhof:circleimageview:3.1.0'
+     implementation 'com.github.bumptech.glide:glide:4.12.0'
+     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
++    //noinspection GradleCompatible
+     implementation 'com.android.support:support-v4:30.0.0'
+     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+     implementation 'com.airbnb.android:lottie:3.7.0'
++
++    implementation 'com.google.firebase:firebase-firestore:24.0.1'
++    implementation 'com.google.firebase:firebase-messaging:23.0.0'
++    implementation 'com.google.firebase:firebase-auth:21.0.1'
++    implementation 'com.google.firebase:firebase-storage:20.0.0'
++    implementation 'com.google.firebase:firebase-database:20.0.3'
++    implementation platform('com.google.firebase:firebase-bom:29.1.0')
++
++    implementation 'androidx.multidex:multidex:2.0.1'
+ }
+ 
+ 
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:7.1.1'\r\n        classpath 'com.google.gms:google-services:4.3.10'\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/build.gradle	(date 1645039652198)
+@@ -5,7 +5,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:7.1.1'
++        classpath "com.android.tools.build:gradle:4.0.2"
+         classpath 'com.google.gms:google-services:4.3.10'
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+Index: app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/ChatActivity.java b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java
+new file mode 100644
+--- /dev/null	(date 1645035106188)
++++ b/app/src/main/java/com/example/studenthub/Model/ChatActivity.java	(date 1645035106188)
+@@ -0,0 +1,27 @@
++package com.example.studenthub.Model;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import android.app.Activity;
++import android.os.Bundle;
++import android.preference.Preference;
++import android.preference.PreferenceManager;
++
++import com.example.studenthub.R;
++import com.example.studenthub.databinding.ActivityChatBinding;
++
++public class ChatActivity extends AppCompatActivity {
++
++    private ActivityChatBinding binding;
++    private PreferenceManager preference;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        binding = ActivityChatBinding.inflate(getLayoutInflater());
++        setContentView(binding.getRoot());
++
++
++    }
++
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Model/PrivateChat.java b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java
+new file mode 100644
+--- /dev/null	(date 1645034178162)
++++ b/app/src/main/java/com/example/studenthub/Model/PrivateChat.java	(date 1645034178162)
+@@ -0,0 +1,18 @@
++package com.example.studenthub.Model;
++
++import com.example.studenthub.ChatMessage;
++
++public class PrivateChat {
++    private String id;
++    private String user1;
++    private String user2;
++    ChatMessage chatMessage;
++
++
++    public PrivateChat(String id, String user1, String user2) {
++        this.id = id;
++        this.user1 = user1;
++        this.user2 = user2;
++
++    }
++}
+Index: app/src/main/res/layout/activity_chat.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_chat.xml b/app/src/main/res/layout/activity_chat.xml
+new file mode 100644
+--- /dev/null	(date 1645035106180)
++++ b/app/src/main/res/layout/activity_chat.xml	(date 1645035106180)
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="utf-8"?>
++<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:animateLayoutChanges="true"
++    android:background="@color/browser_actions_title_color"
++    tools:context=".Model.ChatActivity">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical"
++        >
++
++        <ListView
++            android:id="@+id/messageStack"
++            android:layout_width="match_parent"
++            android:layout_height="500dp"
++            />
++
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="100dp"
++            android:orientation="horizontal"
++            >
++
++            <EditText
++                android:id="@+id/etMessage"
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:layout_weight="1"></EditText>
++
++            <Button
++                android:id="@+id/btnSend"
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:layout_weight="3"></Button>
++        </LinearLayout>
++    </LinearLayout>
++
++
++</FrameLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/Login.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.studenthub;\r\n\r\nimport android.app.ProgressDialog;\r\nimport android.content.DialogInterface;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.text.TextUtils;\r\nimport android.util.Log;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.ProgressBar;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.ActionBar;\r\nimport androidx.appcompat.app.AlertDialog;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\nimport androidx.core.view.GravityCompat;\r\nimport androidx.drawerlayout.widget.DrawerLayout;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.OnFailureListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.button.MaterialButton;\r\nimport com.google.android.material.navigation.NavigationView;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.android.material.textfield.TextInputEditText;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.ValueEventListener;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.example.studenthub.Model.User;\r\n\r\nimport java.util.Objects;\r\n\r\npublic class Login extends AppCompatActivity {\r\n    TextInputEditText mEmail,mPassword;\r\n    MaterialButton mLoginBtn;\r\n    MaterialButton mLoginAnonymousBtn;\r\n    FirebaseAuth fAuth;\r\n    Toolbar toolbar;\r\n    DrawerLayout drawerLayout;\r\n    NavigationView navigationView;\r\n    ActionBar actionBar;\r\n    CreateAccountFragment createAccountFragment;\r\n    ForgotPasswordFragment forgotPasswordFragment;\r\n\r\n    @Override\r\n    public boolean onOptionsItemSelected(@NonNull MenuItem item) {\r\n\r\n        if (item.getItemId() == android.R.id.home) {\r\n            drawerLayout.openDrawer(GravityCompat.START);\r\n        }\r\n\r\n        return super.onOptionsItemSelected(item);\r\n    }\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_login);\r\n\r\n        mEmail = findViewById(R.id.text_input_email);\r\n        mPassword = findViewById(R.id.text_input_password);\r\n        fAuth = FirebaseAuth.getInstance();\r\n        mLoginBtn = findViewById(R.id.login_button);\r\n        mLoginAnonymousBtn = findViewById(R.id.login_anonymous_button);\r\n\r\n        drawerLayout = findViewById(R.id.drawer_layout);\r\n        navigationView = findViewById(R.id.navigation_view);\r\n        toolbar = findViewById(R.id.toolbar);\r\n        setSupportActionBar(toolbar);\r\n\r\n        actionBar = getSupportActionBar();\r\n        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);\r\n        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);\r\n\r\n        // Login Button\r\n        mLoginBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(final View v) {\r\n                final ProgressDialog pd = new ProgressDialog(Login.this);\r\n                pd.setMessage(\"Please wait...\");\r\n                pd.show();\r\n\r\n                String email = Objects.requireNonNull(mEmail.getText()).toString().trim();\r\n                String password = Objects.requireNonNull(mPassword.getText()).toString().trim();\r\n\r\n                // Validate input\r\n                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {\r\n                    pd.dismiss();\r\n                    Toast.makeText(Login.this, \"All fields are required!\", Toast.LENGTH_SHORT).show();\r\n                } else {\r\n                    // Authenticate details in DB\r\n                    fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(Login.this, task -> {\r\n                        if (task.isSuccessful()) {\r\n                            Intent intent = new Intent(Login.this, MainActivity.class);\r\n                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                            startActivity(intent);\r\n                            finish();\r\n                        } else {\r\n                            pd.dismiss();\r\n                            Snackbar.make(v, \"Sign in failed\", Snackbar.LENGTH_SHORT).show();\r\n                        }\r\n                    });\r\n                }\r\n            }\r\n        });\r\n\r\n        // Anonymous login\r\n        mLoginAnonymousBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(final View v) {\r\n                final ProgressDialog pd = new ProgressDialog(Login.this);\r\n                pd.setMessage(\"Please wait...\");\r\n                pd.show();\r\n                //anonymousAuth();\r\n//                fAuth.signInAnonymously()\r\n//                        .addOnSuccessListener(){\r\n//                    Intent intent = new Intent(Login.this, MainActivity.class);\r\n//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n//                    startActivity(intent);\r\n//                    finish();\r\n//                }\r\n                fAuth.signInAnonymously()\r\n                        .addOnCompleteListener(Login.this, task -> {\r\n                            if (task.isSuccessful()) {\r\n                                Intent intent = new Intent(Login.this, MainActivity.class);\r\n                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                                startActivity(intent);\r\n                                finish();\r\n                            } else {\r\n                                pd.dismiss();\r\n                                Snackbar.make(v, \"Sign in failed\", Snackbar.LENGTH_SHORT).show();\r\n                            }\r\n                        });\r\n            }\r\n        });\r\n\r\n        navigationView.setNavigationItemSelectedListener(item -> {\r\n            item.setChecked(true);\r\n            drawerLayout.closeDrawers();\r\n\r\n            if (item.getItemId() == R.id.drawer_create_account) {\r\n                createAccountFragment = new CreateAccountFragment();\r\n\r\n                // if there isn't any other instance of this fragment in stack\r\n                if (getSupportFragmentManager().findFragmentByTag(\"CreateAccount\") == null) {\r\n                    getSupportFragmentManager().beginTransaction()\r\n                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)\r\n                            .add(android.R.id.content, createAccountFragment, \"CreateAccount\")\r\n                            .addToBackStack(\"CreateAccount\").commit();\r\n                }\r\n            } else { // Forgot your password?\r\n                forgotPasswordFragment = new ForgotPasswordFragment();\r\n\r\n                // if there isn't any other instance of this fragment in stack\r\n                if (getSupportFragmentManager().findFragmentByTag(\"ForgotPassword\") == null) {\r\n                    getSupportFragmentManager().beginTransaction()\r\n                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)\r\n                            .add(android.R.id.content, forgotPasswordFragment, \"ForgotPassword\")\r\n                            .addToBackStack(\"ForgotPassword\").commit();\r\n                }\r\n            }\r\n\r\n            return true;\r\n        });\r\n    }\r\n\r\n    // Anonymous login\r\n//    private void anonymousAuth() {\r\n//        fAuth.signInAnonymously()\r\n//                .addOnSuccessListener(\r\n//                        startActivity();\r\n//                )\r\n//                //.addOnFailureListener();\r\n//    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/Login.java b/app/src/main/java/com/example/studenthub/Login.java
+--- a/app/src/main/java/com/example/studenthub/Login.java	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/app/src/main/java/com/example/studenthub/Login.java	(date 1645017443872)
+@@ -1,5 +1,6 @@
+ package com.example.studenthub;
+ 
++import android.app.Activity;
+ import android.app.ProgressDialog;
+ import android.content.DialogInterface;
+ import android.content.Intent;
+@@ -20,6 +21,8 @@
+ import androidx.appcompat.widget.Toolbar;
+ import androidx.core.view.GravityCompat;
+ import androidx.drawerlayout.widget.DrawerLayout;
++
++import com.example.studenthub.databinding.ActivityLoginBinding;
+ import com.google.android.gms.tasks.OnCompleteListener;
+ import com.google.android.gms.tasks.OnFailureListener;
+ import com.google.android.gms.tasks.OnSuccessListener;
+@@ -52,6 +55,7 @@
+     CreateAccountFragment createAccountFragment;
+     ForgotPasswordFragment forgotPasswordFragment;
+ 
++
+     @Override
+     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+ 
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.studenthub\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:label=\"@string/app_name\"\r\n        android:icon=\"@drawable/ic_university_icon\"\r\n        android:roundIcon=\"@drawable/ic_university_icon\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".WelcomeAnimation\" android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".CommentsActivity\" />\r\n        <activity android:name=\".PostActivity\" />\r\n        <activity android:name=\".EditProfile\" />\r\n        <activity android:name=\"com.theartofdev.edmodo.cropper.CropImageActivity\"\r\n            android:theme=\"@style/Base.Theme.AppCompat\" />\r\n        <activity android:name=\".Login\"\r\n            android:exported=\"true\"\r\n            android:launchMode=\"singleTop\"\r\n            android:windowSoftInputMode=\"adjustPan\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".MainActivity\" />\r\n\r\n        <meta-data\r\n            android:name=\"preloaded_fonts\"\r\n            android:resource=\"@array/preloaded_fonts\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/app/src/main/AndroidManifest.xml	(date 1645017930121)
+@@ -8,12 +8,17 @@
+ 
+     <application
+         android:allowBackup="true"
+-        android:label="@string/app_name"
+         android:icon="@drawable/ic_university_icon"
++        android:label="@string/app_name"
+         android:roundIcon="@drawable/ic_university_icon"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <activity android:name=".WelcomeAnimation" android:exported="true">
++        <activity
++            android:name=".Model.ChatActivity"
++            android:exported="false" />
++        <activity
++            android:name=".WelcomeAnimation"
++            android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+@@ -23,14 +28,17 @@
+         <activity android:name=".CommentsActivity" />
+         <activity android:name=".PostActivity" />
+         <activity android:name=".EditProfile" />
+-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
++        <activity
++            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+             android:theme="@style/Base.Theme.AppCompat" />
+-        <activity android:name=".Login"
++        <activity
++            android:name=".Login"
+             android:exported="true"
+             android:launchMode="singleTop"
+             android:windowSoftInputMode="adjustPan">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
++
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+@@ -39,6 +47,13 @@
+         <meta-data
+             android:name="preloaded_fonts"
+             android:resource="@array/preloaded_fonts" />
++        <service
++            android:name=".firebase.MessagingService"
++            android:exported="false">
++            <intent-filter>
++                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
++            </intent-filter>
++        </service>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/java/com/example/studenthub/ChatMessage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/ChatMessage.java b/app/src/main/java/com/example/studenthub/ChatMessage.java
+new file mode 100644
+--- /dev/null	(date 1645034195361)
++++ b/app/src/main/java/com/example/studenthub/ChatMessage.java	(date 1645034195361)
+@@ -0,0 +1,6 @@
++package com.example.studenthub;
++
++public class ChatMessage {
++    private String id;
++
++}
+Index: app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/studenthub/firebase/MessagingService.java b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java
+new file mode 100644
+--- /dev/null	(date 1645020147624)
++++ b/app/src/main/java/com/example/studenthub/firebase/MessagingService.java	(date 1645020147624)
+@@ -0,0 +1,21 @@
++package com.example.studenthub.firebase;
++
++import android.util.Log;
++
++import androidx.annotation.NonNull;
++
++import com.google.firebase.messaging.FirebaseMessagingService;
++import com.google.firebase.messaging.RemoteMessage;
++
++public class MessagingService extends FirebaseMessagingService {
++    @Override
++    public void onNewToken(@NonNull String token) {
++        super.onNewToken(token);
++    }
++
++
++    @Override
++    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
++        super.onMessageReceived(remoteMessage);
++    }
++}
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Thu Feb 04 23:27:04 IST 2021\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-7.2-all.zip\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+--- a/gradle/wrapper/gradle-wrapper.properties	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/gradle/wrapper/gradle-wrapper.properties	(date 1644974372090)
+@@ -1,6 +1,6 @@
+-#Thu Feb 04 23:27:04 IST 2021
++#Wed Feb 16 03:19:32 IST 2022
+ distributionBase=GRADLE_USER_HOME
++distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-bin.zip
+ distributionPath=wrapper/dists
+-zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-all.zip
++zipStoreBase=GRADLE_USER_HOME
+Index: app/src/main/res/drawable/background_pic_message.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/background_pic_message.xml b/app/src/main/res/drawable/background_pic_message.xml
+new file mode 100644
+--- /dev/null	(date 1645021479804)
++++ b/app/src/main/res/drawable/background_pic_message.xml	(date 1645021479804)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:shape="rectangle">
++    <solid android:color="@color/browser_actions_bg_grey"/>
++    <corners android:radius="8dp"/>
++
++</shape>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/drawable-anydpi/ic_favorite.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.31654676258992803\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.27202472952086554\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/header_layout.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.6\" />\r\n        <entry key=\"..\\:/ComputerScience/Student_Hub/app/src/main/res/menu/bottom_navigation.xml\" value=\"0.11302083333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_comments.xml\" value=\"0.4\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_edit_profile.xml\" value=\"0.2916666666666667\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_login.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_main.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_post.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_register.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/activity_welcome_animation.xml\" value=\"0.14218009478672985\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/comment_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_account_creation.xml\" value=\"0.39947916666666666\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_forgot_password.xml\" value=\"0.26510416666666664\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_home.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_notification.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_post_detail.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_profile.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/fragment_search.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/notification_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/photos_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml\" value=\"0.4005208333333333\" />\r\n        <entry key=\"..\\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml\" value=\"0.4005208333333333\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 4c105fd16379fecb7717094d28b6978c143d3c27)
++++ b/.idea/misc.xml	(date 1645041829344)
+@@ -44,6 +44,10 @@
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/photos_item.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/post_item.xml" value="0.4005208333333333" />
+         <entry key="..\:/Users/Nimrod/Desktop/Student_Hub/app/src/main/res/layout/user_item.xml" value="0.4005208333333333" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/drawable/background_pic_message.xml" value="0.1" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_chat.xml" value="0.22" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
++        <entry key="..\:/Users/or448/AndroidStudioProjects/Student_Hub/app/src/main/res/layout/fragment_profile.xml" value="0.3333333333333333" />
+       </map>
+     </option>
+   </component>
