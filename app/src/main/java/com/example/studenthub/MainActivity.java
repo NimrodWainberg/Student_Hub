@@ -29,16 +29,16 @@ import com.google.firebase.auth.UserInfo;
 import java.util.Objects;
 
 public class MainActivity extends LoadingActivity {
-    private final MessagingManager messagingManager = MessagingManager.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser;
-    // Listener - listen when users logged in / out
+
+    // Listener- listen when users logged in / out
     FirebaseAuth.AuthStateListener mAuthListener;
 
     DrawerLayout drawerLayout;
     BottomNavigationView bottom_navigation;
     Fragment selectedFragment = null;
-
+    private final MessagingManager messagingManager = MessagingManager.getInstance();
     // When the app is visible to the user
     @Override
     public void onStart() {
@@ -124,6 +124,7 @@ public class MainActivity extends LoadingActivity {
                 case R.id.nav_search:
                     if (!finalIsConnected) {
                         selectedFragment = new GuestModeFragment();
+                        //showDialogFragment();
                     }
                     else {
                         selectedFragment = new SearchFragment();
@@ -142,6 +143,7 @@ public class MainActivity extends LoadingActivity {
                 case R.id.nav_notifications:
                     if (!finalIsConnected) {
                         selectedFragment = new GuestModeFragment();
+//                        showDialogFragment();
                     }
                     else {
                         selectedFragment = new NotificationFragment();

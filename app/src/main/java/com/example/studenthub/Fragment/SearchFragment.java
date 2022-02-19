@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
+
     RecyclerView recyclerView;
     UserAdapter userAdapter;
     List <User> mUsers;

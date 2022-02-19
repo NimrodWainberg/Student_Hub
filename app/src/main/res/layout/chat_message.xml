@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/colorPrimary"
     android:layout_margin="10dp"
     android:layout_height="wrap_content">
 
@@ -23,7 +23,7 @@
 
      <androidx.cardview.widget.CardView
          app:cardCornerRadius="12.5dp"
-         android:backgroundTint="@color/colorGreen"
+         android:backgroundTint="@color/lightPink"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content">
         <ImageView
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:backgroundTint="@color/colorGreen"
+            android:backgroundTint="@color/lightPink"
             app:cardCornerRadius="12dp">
             <TextView
                 android:id="@+id/user_message_chat"

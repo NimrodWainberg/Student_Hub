@@ -18,6 +18,14 @@ public class StudentHubApp extends Application {
         Log.d("StudentHubApp","Starting messaging service");
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener((OnSuccessListener<String>) s -> {
             token = s;
+            System.out.println(token);
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("There was a problem receiving token");
+            }
         });
+
+
     }
 }

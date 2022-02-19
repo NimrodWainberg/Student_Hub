@@ -23,7 +23,7 @@ public class ChatMessagesRvAdapter extends RecyclerView.Adapter<ChatMessagesRvAd
 
     private List<ChatMessage> chatMessages;
     private User owner,second;
-    public ChatMessagesRvAdapter(List<ChatMessage> chatMessages, User owner,User second) {
+    public ChatMessagesRvAdapter(List<ChatMessage> chatMessages,User owner,User second) {
         this.chatMessages = chatMessages;
         this.owner = owner;
         this.second = second;

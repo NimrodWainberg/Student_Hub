@@ -1,8 +1,12 @@
 package com.example.studenthub.Adapter;
 
+import static android.provider.Settings.System.getString;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

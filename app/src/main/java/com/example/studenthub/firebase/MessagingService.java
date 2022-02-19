@@ -33,6 +33,8 @@ public class MessagingService extends FirebaseMessagingService {
         super.onNewToken(token);
     }
 
+
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -40,8 +42,7 @@ public class MessagingService extends FirebaseMessagingService {
     }
     private void sendNotification(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this, MainActivity.class);
-        @SuppressLint("UnspecifiedImmutableFlag")
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0,intent, PendingIntent.FLAG_ONE_SHOT);
         String channelId = "Channel 1";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -57,7 +58,7 @@ public class MessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Since android Oreo notification channel is needed.
+// Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId,
                     getString(R.string.notification_channel),
