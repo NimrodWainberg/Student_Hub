@@ -97,7 +97,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    //TODO not working
     private void getUserDetails(ImageView imageView, TextView username, String publisherid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(publisherid);
         reference.addValueEventListener(new ValueEventListener() {
@@ -113,7 +112,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
-    // TODO not working
     private void getPostImage(ImageView imageView, String postid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
         reference.addValueEventListener(new ValueEventListener() {
