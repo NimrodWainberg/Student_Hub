@@ -36,6 +36,7 @@ public class Login extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
@@ -109,7 +110,7 @@ public class Login extends AppCompatActivity {
                             finish();
                         } else {
                             dialog.dismiss();
-                            Snackbar.make(v, getString(R.string.sign_in_failed), Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
                         }
                     });
         });
@@ -121,7 +122,7 @@ public class Login extends AppCompatActivity {
             if (item.getItemId() == R.id.drawer_create_account) {
                 createAccountFragment = new CreateAccountFragment();
 
-                // If there isn't any other instance of this fragment in stack
+                // if there isn't any other instance of this fragment in stack
                 if (getSupportFragmentManager().findFragmentByTag("CreateAccount") == null) {
                     getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
@@ -131,7 +132,7 @@ public class Login extends AppCompatActivity {
             } else { // Forgot your password?
                 forgotPasswordFragment = new ForgotPasswordFragment();
 
-                // If there isn't any other instance of this fragment in stack
+                // if there isn't any other instance of this fragment in stack
                 if (getSupportFragmentManager().findFragmentByTag("ForgotPassword") == null) {
                     getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)

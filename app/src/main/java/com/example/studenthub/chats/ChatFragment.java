@@ -35,6 +35,7 @@ public class ChatFragment extends LoadingFragment {
     ChatRoom room;
     private final MessagingManager messagingManager = MessagingManager.getInstance();
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -50,7 +51,7 @@ public class ChatFragment extends LoadingFragment {
         messagesRv = view.findViewById(R.id.chat_rv);
         messagesRv.setLayoutManager(new LinearLayoutManager(getContext()));
         Bundle i = getArguments();
-        ProgressDialog progressDialog = showLoading(getString(R.string.messages));
+        ProgressDialog progressDialog = showLoading("Messages");
         if(i != null) {
             roomId = i.getString("roomId");
 
@@ -71,7 +72,7 @@ public class ChatFragment extends LoadingFragment {
                 public void onFailure(Exception e) {
                     if(ChatFragment.this.room ==null)
                         progressDialog.dismiss();
-                    showToast(getString(R.string.problem_loading_messages));
+                    showToast("There was a problem loading messages");
                 }
             });
 
@@ -93,7 +94,7 @@ public class ChatFragment extends LoadingFragment {
 
                         @Override
                         public void onFailure(Exception e) {
-                            showToast(getString(R.string.problem_sending_message));
+                            showToast("There was a problem sending message");
                         }
                     });
                 }

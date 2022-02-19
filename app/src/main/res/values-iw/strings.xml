@@ -57,18 +57,4 @@
     <string name="must_enter_description">חובה לכתוב תיאור!</string>
     <string name="institute">מוסד לימודים</string>
     <string name="notification_channel">ערוץ הצ\'אטים</string>
-    <string name="loading">"טוען "</string>
-    <string name="chat_rooms_problems">ישנה בעיה בטעינת חדרי הצ\'אט</string>
-    <string name="chat_rooms">חדרי צ\'אט</string>
-    <string name="messages">הודעות</string>
-    <string name="problem_loading_messages">ישנה בעיה בטעינת ההודעות</string>
-    <string name="problem_sending_message">ישנה בעיה בשליחת ההודעה</string>
-    <string name="start_chat_with">"התחל שיחה עם: "</string>
-    <string name="create_chat_room">"האם תרצה להתחיל שיחה עם "</string>
-    <string name="problem_loading">ישנה בעיה בטעינת העוקבים</string>
-    <string name="chat_room_exists">Chat room with this user already exists</string>
-    <string name="added_chat_room">\"Successfully added chat room \"</string>
-    <string name="finished_caching_users">Finished caching users</string>
-    <string name="deleted_chat_room">Successfully deleted chat room</string>
-    <string name="sent_message">Successfully sent message</string>
 </resources>
