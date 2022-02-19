@@ -30,16 +30,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommentsActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private CommentAdapter commentAdapter;
-    private List <Comment> commentList;
-    private EditText commentEditText;
-    private ImageView commentProfilePicture;
-    private TextView postCommentBtn;
-    private String postid;
-    private String publisherid;
-    private FirebaseUser firebaseUser;
-    private Toolbar toolbar;
+    RecyclerView recyclerView;
+    CommentAdapter commentAdapter;
+    List <Comment> commentList;
+    EditText commentEditText;
+    ImageView commentProfilePicture;
+    TextView postCommentBtn;
+    String postid;
+    String publisherid;
+    FirebaseUser firebaseUser;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,12 +133,8 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
-
-        //commentEditText.setText(""); // Clear the EditText after comment has been posted
     }
 
     /**
@@ -182,8 +178,7 @@ public class CommentsActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
+                public void onCancelled(@NonNull DatabaseError error) {}
             });
 
         }

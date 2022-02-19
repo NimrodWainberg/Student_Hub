@@ -26,10 +26,10 @@ import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private PostAdapter postAdapter;
-    private List<Post> postList;
-    private List<String> followingList;
+    RecyclerView recyclerView;
+    PostAdapter postAdapter;
+    List<Post> postList;
+    List<String> followingList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

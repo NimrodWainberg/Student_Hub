@@ -15,7 +15,6 @@ private String KEY_TOKENS = "key_tokens";
 private String KEY_MY_TOKEN = "key_my_token";
 
         public PreferencesUtils(Context context) {
-           // mPrefs = context.getSharedPreferences(Context.MODE_PRIVATE);
         }
 
        public  void  addNewToken(String token) {
@@ -42,7 +41,7 @@ private String KEY_MY_TOKEN = "key_my_token";
             return null;
         }
 
-        void  saveMyToken(String token) {
+        void saveMyToken(String token) {
              mPrefs.edit().putString(KEY_MY_TOKEN, token).apply();
         }
 

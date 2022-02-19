@@ -28,9 +28,9 @@ import java.util.Objects;
 
 public class NotificationFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private NotificationAdapter notificationAdapter;
-    private List <Notification> notificationList;
+    RecyclerView recyclerView;
+    NotificationAdapter notificationAdapter;
+    List <Notification> notificationList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

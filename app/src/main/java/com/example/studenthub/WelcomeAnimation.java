@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 
 public class WelcomeAnimation extends AppCompatActivity {
-
     TextView appName;
     LottieAnimationView lottie;
 

@@ -71,6 +71,9 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that initializes the views
+     */
     private void initViews() {
         close = findViewById(R.id.close);
         image = findViewById(R.id.image_added);
@@ -80,6 +83,9 @@ public class PostActivity extends AppCompatActivity {
         gallery = findViewById(R.id.upload_pic_gallery);
     }
 
+    /**
+     * A function that initializes the listeners
+     */
     private void initListeners() {
         gallery.setOnClickListener(v -> galleryResultLauncher.launch("image/*"));
 
@@ -93,6 +99,9 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that initializes the launchers
+     */
     private void initLaunchers(){
         cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
             // True if image saved into given URI
@@ -118,6 +127,9 @@ public class PostActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
+    /**
+     * A function that uploads the user's picture into the DB
+     */
     private void uploadImage(){
         // Dialog Animation
         Dialog dialog = new Dialog(this);
@@ -175,6 +187,4 @@ public class PostActivity extends AppCompatActivity {
             dialog.dismiss();
         }
     }
-
-
 }

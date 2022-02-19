@@ -62,17 +62,8 @@ public class ProfileFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        profilePicture = view.findViewById(R.id.fragment_profile_picture);
-        exitApp = view.findViewById(R.id.exit_app);
-        posts = view.findViewById(R.id.posts);
-        followers = view.findViewById(R.id.followers);
-        following = view.findViewById(R.id.following);
-        fullname = view.findViewById(R.id.fullname);
-        bio = view.findViewById(R.id.bio);
-        username = view.findViewById(R.id.username_profile);
-        edit_profile = view.findViewById(R.id.edit_profile);
+        initViews(view);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -128,6 +119,27 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * A function that finds all views for elements on screen
+     * @param view View that contains the elements
+     */
+    private void initViews(View view) {
+        profilePicture = view.findViewById(R.id.fragment_profile_picture);
+        exitApp = view.findViewById(R.id.exit_app);
+        posts = view.findViewById(R.id.posts);
+        followers = view.findViewById(R.id.followers);
+        following = view.findViewById(R.id.following);
+        fullname = view.findViewById(R.id.fullname);
+        bio = view.findViewById(R.id.bio);
+        username = view.findViewById(R.id.username_profile);
+        edit_profile = view.findViewById(R.id.edit_profile);
+        recyclerView = view.findViewById(R.id.recycler_view);
+    }
+
+    /**
+     * A function that adds the notification into the DB.
+     * @param username Username to add to the notification
+     */
     private void addNotificationToDataBase(String username) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(id);
 
@@ -140,6 +152,9 @@ public class ProfileFragment extends Fragment {
         reference.push().setValue(hashMap);
     }
 
+    /**
+     * A function that fetches all of the user's information from the DB
+     */
     private void userInfo() {
         final Query query = FirebaseDatabase.getInstance().getReference("users").child(id);
         query.addValueEventListener(new ValueEventListener() {

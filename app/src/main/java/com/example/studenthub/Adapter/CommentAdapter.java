@@ -28,11 +28,10 @@ import java.util.List;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageViewHolder> {
-
-    private final Context mContext;
-    private final List<Comment> mComment;
-    private final String postId;
-    private FirebaseUser firebaseUser;
+    final Context mContext;
+    final List<Comment> mComment;
+    final String postId;
+    FirebaseUser firebaseUser;
 
     public CommentAdapter(Context context, List<Comment> comments, String postId) {
         this.mContext = context;

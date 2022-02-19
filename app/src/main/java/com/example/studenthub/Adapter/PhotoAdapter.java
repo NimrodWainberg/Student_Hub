@@ -21,8 +21,8 @@ import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
-    private final Context context;
-    private final List<Post> posts;
+    final Context context;
+    final List<Post> posts;
 
     public PhotoAdapter(Context context, List<Post> posts) {
         this.context = context;

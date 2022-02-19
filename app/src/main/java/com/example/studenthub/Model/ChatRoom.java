@@ -5,13 +5,11 @@ import java.util.HashMap;
 public class ChatRoom {
 
     public static String DUMMY = "DUMMY";
-    private String id;
-    private String ownerId;
-    private String secondUserId;
+    String id, ownerId, secondUserId;
+    HashMap<String,ChatMessage> chatMessages;
 
-    private HashMap<String,ChatMessage> chatMessages;
-
-    public ChatRoom(String id,String ownerId,String secondUserId,HashMap<String,ChatMessage> chatMessages) {
+    public ChatRoom(String id, String ownerId, String secondUserId,
+                    HashMap<String, ChatMessage> chatMessages) {
         this.ownerId = ownerId;
         this.secondUserId = secondUserId;
         this.chatMessages = chatMessages;

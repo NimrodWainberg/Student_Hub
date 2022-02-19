@@ -36,9 +36,9 @@ import java.util.Objects;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
-    private final Context context;
-    private final List<Post> posts;
-    private FirebaseUser firebaseUser;
+    final Context context;
+    final List<Post> posts;
+    FirebaseUser firebaseUser;
 
     public PostAdapter(Context context, List<Post> posts) {
         this.context = context;
@@ -159,7 +159,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-    private void getComments(String postId, final TextView comments){
+    /**
+     * A function that gets all comments of a post from DB
+     * @param postId Post ID to get the comments from
+     * @param comments TextView to show the comments to be changed
+     */
+    private void getComments(String postId, TextView comments){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Comments").child(postId);
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -174,6 +179,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         });
     }
 
+    /**
+     * A function that fetches from DB the state of "like" status
+     * @param postId Post ID to be checked
+     * @param imageView ImageView to be updated
+     */
     private void isPostLiked(String postId, ImageView imageView){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Likes").child(postId);

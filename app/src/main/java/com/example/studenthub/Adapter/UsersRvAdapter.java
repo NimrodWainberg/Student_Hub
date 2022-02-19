@@ -16,9 +16,8 @@ import com.example.studenthub.R;
 import java.util.List;
 
 public class UsersRvAdapter extends RecyclerView.Adapter<UsersRvAdapter.UsersViewHolder> {
-
-    private List<User>users;
-    private OnCreateRoomListener createRoomListener;
+    List<User>users;
+    OnCreateRoomListener createRoomListener;
     public UsersRvAdapter(List<User> users, OnCreateRoomListener createRoomListener) {
         this.users = users;
         this.createRoomListener = createRoomListener;

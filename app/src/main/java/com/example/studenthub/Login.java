@@ -36,7 +36,6 @@ public class Login extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
@@ -110,7 +109,7 @@ public class Login extends AppCompatActivity {
                             finish();
                         } else {
                             dialog.dismiss();
-                            Snackbar.make(v, "Sign in failed", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(v, getString(R.string.sign_in_failed), Snackbar.LENGTH_SHORT).show();
                         }
                     });
         });
