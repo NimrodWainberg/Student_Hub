@@ -67,28 +67,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ImageVie
             intent.putExtra("publisherid", comment.getPublisher());
             mContext.startActivity(intent);
         });
-
-        holder.itemView.setOnLongClickListener(view -> {
-            if (comment.getPublisher().equals(firebaseUser.getUid())) {
-                AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-                alertDialog.setTitle(mContext.getString(R.string.delete_comment_text));
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
-                        (dialog, which) -> dialog.dismiss());
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
-                        (dialog, which) -> {
-                            FirebaseDatabase.getInstance().getReference("Comments")
-                                    .child(postId).child(comment.getCommentId())
-                                    .removeValue().addOnCompleteListener(task -> {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(mContext, R.string.comment_deleted, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                            dialog.dismiss();
-                        });
-                alertDialog.show();
-            }
-            return true;
-        });
     }
 
     @Override

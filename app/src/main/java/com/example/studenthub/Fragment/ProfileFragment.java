@@ -102,7 +102,21 @@ public class ProfileFragment extends Fragment {
                 FirebaseDatabase.getInstance().getReference().child("Follow").child(id)
                         .child("followers").child(firebaseUser.getUid()).setValue(true);
 
-                getNotifications(); // If a new follow is created, update notifications
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users")
+                        .child(firebaseUser.getUid());
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        addNotificationToDataBase(user.getUsername());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                 // If a new follow is created, update notifications
 
             } else if (buttonString.equals(getString(R.string.following))) {
                 FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
@@ -120,12 +134,12 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    private void getNotifications() {
+    private void addNotificationToDataBase(String username) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(id);
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("userid", firebaseUser.getUid());
-        hashMap.put("text", getString(R.string.startedfollowing));
+        hashMap.put("text", username + getString(R.string.startedfollowing));
         hashMap.put("postid", "");
         hashMap.put("ispost", false);
 
@@ -140,11 +154,11 @@ public class ProfileFragment extends Fragment {
                 if(getActivity() == null)
                     return;
 
-                    User b = dataSnapshot.getValue(User.class);
-                    fullname.setText(b.getFullName());
-                    username.setText(b.getUsername());
-                    bio.setText(b.getBio());
-                    Glide.with(getActivity()).load(b.getImageUrl()).into(profilePicture);
+                User user = dataSnapshot.getValue(User.class);
+                fullname.setText(user.getFullName());
+                username.setText(user.getUsername());
+                bio.setText(user.getBio());
+                Glide.with(getActivity()).load(user.getImageUrl()).into(profilePicture);
             }
 
             @Override
@@ -169,9 +183,7 @@ public class ProfileFragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 

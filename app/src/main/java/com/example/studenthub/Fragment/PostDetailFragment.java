@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.studenthub.Adapter.PostAdapter;
 import com.example.studenthub.Model.Post;
 import com.example.studenthub.R;
@@ -21,16 +19,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class PostDetailFragment extends Fragment {
 
-    String userId;
+    private String userId;
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
-    private List<Post> postList;
+    private List<Post> posts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,8 +54,8 @@ public class PostDetailFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        postList = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(),postList);
+        posts = new ArrayList<>();
+        postAdapter = new PostAdapter(getContext(), posts);
         recyclerView.setAdapter(postAdapter);
     }
 
@@ -70,9 +67,9 @@ public class PostDetailFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postList.clear();
+                posts.clear();
                 Post post = snapshot.getValue(Post.class);
-                postList.add(post);
+                posts.add(post);
 
                 postAdapter.notifyDataSetChanged();
             }

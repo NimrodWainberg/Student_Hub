@@ -17,7 +17,6 @@
     <string name="account_creation">יצירת חשבון</string>
     <string name="full_name">שם מלא</string>
     <string name="create_account">צור חשבון</string>
-    <string name="startedfollowing">התחיל לעקוב אחרייך</string>
     <string name="post_text">מה ברצונך לפרסם?</string>
     <string name="error_message">משהו השתבש!</string>
     <string name="more_options_text">אפשרויות נוספות</string>
@@ -26,7 +25,6 @@
     <string name="add_a_comment" tools:ignore="TypographyEllipsis">הוסף תגובה...</string>
     <string name="delete_comment_text">האם ברצונך למחוק את התגובה?</string>
     <string name="comment_deleted">תגובה נמחקה!</string>
-    <string name="liked_your_post_quote">" אהב את הפוסט שלך"</string>
     <string name="view_all">צפה ב</string>
     <string name="comments_quote">" תגובות"</string>
     <string name="forgot_password_text">הזן את כתובת המייל בכדי לקבל לינק לאיפוס:</string>
@@ -44,12 +42,16 @@
     <string name="forgot_your_password">שכחת את הסיסמה?</string>
     <string name="profile">פרופיל</string>
     <string name="create_new_account">צור חשבון חדש</string>
-    <string name="uploading">Uploading</string>
-    <string name="comment_cannot_be_empty">Comment cannot be empty</string>
-    <string name="all_fields_required">All fields are required!</string>
-    <string name="sign_in_failed">Sign in failed</string>
-    <string name="failed_to_post">Failed to post!</string>
+    <string name="all_fields_required">כל השדות נדרשים!</string>
+    <string name="failed_to_post">הפרסום נכשל!</string>
     <string name="login_dialog">התחבר</string>
     <string name="dialog_cancel">הבנתי</string>
-    <string name="guest_dialog_text">אתה צריך להתחבר קודם</string>
+    <string name="no">לא</string>
+    <string name="guest_dialog_text">נדרשת התחברות</string>
+    <string name="comment_cannot_be_empty">תגובה לא יכולה להיות ריקה</string>
+    <string name="sign_in_failed">הכניסה נכשלה</string>
+    <string name="uploading">מתבצעת העלאה</string>
+    <string name="yes">כן</string>
+    <string name="startedfollowing">" התחיל לעקוב אחרייך"</string>
+    <string name="liked_your_post_quote">" אהב את התמונה שלך"</string>
 </resources>

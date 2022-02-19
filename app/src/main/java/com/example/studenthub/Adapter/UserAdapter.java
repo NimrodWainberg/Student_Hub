@@ -36,7 +36,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
     private final Context context;
     private final List <User> userList;
     private final boolean isFragment;
-
     private FirebaseUser firebaseUser;
 
     public UserAdapter(Context context, List<User> userList, boolean isFragment) {
@@ -52,9 +51,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         return new UserAdapter.ImageViewHolder(view);
     }
 
-    /*
-    * Here we fetch data of people we click on Search Fragment
-    * */
+    // Here we fetch data of people we click on Search Fragment
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.ImageViewHolder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -90,7 +87,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
             }
         });
 
-        holder.followBtn.setOnClickListener(view -> {
+        /*holder.followBtn.setOnClickListener(view -> {
             if(holder.followBtn.getText().toString().equals("follow")) {
                 FirebaseDatabase.getInstance().getReference().child("follow").child(firebaseUser.getUid())
                         .child("following").child(User.getId()).setValue(true);
@@ -104,25 +101,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                 FirebaseDatabase.getInstance().getReference().child("Follow").child(User.getId())
                         .child("followers").child(firebaseUser.getUid()).removeValue();
             }
-        });
+        });*/
     }
 
-    /**
+   /* *//**
      * A function that adds a notification into specific user's DB
      * @param userid ID of following user
-     */
+     *//*
     private void addNotification(String userid){
         DatabaseReference reference = FirebaseDatabase.getInstance().
                 getReference("Notifications").child(userid);
 
         HashMap <String,Object> hashMap = new HashMap<>();
-        hashMap.put("userid",firebaseUser.getUid());
+        hashMap.put("userid", firebaseUser.getUid());
         hashMap.put("text", context.getString(R.string.startedfollowing));
         hashMap.put("postid", "");
         hashMap.put("ispost", false);
 
         reference.push().setValue(hashMap); // Push data into DB
-    }
+    }*/
 
     /**
      * A function that returns number of users

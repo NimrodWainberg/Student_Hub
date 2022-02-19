@@ -76,7 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             if(holder.like.getTag().equals("like")){ // Liking a picture
                 FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostId())
                         .child(firebaseUser.getUid()).setValue(true);
-                addNotifications(post.getPublisher(), post.getPostId());
+                addNotificationToDataBase(post.getPublisher(), post.getPostId());
             } else // Unliking a picture
                 FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostId())
                         .child(firebaseUser.getUid()).removeValue();
@@ -91,8 +91,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         holder.comments.setOnClickListener(view -> {
             Intent intent = new Intent(context, CommentsActivity.class);
-            intent.putExtra("postId",post.getPostId());
-            intent.putExtra("publisherid",post.getPublisher());
+            intent.putExtra("postId", post.getPostId());
+            intent.putExtra("publisherid", post.getPublisher());
             context.startActivity(intent);
         });
 
@@ -194,21 +194,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
+
     /**
      * A function that adds a notification into specific user's DB
      * @param userid ID of liking user
      * @param postId ID of post
      */
-    private void addNotifications(String userid, String postId){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
+    private void addNotificationToDataBase(String userid, String postId){
+        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
+        DatabaseReference usernameRef = FirebaseDatabase.getInstance().getReference().child("users")
+                .child(firebaseUser.getUid());
 
-        HashMap <String,Object> hashMap = new HashMap<>();
-        hashMap.put("userid", firebaseUser.getUid());
-        hashMap.put("text", context.getString(R.string.liked_your_post_quote));
-        hashMap.put("postId", postId);
-        hashMap.put("ispost", true);
+        usernameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
 
-        reference.push().setValue(hashMap);
+                HashMap <String,Object> hashMap = new HashMap<>();
+                hashMap.put("userid", user.getId());
+                hashMap.put("text", user.getUsername() + context.getString(R.string.liked_your_post_quote));
+                hashMap.put("postId", postId);
+                hashMap.put("ispost", true);
+
+                notificationsRef.push().setValue(hashMap);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     /**
@@ -253,6 +266,5 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-
     }
 }
