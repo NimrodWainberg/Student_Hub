@@ -55,7 +55,7 @@
 
             <TextView
                 android:id="@+id/user_message_chat"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp" />
