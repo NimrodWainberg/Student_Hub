@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/white"
+    android:background="@color/colorPrimary"
     tools:context=".chats.ChatFragment">
     <TextView
         android:id="@+id/chat_title_tv"
@@ -15,7 +15,7 @@
         android:layout_margin="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorGreen"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="32dp"
         android:text="Chat With: "/>
