@@ -28,6 +28,7 @@ import com.example.studenthub.R;
 import com.example.studenthub.firebase.FollowingManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +50,9 @@ public class ProfileFragment extends Fragment {
     List<Post> postList;
     FirebaseUser firebaseUser;
     String id;
+    Fragment selectedFragment = null;
+    boolean finalIsConnected = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,35 +86,50 @@ public class ProfileFragment extends Fragment {
             checkFollow();
         }
 
-        edit_profile.setOnClickListener(edit_profile_view -> {
-            String buttonString = edit_profile.getText().toString();
-
-            if (buttonString.equals(getString(R.string.edit_profile))){
-                EditProfileFragment editProfileFragment = new EditProfileFragment();
-                getParentFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
-                        .add(android.R.id.content, editProfileFragment, "editProfileFragment")
-                        .addToBackStack("editProfileFragment").commit();
+        boolean isConnected = false;
+        // Source: https://stackoverflow.com/a/45738019/15633316
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+            for (UserInfo user: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                if (user.getProviderId().equals("password")) { // user connected through email
+                    isConnected = true;
+                }
             }
+        boolean finalIsConnected = isConnected;
 
-            else if (buttonString.equals(getString(R.string.follow_btn))) {
-                FollowingManager.follow(firebaseUser.getUid(),id);
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users")
-                        .child(firebaseUser.getUid());
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user = snapshot.getValue(User.class);
-                        addNotificationToDataBase(user.getUsername());
-                    }
+        edit_profile.setOnClickListener(edit_profile_view -> {
+            if (!finalIsConnected) {
+                selectedFragment = new GuestModeFragment();
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        selectedFragment).addToBackStack("GuestModeDialog").commit();
+            } else {
+                String buttonString = edit_profile.getText().toString();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {}
-                });
-                 // If a new follow is created, update notifications
+                if (buttonString.equals(getString(R.string.edit_profile))) {
+                    EditProfileFragment editProfileFragment = new EditProfileFragment();
+                    getParentFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_from_left)
+                            .add(android.R.id.content, editProfileFragment, "editProfileFragment")
+                            .addToBackStack("editProfileFragment").commit();
+                } else if (buttonString.equals(getString(R.string.follow_btn))) {
+                    FollowingManager.follow(firebaseUser.getUid(), id);
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users")
+                            .child(firebaseUser.getUid());
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            addNotificationToDataBase(user.getUsername());
+                        }
 
-            } else if (buttonString.equals(getString(R.string.following))) {
-                FollowingManager.unfollow(firebaseUser.getUid(), id);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                    // If a new follow is created, update notifications
+
+                } else if (buttonString.equals(getString(R.string.following))) {
+                    FollowingManager.unfollow(firebaseUser.getUid(), id);
+                }
             }
         });
 
@@ -165,12 +184,15 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(getActivity() == null)
                     return;
+                if (finalIsConnected) {
 
-                User user = dataSnapshot.getValue(User.class);
-                fullname.setText(user.getFullName());
-                username.setText(user.getUsername());
-                bio.setText(user.getBio());
-                Glide.with(getActivity()).load(user.getImageUrl()).into(profilePicture);
+
+                    User user = dataSnapshot.getValue(User.class);
+                    fullname.setText(user.getFullName());
+                    username.setText(user.getUsername());
+                    bio.setText(user.getBio());
+                    Glide.with(getActivity()).load(user.getImageUrl()).into(profilePicture);
+                }
             }
 
             @Override

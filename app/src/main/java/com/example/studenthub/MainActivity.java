@@ -152,15 +152,10 @@ public class MainActivity extends LoadingActivity {
                     }
                     break;
                 case R.id.nav_profile:
-                    if (!finalIsConnected) {
-                        selectedFragment = new GuestModeFragment();
-                    }
-                    else {
                         SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                         editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         editor.apply();
                         selectedFragment = new ProfileFragment();
-                    }
                     break;
             }
 
