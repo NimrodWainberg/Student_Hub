@@ -7,6 +7,18 @@
     android:animateLayoutChanges="true"
     android:background="@color/colorPrimary"
     tools:context=".chats.ChatFragment">
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/account"
+        app:lottie_loop="true" />
+
     <TextView
         android:id="@+id/chat_title_tv"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +31,7 @@
         android:textStyle="bold"
         android:textSize="30sp"
         android:text="@string/chat"/>
+
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/first_chat"
